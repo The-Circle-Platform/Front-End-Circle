@@ -36,3 +36,13 @@
 .bot-message {
     text-align: left;
 }
+
+.moveLeft10 {
+    margin-left: 319px;
+}
+
+.borderRadiusProfile {
+    border-radius: 15px;
+    width: 1020px;
+    margin-top: -30px;
+}
