@@ -1,8 +1,12 @@
 <!--Bedenk mechanisme voor verversen -->
 <div class="container">
     <h1>Lijst transparante gebruikers</h1>
-    <div *ngFor="let user of list$ | async;">
-        <app-user-card [User]="user"></app-user-card>
+
+    <div class="row">
+        <div *ngFor="let user of list$ | async;"  class="col-lg-4">
+            <app-user-card [User]="user"></app-user-card>
+        </div>
     </div>
+
 </div>
 
