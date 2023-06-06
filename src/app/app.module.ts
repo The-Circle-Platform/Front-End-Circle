@@ -8,6 +8,7 @@ import { HomePageComponent } from './pages/homepage/home-page/home-page.componen
 import { ProfilePageComponent } from './pages/profile/profile-page/profile-page.component';
 import { OnlineListComponent } from './pages/homepage/online-list/online-list.component';
 import {HttpClientModule} from "@angular/common/http";
+import { UserCardComponent } from './pages/homepage/online-list/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {HttpClientModule} from "@angular/common/http";
     BroadcastPageComponent,
     HomePageComponent,
     ProfilePageComponent,
-    OnlineListComponent
+    OnlineListComponent,
+    UserCardComponent,
   ],
   imports: [
     BrowserModule,
