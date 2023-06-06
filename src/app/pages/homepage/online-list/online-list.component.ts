@@ -22,13 +22,17 @@ export class OnlineListComponent implements OnInit {
 
   ngOnInit(): void {
     //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
+    this.Refresh(this.DummyData());
+
+    // TODO: Decomment when function works fully
     this.RefreshList();
   }
 
   RefreshList(){
     //let value = true;
     interval(2000).subscribe(()=>{
-      let ss = this.http.get<User[]>("https://localhost:7058/api/user").subscribe((e)=>{
+      let ss = this.http.get<User[]>("https://localhost:7058/api/user")
+          .subscribe((e)=>{
         console.log(e);
         //Will assign new value to behavioursubject.
         /*value = !value;
@@ -44,6 +48,10 @@ export class OnlineListComponent implements OnInit {
 
   Refresh(newUserList: User[]){
     this.list$.next(newUserList);
+  }
+
+  DummyData():User[]{
+    return [{id: 66, isOnline: true, userName: "TestDave"}, {id: 67, isOnline: false, userName: "TestLinda"}]
   }
 
 }
