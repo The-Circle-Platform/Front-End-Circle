@@ -6,6 +6,8 @@ import { AdminPageComponent } from './pages/admin/admin-page/admin-page.componen
 import { BroadcastPageComponent } from './pages/broadcast/broadcast-page/broadcast-page.component';
 import { HomePageComponent } from './pages/homepage/home-page/home-page.component';
 import { ProfilePageComponent } from './pages/profile/profile-page/profile-page.component';
+import { OnlineListComponent } from './pages/homepage/online-list/online-list.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -13,10 +15,12 @@ import { ProfilePageComponent } from './pages/profile/profile-page/profile-page.
     AdminPageComponent,
     BroadcastPageComponent,
     HomePageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    OnlineListComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
