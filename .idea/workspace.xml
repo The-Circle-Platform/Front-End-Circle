@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f624183b-9476-4e97-be0f-120f812ee177" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f624183b-9476-4e97-be0f-120f812ee177" name="Changes" comment="Added Xins config" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,11 +65,34 @@
       <workItem from="1686043509047" duration="122000" />
       <workItem from="1686043643591" duration="1590000" />
       <workItem from="1686078790740" duration="129000" />
-      <workItem from="1686078922237" duration="333000" />
+      <workItem from="1686078922237" duration="937000" />
     </task>
+    <task id="LOCAL-00001" summary="Added Xins config">
+      <created>1686079927234</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1686079927234</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Xins config" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Xins config" />
   </component>
 </project>
