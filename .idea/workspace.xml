@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f624183b-9476-4e97-be0f-120f812ee177" name="Changes" comment="Feature-branch online list met master branch gemerged">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/broadcast/broadcast-page/broadcast-page.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/broadcast/broadcast-page/broadcast-page.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/broadcast/broadcast-page/broadcast-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/broadcast/broadcast-page/broadcast-page.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686082462531</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Styled streaming cards">
+      <created>1686084494166</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1686084494166</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,6 +145,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Feature-branch online list met master branch gemerged" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feature-branch online list met master branch gemerged" />
+    <MESSAGE value="Styled streaming cards" />
+    <option name="LAST_COMMIT_MESSAGE" value="Styled streaming cards" />
   </component>
 </project>

@@ -20,6 +20,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { UserCardComponent } from './pages/homepage/online-list/user-card/user-card.component';
 import { ChatStreamComponent } from './pages/broadcast/chat-stream/chat-stream.component';
 import { StreamingPlayerComponent } from './pages/broadcast/streaming-player/streaming-player.component';
+import { StreamPageComponent } from './pages/broadcast/stream-page/stream-page.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { StreamingPlayerComponent } from './pages/broadcast/streaming-player/str
         UserCardComponent,
         ChatStreamComponent,
         StreamingPlayerComponent,
+        StreamPageComponent,
     ],
     imports: [BrowserModule, CommonModule, RouterModule, AppRoutingModule, HttpClientModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
