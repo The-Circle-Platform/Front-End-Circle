@@ -1,0 +1,17 @@
+<div>
+    <div>
+        <h1>User list</h1>
+    </div>
+    <div class="CardHEADER">
+        <span *ngIf=User.isOnline>
+            <p>Status: Online </p>
+        </span>
+        <span *ngIf=!User.isOnline>
+            <p>Status: Offline </p>
+        </span>
+        <h2>Gebruikersnaam: {{User.userName}}</h2>
+
+        <p>Id: {{User.id}}</p>
+    </div>
+    <a src="#">Bekijk stream</a>
+</div>

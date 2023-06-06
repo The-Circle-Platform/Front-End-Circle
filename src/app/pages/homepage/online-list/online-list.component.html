@@ -1,0 +1,4 @@
+<!--Bedenk mechanisme voor verversen -->
+<div *ngFor="let user of list$ | async;">
+    <app-user-card [User]="user"></app-user-card>
+</div>
