@@ -4,13 +4,55 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f624183b-9476-4e97-be0f-120f812ee177" name="Changes" comment="Added Xins config" />
+    <list default="true" id="f624183b-9476-4e97-be0f-120f812ee177" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/app/Domain/Interfaces/IDomain.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/Domain/Interfaces/IView.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/Domain/Models/User.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/broadcast/broadcast-page/broadcast-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/broadcast/broadcast-page/broadcast-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/home-page/home-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/home-page/home-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/streaming-video/streaming-video.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/streaming-video/streaming-video.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/streaming-video/streaming-video.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/streaming-video/streaming-video.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/shared/nav/nav.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/shared/nav/nav.component.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="feature-online-users-list" />
+    <option name="OPTIONS">
+      <set>
+        <option value="NO_COMMIT" />
+      </set>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature-online-users-list" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -29,7 +71,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Xin20/OneDrive/Bureaublad/Nieuwe map/FrontendCircle",
+    "last_opened_file_path": "C:/Users/Xin20/Desktop/Projecct The circle/Frontend/Front-End-Circle",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,17 +106,9 @@
       <updated>1686043506205</updated>
       <workItem from="1686043509047" duration="122000" />
       <workItem from="1686043643591" duration="1590000" />
-      <workItem from="1686078790740" duration="129000" />
-      <workItem from="1686078922237" duration="937000" />
+      <workItem from="1686046924022" duration="1629000" />
+      <workItem from="1686051753647" duration="2886000" />
     </task>
-    <task id="LOCAL-00001" summary="Added Xins config">
-      <created>1686079927234</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1686079927234</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -85,14 +119,22 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature-online-users-list" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added Xins config" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Xins config" />
   </component>
 </project>

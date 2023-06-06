@@ -13,9 +13,13 @@ import { AdminPageComponent } from './pages/admin/admin-page/admin-page.componen
 import { BroadcastPageComponent } from './pages/broadcast/broadcast-page/broadcast-page.component';
 import { HomePageComponent } from './pages/homepage/home-page/home-page.component';
 import { ProfilePageComponent } from './pages/profile/profile-page/profile-page.component';
-import { StreamingVideoComponent } from './pages/streaming-video/streaming-video.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NavComponent } from './shared/nav/nav.component';
+import { OnlineListComponent } from './pages/homepage/online-list/online-list.component';
+import {HttpClientModule} from "@angular/common/http";
+import { UserCardComponent } from './pages/homepage/online-list/user-card/user-card.component';
+import { ChatStreamComponent } from './pages/broadcast/chat-stream/chat-stream.component';
+import { StreamingPlayerComponent } from './pages/broadcast/streaming-player/streaming-player.component';
 
 @NgModule({
     declarations: [
@@ -26,9 +30,12 @@ import { NavComponent } from './shared/nav/nav.component';
         AdminPageComponent,
         BroadcastPageComponent,
         ProfilePageComponent,
-        StreamingVideoComponent,
+        OnlineListComponent,
+        UserCardComponent,
+        ChatStreamComponent,
+        StreamingPlayerComponent,
     ],
-    imports: [BrowserModule, CommonModule, RouterModule, AppRoutingModule],
+    imports: [BrowserModule, CommonModule, RouterModule, AppRoutingModule, HttpClientModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     providers: [],
     bootstrap: [AppComponent],
