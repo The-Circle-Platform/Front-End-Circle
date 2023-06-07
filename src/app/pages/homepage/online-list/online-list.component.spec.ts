@@ -14,7 +14,7 @@ describe('OnlineListComponent', () => {
   let httpMock: jasmine.SpyObj<HttpClient>;
 
   //Mock data
-  let mockData: User[] = [{id: 1, isOnline: true, userName: "TestDamian"}, {id: 2, isOnline: false, userName: "TestSofie"},]
+  let mockData: User[] = [{id: 1, isOnline: true, userName: "TestDamian", followCount: 12}, {id: 2, isOnline: false, userName: "TestSofie", followCount: 1234},]
 
   beforeEach(async () => {
     httpMock = jasmine.createSpyObj('HttpClient', ['get']);
