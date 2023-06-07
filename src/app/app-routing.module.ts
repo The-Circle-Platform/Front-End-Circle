@@ -12,8 +12,10 @@ const routes: Routes = [
     { path: 'listStreamers', pathMatch: 'full', component:OnlineListComponent},
     { path: 'Profile', pathMatch: 'full', component: ProfilePageComponent},
     { path: 'Stream', pathMatch: 'full', component: StreamPageComponent},
+    { path: 'broadcast', pathMatch: 'full', component: BroadcastPageComponent},
+    
     { path: '**', redirectTo: 'homepage' },
-
+    
 ];
 
 @NgModule({
