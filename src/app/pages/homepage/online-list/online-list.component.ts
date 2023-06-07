@@ -23,7 +23,7 @@ export class OnlineListComponent implements OnInit  {
 
   ngOnInit(): void {
     //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
-    //this.Refresh(this.DummyData());
+    this.Refresh(this.DummyData());
 
     // TODO: Decomment when function works fully
     this.RefreshList();
@@ -55,7 +55,7 @@ export class OnlineListComponent implements OnInit  {
   }
 
   DummyData():User[]{
-    return [{id: 66, isOnline: true, userName: "TestDave"}, {id: 67, isOnline: false, userName: "TestLinda"}]
+    return [{id: 66, isOnline: true, userName: "TestDave", followCount: 13}, {id: 67, isOnline: false, userName: "TestLinda", followCount: 138}]
   }
 
 }
