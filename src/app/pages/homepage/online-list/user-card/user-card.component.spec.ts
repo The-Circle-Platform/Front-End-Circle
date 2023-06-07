@@ -20,4 +20,25 @@ describe('UserCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("Should show offline user", ()=>{
+    component.ngOnInit();
+
+    component.User = {id: 0, isOnline: false, userName: "TestDonavan"};
+
+    let span = fixture.nativeElement.querySelector("p");
+
+    expect(span.textContent).toContain("Status: Offline ●");
+  })
+
+  it("Should show Online user", ()=>{
+    component.User = {id: 0, isOnline: true, userName: "TestDonavan"};
+
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    let span = fixture.nativeElement.querySelector("p");
+
+    expect(span.textContent).toContain("Status: Online ●");
+  })
 });

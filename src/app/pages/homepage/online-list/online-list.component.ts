@@ -8,12 +8,13 @@ import { User } from 'src/app/Domain/Models/User';
   templateUrl: './online-list.component.html',
   styleUrls: ['./online-list.component.css']
 })
-export class OnlineListComponent implements OnInit {
+export class OnlineListComponent implements OnInit  {
 
   value: Boolean = true;
   refresher: Observable<any>;
-  list$: BehaviorSubject<User[] | undefined>
-  constructor(private http: HttpClient) {
+  list$: BehaviorSubject<User[] | undefined>;
+
+  constructor(public http: HttpClient) {
     this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
     this.refresher = new Observable<any>();
   }
@@ -22,24 +23,27 @@ export class OnlineListComponent implements OnInit {
 
   ngOnInit(): void {
     //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
-    this.Refresh(this.DummyData());
+    //this.Refresh(this.DummyData());
 
     // TODO: Decomment when function works fully
     this.RefreshList();
   }
 
   RefreshList(){
-    //let value = true;
+    console.log("Ophalen streamers US-3")
+    //Subscribes to interval.
     interval(2000).subscribe(()=>{
+      
+      //Next step is to request users to api.
       let ss = this.http.get<User[]>("https://localhost:7058/api/user")
           .subscribe((e)=>{
+            
         console.log(e);
         //Will assign new value to behavioursubject.
         /*value = !value;
         e[0].isOnline = value;*/
 
         this.Refresh(e);
-
         //Will unsubscribe, so that this observable can be reused multiple times.
         ss.unsubscribe();
       })
