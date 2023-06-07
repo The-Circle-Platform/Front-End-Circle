@@ -11,7 +11,6 @@ export class BroadcastPageComponent implements OnInit{
   constructor() {}
 
   videoref:any;
-  
    ngOnInit(): void {
        this.videoref = document.getElementById('webcam');
        console.log(this.videoref);
@@ -20,7 +19,7 @@ export class BroadcastPageComponent implements OnInit{
 
    setupCamera(){
       navigator.mediaDevices.getUserMedia({
-        video:{width:1000, height:600},
+        video:{width:800, height:550},
         audio:true
       }).then(stram =>{
         console.log(stram);
@@ -29,20 +28,11 @@ export class BroadcastPageComponent implements OnInit{
    }
 
    cameraOn(){
+    
     this.ngOnInit();
     console.log('1')
    }
    cameraOff(){
-    navigator.mediaDevices.getUserMedia({video: true, audio: true})
-    .then(MediaStream => {
-      const stream = MediaStream;
-      const videoTracks = stream.getVideoTracks();
-      const audioTracks = stream.getAudioTracks();
-
-      videoTracks[0].stop();
-      audioTracks[0].stop();
-
-      console.log('2')
-    })
+    this.videoref.srcObject= null;
    }
 }
