@@ -12,6 +12,10 @@ export class UserCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.User);
+    if(!this.User){
+      this.User = {id: 0, userName: "Unknown", isOnline: false, followCount: 1};
+    }
   }
 
 }
