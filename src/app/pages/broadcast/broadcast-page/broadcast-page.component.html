@@ -21,13 +21,14 @@
             </div>
         </div>
         <div class="col">
-            <app-streaming-video></app-streaming-video>
+            <video id="webcam" autoplay></video>
+            <!-- <app-streaming-video>     </app-streaming-video> -->
         </div>
         <div class="col buttonrow">
             <button class="button" onclick="" value="Start stream" >Start stream</button>
             <button class="button" onclick="" value="End stream" >End stream</button>
-            <button class="button" onclick="" value="Camera aan" >SeeChange aan</button>
-            <button class="button" onclick="" value="Camera uit" >SeeChange uit</button>
+            <button class="button" (click)="cameraOn()" value="Camera aan" >SeeChange aan</button>
+            <button class="button" (click)="cameraOff()" value="Camera uit" >SeeChange uit</button>
         </div>
     </div>
 </div>
