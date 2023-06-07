@@ -35,4 +35,12 @@ export class BroadcastPageComponent implements OnInit{
    cameraOff(){
     this.videoref.srcObject= null;
    }
+
+   startStream(){
+
+   }
+
+   endStream(){
+
+   }
 }
