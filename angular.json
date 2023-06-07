@@ -20,8 +20,9 @@
                         "tsConfig": "tsconfig.app.json",
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": [
-                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                            "src/styles.css"
+                          "src/custom-theme.scss",
+                          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                          "src/styles.css"
                         ],
                         "scripts": []
                     },
@@ -82,5 +83,8 @@
                 }
             }
         }
+    },
+    "cli": {
+      "analytics": false
     }
 }
