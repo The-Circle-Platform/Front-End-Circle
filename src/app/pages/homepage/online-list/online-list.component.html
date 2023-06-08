@@ -3,7 +3,7 @@
     <h1>Lijst transparante gebruikers</h1>
 
     <div class="row">
-        <div *ngFor="let user of list$ | async;"  class="col-lg-4">
+        <div *ngFor="let user of list$ | async;" class="col-lg-4">
             <app-user-card [User]="user"></app-user-card>
         </div>
     </div>
