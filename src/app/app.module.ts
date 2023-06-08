@@ -26,7 +26,7 @@ import { UserCardComponent } from "./pages/homepage/online-list/user-card/user-c
 import { ChatStreamComponent } from "./pages/broadcast/chat-stream/chat-stream.component";
 import { StreamingPlayerComponent } from "./pages/broadcast/streaming-player/streaming-player.component";
 import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.component";
-import { LoginComponent } from "./login/login.component";
+import { LoginComponent } from "./pages/login/login.component";
 
 @NgModule({
   declarations: [

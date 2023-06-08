@@ -5,7 +5,7 @@ import { OnlineListComponent } from "./pages/homepage/online-list/online-list.co
 import { ProfilePageComponent } from "./pages/profile/profile-page/profile-page.component";
 import { BroadcastPageComponent } from "./pages/broadcast/broadcast-page/broadcast-page.component";
 import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.component";
-import { LoginComponent } from "./login/login.component";
+import { LoginComponent } from "./pages/login/login.component";
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "homepage" },
