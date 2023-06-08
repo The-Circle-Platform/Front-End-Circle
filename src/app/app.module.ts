@@ -27,6 +27,7 @@ import { ChatStreamComponent } from "./pages/broadcast/chat-stream/chat-stream.c
 import { StreamingPlayerComponent } from "./pages/broadcast/streaming-player/streaming-player.component";
 import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.component";
 import { LoginComponent } from "./pages/login/login.component";
+import { RegistrationPageComponent } from "./pages/registration/registration-page/registration-page.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { LoginComponent } from "./pages/login/login.component";
     StreamingPlayerComponent,
     StreamPageComponent,
     LoginComponent,
+    RegistrationPageComponent,
   ],
   imports: [
     BrowserModule,
