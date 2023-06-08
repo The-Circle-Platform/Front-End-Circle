@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {BehaviorSubject, interval } from 'rxjs';
 import { User } from 'src/app/Domain/Models/User';
+import { userService } from 'src/app/services/userServices/user.service';
 
 @Component({
   selector: 'app-online-list',
@@ -13,7 +14,7 @@ export class OnlineListComponent implements OnInit  {
   value = true;
   list$: BehaviorSubject<User[] | undefined>;
 
-  constructor(public http: HttpClient) {
+  constructor(public userService: userService) {
     this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
   }
 
@@ -33,7 +34,7 @@ export class OnlineListComponent implements OnInit  {
     interval(2000).subscribe(()=>{
       
       //Next step is to request users to api.
-      const ss = this.http.get<User[]>("https://localhost:7058/api/user")
+      const ss = this.userService.GetAll()
           .subscribe((e)=>{
             
         console.log(e);
