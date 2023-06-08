@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { IService } from "src/app/Domain/Interfaces/IService";
 import { User } from "src/app/Domain/Models/User";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class userService implements IService<User> {
     url: string;
 

@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: "homepage", pathMatch: "full", component: HomePageComponent },
   { path: "listStreamers", pathMatch: "full", component: OnlineListComponent },
   { path: "profile", pathMatch: "full", component: ProfilePageComponent },
-  { path: "stream", pathMatch: "full", component: StreamPageComponent },
+  { path: "user/:id/stream/current", pathMatch: "full", component: StreamPageComponent },
   { path: "login", pathMatch: "full", component: LoginComponent },
   {
     path: "registration",
