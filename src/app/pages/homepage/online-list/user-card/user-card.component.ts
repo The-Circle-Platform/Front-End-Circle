@@ -9,7 +9,6 @@ import { User } from 'src/app/Domain/Models/User';
 export class UserCardComponent implements OnInit {
   @Input()
   User!: User;
-  constructor() { }
 
   ngOnInit(): void {
     console.log(this.User);

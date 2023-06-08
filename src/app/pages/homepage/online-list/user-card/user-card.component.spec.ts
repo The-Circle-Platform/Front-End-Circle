@@ -26,7 +26,7 @@ describe('UserCardComponent', () => {
 
     component.User = {id: 0, isOnline: false, userName: "TestDonavan", followCount: 12};
 
-    let span = fixture.nativeElement.querySelector("p");
+    const span = fixture.nativeElement.querySelector("p");
 
     expect(span.textContent).toContain("Status: Offline ●");
   })
@@ -37,7 +37,7 @@ describe('UserCardComponent', () => {
     fixture.detectChanges();
     component.ngOnInit();
 
-    let span = fixture.nativeElement.querySelector("p");
+    const span = fixture.nativeElement.querySelector("p");
 
     expect(span.textContent).toContain("Status: Online ●");
   })

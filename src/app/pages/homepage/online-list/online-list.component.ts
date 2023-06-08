@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {BehaviorSubject, interval, Observable } from 'rxjs';
+import {BehaviorSubject, interval } from 'rxjs';
 import { User } from 'src/app/Domain/Models/User';
 
 @Component({
@@ -10,13 +10,11 @@ import { User } from 'src/app/Domain/Models/User';
 })
 export class OnlineListComponent implements OnInit  {
 
-  value: Boolean = true;
-  refresher: Observable<any>;
+  value = true;
   list$: BehaviorSubject<User[] | undefined>;
 
   constructor(public http: HttpClient) {
     this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
-    this.refresher = new Observable<any>();
   }
 
   // TODO: Link to stream function needs to be implemented.
@@ -35,7 +33,7 @@ export class OnlineListComponent implements OnInit  {
     interval(2000).subscribe(()=>{
       
       //Next step is to request users to api.
-      let ss = this.http.get<User[]>("https://localhost:7058/api/user")
+      const ss = this.http.get<User[]>("https://localhost:7058/api/user")
           .subscribe((e)=>{
             
         console.log(e);

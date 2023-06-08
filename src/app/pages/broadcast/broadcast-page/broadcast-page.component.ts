@@ -6,8 +6,8 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./broadcast-page.component.css"],
 })
 export class BroadcastPageComponent implements OnInit {
-  constructor() {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   videoref: any;
   ngOnInit(): void {
     this.videoref = document.getElementById("webcam");
@@ -39,5 +39,7 @@ export class BroadcastPageComponent implements OnInit {
     console.log(this.videoref.srcObject);
   }
 
-  endStream() {}
+  endStream() {
+    console.log("Stream ended");
+  }
 }

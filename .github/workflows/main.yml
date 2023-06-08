@@ -2,7 +2,7 @@ name: Branch protection frontend
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main, dev, feature-CI-Sonar]
   pull_request:
     branches: [dev, main]
 
@@ -19,6 +19,9 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Installeer alle packages
         run: npm i
+
+      - name: Use static code analysis
+        run: npm run lint
 
       - name: Run tests
         run: npm run test_ci
