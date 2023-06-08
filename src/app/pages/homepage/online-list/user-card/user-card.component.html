@@ -1,20 +1,22 @@
 <div class="card shadow-sm">
-
-    <div class="card-header">
-        <div class="card-title">
-            <h3>{{User.userName}}</h3>
-        </div>
+  <div class="card-header">
+    <div class="card-title">
+      <h3>{{ User.userName }}</h3>
     </div>
-    <img src="https://cdnb.artstation.com/p/assets/images/images/032/092/715/large/max-white-guy.jpg?1605462631" class="card-img-top" alt="...">
-    <div class="card-body">
-        <span *ngIf=User.isOnline>
-            <p>Status: Online <span class="online">●</span></p>
-        </span>
-        <span *ngIf=!User.isOnline>
-            <p>Status: Offline<span class="offline">●</span> </p>
-        </span>
-        <!-- May be edited to specific stream -->
-        <a class="btn btn-primary" routerLink="/Stream">Bekijk stream</a>
-    </div>
-
+  </div>
+  <img
+    src="https://cdnb.artstation.com/p/assets/images/images/032/092/715/large/max-white-guy.jpg?1605462631"
+    class="card-img-top"
+    alt="..."
+  />
+  <div class="card-body">
+    <span *ngIf="User.isOnline">
+      <p>Status: Online <span class="online">●</span></p>
+    </span>
+    <span *ngIf="!User.isOnline">
+      <p>Status: Offline<span class="offline">●</span></p>
+    </span>
+    <!-- May be edited to specific stream -->
+    <a class="btn btn-primary" routerLink="/stream">Bekijk stream</a>
+  </div>
 </div>
