@@ -14,7 +14,7 @@
       <p>Status: Online <span class="online">●</span></p>
     </span>
     <span *ngIf="!User.isOnline">
-      <p>Status: Offline<span class="offline">●</span></p>
+      <p>Status: Offline <span class="offline">●</span></p>
     </span>
     <!-- May be edited to specific stream -->
     <a class="btn btn-primary" routerLink="/user/{{User.id}}/stream/current">Bekijk stream</a>

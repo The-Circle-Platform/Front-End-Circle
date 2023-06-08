@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OnlineListComponent } from './online-list.component';
 import { HttpClient } from '@angular/common/http';
 import { UserCardComponent } from './user-card/user-card.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('OnlineListComponent', () => {
   let component: OnlineListComponent;
@@ -21,7 +22,8 @@ describe('OnlineListComponent', () => {
       declarations: [ OnlineListComponent, UserCardComponent ],
       providers: [
         {provide: HttpClient, useValue: httpMock}
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     })
     .compileComponents();
     
