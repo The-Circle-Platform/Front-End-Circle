@@ -31,24 +31,26 @@ export class OnlineListComponent implements OnInit  {
   }
 
   RefreshList(){
-    console.log("Ophalen streamers US-3")
+    // console.log("Ophalen streamers US-3")
     //Subscribes to interval.
-    interval(2000).subscribe(()=>{
-      
-      //Next step is to request users to api.
-      const ss = this.userService.GetAll()
-          .subscribe((e)=>{
-            
-        console.log(e);
-        //Will assign new value to behavioursubject.
-        /*value = !value;
-        e[0].isOnline = value;*/
+    // interval(2000).subscribe(()=>{
+    //
+    //   //Next step is to request users to api.
+    //   const ss = this.userService.GetAll()
+    //       .subscribe((e)=>{
+    //
+    //     console.log(e);
+    //     //Will assign new value to behavioursubject.
+    //     /*value = !value;
+    //     e[0].isOnline = value;*/
+    //
+    //     this.Refresh(e);
+    //     //Will unsubscribe, so that this observable can be reused multiple times.
+    //     ss.unsubscribe();
+    //   })
+    // }
 
-        this.Refresh(e);
-        //Will unsubscribe, so that this observable can be reused multiple times.
-        ss.unsubscribe();
-      })
-    })
+    // )
   }
 
   Refresh(newUserList: User[]){

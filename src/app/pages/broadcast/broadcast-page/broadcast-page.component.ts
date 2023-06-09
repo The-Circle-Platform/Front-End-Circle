@@ -1,6 +1,9 @@
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import { VideoStreamingService } from "./VideoStreamingService";
+
+
 
 @Component({
   selector: "app-broadcast-page",
@@ -8,7 +11,14 @@ import { HubConnectionBuilder } from '@microsoft/signalr';
   styleUrls: ["./broadcast-page.component.css"],
 })
 export class BroadcastPageComponent implements OnInit {
-  constructor() {}
+
+
+  constructor(private _VideoStreamingService: VideoStreamingService) {
+
+
+  }
+
+
   recordingCamInit: boolean = false;
 
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
@@ -16,6 +26,8 @@ export class BroadcastPageComponent implements OnInit {
   mediaRecorder!: MediaRecorder;
   chunks: Blob[] = [];
   stream: any;
+
+
   async ngOnInit(): Promise<void> {
     const videoElement = this.videoPlayer.nativeElement;
     try {
@@ -27,6 +39,29 @@ export class BroadcastPageComponent implements OnInit {
     } catch (error) {
       console.error('Error accessing webcam:', error);
     }
+
+    // Start receiving the video stream
+    this._VideoStreamingService.startVideoStreaming(this.chunks).subscribe(
+        (videoData: string) => {
+          // Process the received video data, e.g., update the video element with the new frame
+          this.processVideoData(videoData);
+        },
+        (error: any) => {
+          console.error('Error receiving video stream:', error);
+        });
+
+  }
+
+  private processVideoData(videoData: string): void {
+    // Update the video element with the new video frame
+    const videoElement = this.videoPlayer.nativeElement;
+    videoElement.src = videoData;
+    videoElement.play();
+  }
+
+  ngOnDestroy(): void {
+    // Stop receiving the video stream when the component is destroyed
+    this._VideoStreamingService.stopVideoStreaming();
   }
 
   cameraOn() {
@@ -42,7 +77,6 @@ export class BroadcastPageComponent implements OnInit {
   async startStream() {
     try {
       this.recordingCamInit = true;
-      this.ngOnInit();
 
       this.chunks = [];
       this.mediaRecorder = new MediaRecorder(this.stream);
@@ -53,7 +87,7 @@ export class BroadcastPageComponent implements OnInit {
       });
 
       this.mediaRecorder.addEventListener('stop', () => {
-        const videoBlob = new Blob(this.chunks, { type: 'video/mp4' });
+        const videoBlob = new Blob(this.chunks, {type: 'video/mp4'});
         const videoUrl = URL.createObjectURL(videoBlob);
         const a = document.createElement('a');
         a.href = videoUrl;
@@ -64,6 +98,10 @@ export class BroadcastPageComponent implements OnInit {
 
       this.mediaRecorder.start();
       this.recording = true;
+
+        console.log(this.chunks)
+
+
     } catch (error) {
       console.error('Error accessing webcam:', error);
     }
@@ -74,6 +112,8 @@ export class BroadcastPageComponent implements OnInit {
       this.mediaRecorder.stop();
       this.recording = false;
       this.recordingCamInit=false;
+      console.log(this.chunks)
+      this._VideoStreamingService.stopVideoStreaming();
     }
   }   
 }
