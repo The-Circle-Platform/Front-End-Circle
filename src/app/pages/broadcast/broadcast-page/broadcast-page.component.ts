@@ -14,15 +14,16 @@ export class BroadcastPageComponent implements OnInit {
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
   recording: boolean = false;
   mediaRecorder!: MediaRecorder;
+  paused: boolean = false;
   chunks: Blob[] = [];
+  pausedChunks: Blob[] = [];
   stream: any;
   async ngOnInit(): Promise<void> {
     const videoElement = this.videoPlayer.nativeElement;
+    
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({ video:{width:800, height: 550} , audio: this.recordingCamInit });
       videoElement.srcObject = this.stream;
-      
-      console.log('1234')
       videoElement.play();
     } catch (error) {
       console.error('Error accessing webcam:', error);
@@ -32,11 +33,13 @@ export class BroadcastPageComponent implements OnInit {
   cameraOn() {
     const videoElement = this.videoPlayer.nativeElement;
     videoElement.play();
+    this.mediaRecorder.resume();
   }
 
   cameraOff() {
     const videoElement = this.videoPlayer.nativeElement;
     videoElement.pause();
+    this.mediaRecorder.pause();
   }
 
   async startStream() {
@@ -45,10 +48,13 @@ export class BroadcastPageComponent implements OnInit {
       this.ngOnInit();
 
       this.chunks = [];
+      this.pausedChunks = [];
+      
       this.mediaRecorder = new MediaRecorder(this.stream);
-      this.mediaRecorder.addEventListener('dataavailable', (event) => {
+      this.mediaRecorder.addEventListener('dataavailable', (event) => {  
         if (event.data.size > 0) {
-          this.chunks.push(event.data);
+          console.log(this.paused);
+            this.chunks.push(event.data);
         }
       });
 
@@ -61,6 +67,7 @@ export class BroadcastPageComponent implements OnInit {
         a.click();
         URL.revokeObjectURL(videoUrl);
       });
+
 
       this.mediaRecorder.start();
       this.recording = true;
@@ -76,4 +83,6 @@ export class BroadcastPageComponent implements OnInit {
       this.recordingCamInit=false;
     }
   }   
+
+  
 }
