@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IToken } from '../../Domain/Interfaces/IUser';
+import { IToken } from '../../Domain/Models/User';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class LoggedInAuthGuard implements CanActivate, CanActivateChild {
 }
 
 @Injectable()
-export class OwnerGuard implements CanActivate, CanActivateChild {
+export class AdminGuard implements CanActivate, CanActivateChild {
     constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(): Observable<boolean> {
@@ -38,7 +38,7 @@ export class OwnerGuard implements CanActivate, CanActivateChild {
                     const loggedIn = this.authService.decodeJwtToken(
                         user.token
                     ) as any;
-                    if (loggedIn.role === 'owner') {
+                    if (loggedIn.role === 'admin') {
                         return true;
                     } else {
                         this.router.navigate(['/']);
