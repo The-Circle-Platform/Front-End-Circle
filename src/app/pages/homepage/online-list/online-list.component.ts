@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {BehaviorSubject, interval } from 'rxjs';
 import { User } from 'src/app/Domain/Models/User';
+import { LoggerService } from '../../../services/loggerServices/logger.service';
 import { userService } from 'src/app/services/userServices/user.service';
 
 @Component({
@@ -11,16 +12,17 @@ import { userService } from 'src/app/services/userServices/user.service';
 })
 export class OnlineListComponent implements OnInit  {
 
-  value = true;
-  list$: BehaviorSubject<User[] | undefined>;
-
-  constructor(public userService: userService) {
+  value: Boolean = true;
+  list$: BehaviorSubject<User[] | undefined>
+  constructor(public userService: userService, private http: HttpClient, private logger: LoggerService) {
     this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
   }
 
   // TODO: Link to stream function needs to be implemented.
 
   ngOnInit(): void {
+
+    this.logger.trace('converting data to export');
     //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
     this.Refresh(this.DummyData());
 
