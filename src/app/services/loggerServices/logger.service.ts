@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LogLevel } from '../Models/LogLevel';
+import { LogLevel } from '../../Domain/Models/LogLevel';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

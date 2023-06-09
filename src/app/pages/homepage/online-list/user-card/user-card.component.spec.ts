@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserCardComponent } from './user-card.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserCardComponent', () => {
   let component: UserCardComponent;
@@ -8,7 +9,8 @@ describe('UserCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserCardComponent ]
+      declarations: [ UserCardComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     })
     .compileComponents();
 
@@ -20,4 +22,25 @@ describe('UserCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("Should show offline user", ()=>{
+    component.ngOnInit();
+
+    component.User = {id: 0, isOnline: false, userName: "TestDonavan", followCount: 12};
+
+    const span = fixture.nativeElement.querySelector("p");
+
+    expect(span.textContent).toContain("Status: Offline ●");
+  })
+
+  it("Should show Online user", ()=>{
+    component.User = {id: 0, isOnline: true, userName: "TestDonavan", followCount: 12};
+
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    const span = fixture.nativeElement.querySelector("p");
+
+    expect(span.textContent).toContain("Status: Online ●");
+  })
 });
