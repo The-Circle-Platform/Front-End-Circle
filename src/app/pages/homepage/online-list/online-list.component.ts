@@ -42,16 +42,19 @@ export class OnlineListComponent implements OnInit {
         //Subscribes to interval.
         interval(2000).subscribe(() => {
             //Next step is to request users to api.
-            const ss = this.userService.GetAll().subscribe((e) => {
-                console.log(e);
-                //Will assign new value to behavioursubject.
-                /*value = !value;
-        e[0].isOnline = value;*/
+            const ss = this.http
+                .get<User[]>('https://localhost:7058/api/user')
+                .subscribe((e) => {
+                    this.users = this.SortList(e);
+                    //Will assign new value to behavioursubject.
+                    /*value = !value;
+          e[0].isOnline = value;*/
 
-                this.Refresh(e);
-                //Will unsubscribe, so that this observable can be reused multiple times.
-                ss.unsubscribe();
-            });
+                    this.Refresh(e);
+
+                    //Will unsubscribe, so that this observable can be reused multiple times.
+                    ss.unsubscribe();
+                });
         });
     }
 
