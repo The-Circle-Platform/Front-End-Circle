@@ -5,5 +5,6 @@ export interface IUser extends IDomain{
 }
 
 export interface User extends IUser{
-    isOnline: Boolean
+    isOnline: boolean
+    followCount: number
 }

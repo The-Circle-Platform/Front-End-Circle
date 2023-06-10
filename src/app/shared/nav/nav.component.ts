@@ -9,9 +9,10 @@ export class NavComponent implements OnInit {
     @Input() title!: string;
     isNavbarCollapsed = true;
 
-    constructor() {}
 
-    ngOnInit(): void {}
 
-    logout(): void {}
+    ngOnInit(): void {
+        console.log("Navpage loaded");
+    }
+
 }

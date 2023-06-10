@@ -1,0 +1,62 @@
+.chat-container {
+    height: 550px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 60%;
+    width: fit-content;
+}
+
+.media {
+    margin-bottom: 20px;
+}
+
+.media img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.media-body {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 10px;
+    
+}
+
+.media-body h5 {
+    margin-bottom: 5px;
+    
+}
+
+.user-message {
+    text-align: right;
+}
+
+.user-message .media-body {
+    background-color: #f0f7ff;
+}
+
+.bot-message {
+    text-align: left;
+}
+.button{
+    color: ghostwhite;
+    background-color: darkred;
+    align-items: center;
+    border: ghostwhite;
+    margin-left: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    scale: 120%;
+    border-radius: 12px;
+    font-weight: 500
+}
+.buttonrow{
+    margin-top: 1%;
+    margin-left: 20%;
+}
+.vidBox{
+    padding-top: 5%;
+    align-content: center;
+}
