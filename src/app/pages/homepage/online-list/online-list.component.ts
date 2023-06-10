@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, interval } from 'rxjs';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { User } from 'src/app/Domain/Models/User';
-import { LoggerService } from '../../../services/loggerServices/logger.service';
+import { LoggerService } from 'src/app/services/loggerServices/logger.service';
 import { userService } from 'src/app/services/userServices/user.service';
 
 @Component({
@@ -12,13 +12,19 @@ import { userService } from 'src/app/services/userServices/user.service';
 })
 export class OnlineListComponent implements OnInit {
     value: Boolean = true;
+    refresher: Observable<any>;
     list$: BehaviorSubject<User[] | undefined>;
+
+    users: User[] = [];
+    currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
+
     constructor(
         public userService: userService,
         private http: HttpClient,
         private logger: LoggerService
     ) {
         this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
+        this.refresher = new Observable<any>();
     }
 
     // TODO: Link to stream function needs to be implemented.
@@ -26,7 +32,6 @@ export class OnlineListComponent implements OnInit {
     ngOnInit(): void {
         this.logger.trace('converting data to export');
         //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
-        this.Refresh(this.DummyData());
 
         // TODO: Decomment when function works fully
         this.RefreshList();
@@ -37,16 +42,19 @@ export class OnlineListComponent implements OnInit {
         //Subscribes to interval.
         interval(2000).subscribe(() => {
             //Next step is to request users to api.
-            const ss = this.userService.GetAll().subscribe((e) => {
-                console.log(e);
-                //Will assign new value to behavioursubject.
-                /*value = !value;
-        e[0].isOnline = value;*/
+            const ss = this.http
+                .get<User[]>('https://localhost:7058/api/user')
+                .subscribe((e) => {
+                    this.users = this.SortList(e);
+                    //Will assign new value to behavioursubject.
+                    /*value = !value;
+          e[0].isOnline = value;*/
 
-                this.Refresh(e);
-                //Will unsubscribe, so that this observable can be reused multiple times.
-                ss.unsubscribe();
-            });
+                    this.Refresh(e);
+
+                    //Will unsubscribe, so that this observable can be reused multiple times.
+                    ss.unsubscribe();
+                });
         });
     }
 
@@ -64,5 +72,28 @@ export class OnlineListComponent implements OnInit {
                 followCount: 138,
             },
         ];
+    }
+
+    SortList(value: User[]): User[] {
+        if (this.currentSortOrder == 'asc') {
+            return value.sort((a, b) => a.userName.localeCompare(b.userName));
+        } else if (this.currentSortOrder == 'desc') {
+            return value.sort((a, b) => b.userName.localeCompare(a.userName));
+        } else {
+            return value.sort((a: User, b: User) => {
+                if (a.isOnline && !b.isOnline) {
+                    return -1;
+                } else if (!a.isOnline && b.isOnline) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+        }
+    }
+
+    toggleSortOrder(order: 'asc' | 'desc' | 'status'): void {
+        this.currentSortOrder = order;
+        this.users = this.SortList(this.users);
     }
 }
