@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Chat Interface</h1>
+    <h1>Chat</h1>
     <div class="chat-container">
         <div class="media user-message">
             <div class="media-body">
@@ -14,4 +14,19 @@
             </div>
         </div>
     </div>
+    <div class="chat-box">
+
+        <!-- Chat reageer pagina -->
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Reageer in de chat.</label>
+            <textarea [value]="text" (input)="onValueChange($event)" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button class="btn btn-info" (click)="SendMessage()" [disabled]="IsBusy">Klik</button>
+        <p>Tekst {{text}}</p>
+
+        <form action="">
+
+        </form>
+    </div>
+
 </div>
