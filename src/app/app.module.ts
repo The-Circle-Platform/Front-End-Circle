@@ -28,6 +28,7 @@ import { StreamingPlayerComponent } from "./pages/broadcast/streaming-player/str
 import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { RegistrationPageComponent } from "./pages/registration/registration-page/registration-page.component";
+import { ViewerCountComponent } from './pages/broadcast/viewer-count/viewer-count.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { RegistrationPageComponent } from "./pages/registration/registration-pag
     StreamPageComponent,
     LoginComponent,
     RegistrationPageComponent,
+    ViewerCountComponent,
   ],
   imports: [
     BrowserModule,
