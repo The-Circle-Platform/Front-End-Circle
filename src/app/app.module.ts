@@ -28,6 +28,7 @@ import { StreamingPlayerComponent } from "./pages/broadcast/streaming-player/str
 import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { RegistrationPageComponent } from "./pages/registration/registration-page/registration-page.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { RegistrationPageComponent } from "./pages/registration/registration-pag
     AppRoutingModule,
     HttpClientModule,
     FlexLayoutModule,
+    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

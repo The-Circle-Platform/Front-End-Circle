@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { delay } from 'rxjs';
-import { ChatMessage } from 'src/app/Domain/Models/ChatMessage';
+import { ChatMessage, ChatMessageDTO } from 'src/app/Domain/Models/ChatMessage';
 import { User } from 'src/app/Domain/Models/User';
 
 @Component({
@@ -15,8 +15,8 @@ export class ChatStreamComponent implements OnInit{
 
   ListOfChats: ChatMessage[];
   public IsBusy: boolean;
-  public text: string;
-  public currentChatBox: ChatMessage | undefined;
+  public warning: string;
+  public currentChatBox: ChatMessageDTO| undefined;
 
   private hubConnection: HubConnection | undefined;
   private HostUserId: number | undefined;
@@ -28,13 +28,18 @@ export class ChatStreamComponent implements OnInit{
     //Placeholder value.
     this.HostUserId = 1;
     this.IsBusy = false;
-    this.text = " Heloo "
+    this.warning = "";
   }
 
   ngOnInit(): void {
 
+    // In normal circumstances, it will retrieve the User object from localstorage.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const currentUser: User | undefined = undefined;
+
     const HostId = 1;
     const writerId = 1;
+    //Setup form.
     this.SetupChat(writerId, HostId);
     // this.connectToChatHub();
     
@@ -54,7 +59,7 @@ export class ChatStreamComponent implements OnInit{
   }
 
   private SetupChat(userId: number, hostId: number){
-    this.currentChatBox = { Message: "", id: 0, Writer: userId, Receiver: hostId, DateOfWriting: new Date() };
+    this.currentChatBox = { Message: "", id: 0, WriterId: userId, ReceiverId: hostId, DateOfWriting: new Date() };
   }
 
   private connectToChatHub(){
@@ -87,27 +92,23 @@ export class ChatStreamComponent implements OnInit{
 
   }
 
-  public onValueChange(event: Event){
-    console.log(event.target);
-    this.text = (event.target as any).value;
-  }
 
   public SendMessage(): void{
+    this.warning = "";
     console.log("Sending started");
-
-    this.IsBusy = true;
+    if(this.currentChatBox != undefined){
+      this.SendToServer(this.currentChatBox);
+      //Resets 
+      this.currentChatBox.Message = "";
+      this.IsBusy = true;
+    } else{
+      console.warn("Chat box has failed to initalize");
+      this.warning = "Chat box has failed to initalize. Contact website manager";
+    }
   }
 
-  private SendToServer(chatMessage: ChatMessage){
-   
-    const message = {
-      Message: chatMessage.Message,
-      Writer: chatMessage.Writer,
-      Receiver: chatMessage.Receiver,
-      DateOfWriting: chatMessage.DateOfWriting,
-    }
-
-    this.hubConnection?.send("SendMessage", message).then(()=>{
+  private SendToServer(chatMessage: ChatMessageDTO){
+    this.hubConnection?.send("SendMessage", chatMessage).then(()=>{
       console.log("Gelukt");
     }).catch((err)=>{
       console.log("Niet gelukt");

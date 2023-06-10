@@ -3,7 +3,14 @@ import { User } from "./User";
 
 export interface ChatMessage extends IDomain {
     Message: string
-    Writer: number | User
-    Receiver: number | User
+    Writer: User
+    Receiver: User
+    DateOfWriting: Date
+}
+
+export interface ChatMessageDTO extends IDomain{
+    Message: string
+    WriterId: number
+    ReceiverId: number
     DateOfWriting: Date
 }
