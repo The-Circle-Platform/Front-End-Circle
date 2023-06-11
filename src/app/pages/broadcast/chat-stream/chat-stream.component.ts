@@ -19,7 +19,8 @@ export class ChatStreamComponent implements OnInit{
   public currentChatBox: ChatMessageDTO| undefined;
 
   private hubConnection: HubConnection | undefined;
-  private HostUserId: number | undefined;
+  public HostUserId: number | undefined;
+  public WriterId: number | undefined;
 
   //Template value for textbox.
 
@@ -37,21 +38,23 @@ export class ChatStreamComponent implements OnInit{
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const currentUser: User | undefined = undefined;
 
-    const HostId = 1;
-    const writerId = 1;
+    this.HostUserId = 1;
+    this.WriterId = 1;
     //Setup form.
-    this.SetupChat(writerId, HostId);
-    // this.connectToChatHub();
+    this.SetupChat(this.WriterId, this.HostUserId);
+    this.connectToChatHub();
     
     // this.router.paramMap.subscribe((v)=>{
     //   const HostId: number = v.get("id") as unknown as number;
     //   if(HostId){
+    //     this.HostUserId = parse(HostId);
     //     //Check if user is allowed
     //     //Method();
+    //     //Haal gebruiker uit storage aan.
     //     const writerId = 1;
-    //     this.SetupChat(writerId, HostId);
-    //     //Starts connection to server
-    //     //this.connectToChatHub();
+    //     // if(writerId){ this.SetupChat(writerId, this.HostUserId);
+    //     this.connectToChatHub(); } else{ 
+    //      something else }
     //   } else{
     //     //Something else
     //   }
@@ -59,7 +62,7 @@ export class ChatStreamComponent implements OnInit{
   }
 
   private SetupChat(userId: number, hostId: number){
-    this.currentChatBox = { Message: "", id: 0, WriterId: userId, ReceiverId: hostId, DateOfWriting: new Date() };
+    this.currentChatBox = { Message: "", id: 0, WebUserId: userId, ReceiverId: hostId, Date: new Date() };
   }
 
   private connectToChatHub(){
@@ -75,6 +78,7 @@ export class ChatStreamComponent implements OnInit{
 
     this.hubConnection.on(ReceiverEndpoint, (updatedMessageList: ChatMessage[])=>{
       console.log("Received new chatmessages");
+      console.log(updatedMessageList);
       this.ListOfChats = updatedMessageList;
       this.IsBusy = false;
     })
@@ -85,6 +89,7 @@ export class ChatStreamComponent implements OnInit{
     .then(async ()=>{
       // -> Send connection
       console.log("Get current chatmessages");
+      
       this.hubConnection?.send("RetrieveCurrentChat", this.HostUserId).then();
     })
     .catch((err)=> console.log(`Error with signalR connection ${err}`));
