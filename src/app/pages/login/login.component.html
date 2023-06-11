@@ -1,6 +1,6 @@
-<div fxLayoutAlign="center center" fxFlexFill>
+<!-- <div fxLayoutAlign="center center" fxFlexFill>
   <mat-card fxFlex="25">
-    <form fxLayoutAlign="stretch" fxLayout="column">
+    <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm" (ngSubmit)="onSubmit()"></form>> 
       <mat-form-field>
         <input matInput placeholder="UserName" />
       </mat-form-field>
@@ -9,8 +9,77 @@
         <input matInput type="password" matInput placeholder="Password" />
       </mat-form-field>
       <button mat-raised-button type="submit">Login</button>
+
       <p>Are you an admin click on here</p>
       <a class="nav-link" routerLink="/registration">sign up</a>
     </form>
   </mat-card>
-</div>
+</div> -->
+
+<form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="inputEmail">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      placeholder="Email address"
+      formControlName="emailAddress"
+      id="inputEmail"
+      aria-describedby="emailHelp"
+      [ngClass]="{
+        'is-invalid':
+          loginForm.get('emailAddress')?.invalid &&
+          loginForm.get('emailAddress')?.touched
+      }"
+    />
+    <span
+      *ngIf="!loginForm.get('email')?.valid && loginForm.get('email')?.touched"
+      class="invalid-feedback"
+    >
+      <p id="email-invalid">Please enter a valid email address</p>
+    </span>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      formControlName="password"
+      id="inputPassword"
+      [ngClass]="{
+        'is-invalid':
+          loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched
+      }"
+    />
+    <span
+      *ngIf="
+        !loginForm.get('password')?.valid && loginForm.get('password')?.touched
+      "
+      class="invalid-feedback"
+    >
+      <p id="password-invalid">Please enter a valid password</p>
+    </span>
+  </div>
+
+  <div class="form-group">
+    <button
+      id="submitbutton"
+      class="btn btn-lg btn-primary btn-block"
+      type="submit"
+      [disabled]="!loginForm.valid"
+    >
+      Sign in
+    </button>
+  </div>
+
+  <p>
+    <a routerLink="/">Homepage</a> |
+    <a routerLink="/register">Register</a>
+  </p>
+
+  <div class="form-group">
+    <!-- <fab-util-spinner *ngIf="submitted"></fab-util-spinner> -->
+    <fab-util-alert></fab-util-alert>
+  </div>
+</form>

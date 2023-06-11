@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
+  LOCALE_ID,
   NgModule,
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
@@ -28,6 +29,10 @@ import { StreamingPlayerComponent } from "./pages/broadcast/streaming-player/str
 import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { RegistrationPageComponent } from "./pages/registration/registration-page/registration-page.component";
+import { ConfigModule } from "./shared/moduleconfig/config.module";
+import { environment } from "src/environments/environment";
+import { ReactiveFormsModule } from "@angular/forms";
+import { LoggedInAuthGuard } from "./services/authServices/auth.guards";
 
 @NgModule({
   declarations: [
@@ -57,9 +62,11 @@ import { RegistrationPageComponent } from "./pages/registration/registration-pag
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    ReactiveFormsModule,
+    ConfigModule.forRoot({ apiEndpoint: environment.SERVER_API_URL }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: "nl" }, LoggedInAuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
