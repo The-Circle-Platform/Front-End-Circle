@@ -1,89 +1,46 @@
-<!-- <div fxLayoutAlign="center center" fxFlexFill>
-  <mat-card fxFlex="25">
-    <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm" (ngSubmit)="onSubmit()"></form>> 
-      <mat-form-field>
-        <input matInput placeholder="UserName" />
-      </mat-form-field>
-
-      <mat-form-field>
-        <input matInput type="password" matInput placeholder="Password" />
-      </mat-form-field>
-      <button mat-raised-button type="submit">Login</button>
-
-      <p>Are you an admin click on here</p>
-      <a class="nav-link" routerLink="/registration">sign up</a>
-    </form>
-  </mat-card>
-</div> -->
-
 <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="inputUserName">Gebruikersnaam</label>
-    <input
-      type="email"
-      class="form-control"
-      placeholder="userName"
-      formControlName="userName"
-      id="inputUserName"
-      aria-describedby="emailHelp"
+    <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName"
       [ngClass]="{
         'is-invalid':
           loginForm.get('userName')?.invalid &&
           loginForm.get('userName')?.touched
-      }"
-    />
-    <span
-      *ngIf="
+      }" />
+    <span *ngIf="
         !loginForm.get('userName')?.valid && loginForm.get('userName')?.touched
-      "
-      class="invalid-feedback"
-    >
-      <p id="email-invalid">Please enter a valid username address</p>
+      " class="invalid-feedback">
+      <p id="userName-invalid">Voer een geldige gebruikersnaam in</p>
     </span>
   </div>
   <div class="form-group">
-    <label for="inputPassword">Password</label>
-    <input
-      type="password"
-      class="form-control"
-      formControlName="password"
-      id="inputPassword"
-      [ngClass]="{
+    <label for="inputPassword">Wachtwoord</label>
+    <input type="password" class="form-control" formControlName="password" id="inputPassword" [ngClass]="{
         'is-invalid':
           loginForm.get('password')?.invalid &&
           loginForm.get('password')?.touched
-      }"
-    />
-    <span
-      *ngIf="
+      }" />
+    <span *ngIf="
         !loginForm.get('password')?.valid && loginForm.get('password')?.touched
-      "
-      class="invalid-feedback"
-    >
-      <p id="password-invalid">Please enter a valid password</p>
+      " class="invalid-feedback">
+      <p id="password-invalid">Voer een geldig wachtwoord in</p>
     </span>
   </div>
 
   <div class="form-group">
-    <button
-      id="submitbutton"
-      class="btn btn-lg btn-primary btn-block"
-      type="submit"
-      [disabled]="!loginForm.valid"
-    >
-      Sign in
+    <button id="submitbutton" class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!loginForm.valid">
+      Aanmelden
     </button>
   </div>
   <div *ngIf="wrongPwOrUserName">
-    <p>Gerbruikersnaam of wachtwoord klopt niet</p>
+    <p>Gebruikersnaam of wachtwoord is onjuist</p>
   </div>
   <p>
-    <a routerLink="/">Homepage</a> |
-    <a routerLink="/register">Register</a>
+    <a routerLink="/">Home</a> |
+    <a routerLink="/register">Registreer</a>
   </p>
 
   <div class="form-group">
-    <!-- <fab-util-spinner *ngIf="submitted"></fab-util-spinner> -->
     <fab-util-alert></fab-util-alert>
   </div>
 </form>
