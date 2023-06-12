@@ -9,37 +9,15 @@ export interface User extends IUser {
     followCount: number;
 }
 
-export interface UserIdentity {
-    id: Id;
-    username: string;
-}
-
-export interface UserInfo extends UserIdentity {
-    emailAddress: string;
-    isGraduated: boolean;
-    token: string;
-    role: string;
-}
-
 export interface ILogin {
     emailAddress: string;
     password: string;
 }
 
-export interface IToken {
-    id: string;
-    emailAddress: string;
-    token: string;
-}
-
 export interface IRegister {
-    firstName: string;
-    lastName: string;
+    // TODO: Add more fields
     emailAddress: string;
     password: string;
-    phoneNumber: string;
-    isAdmin: boolean;
-    role: string;
 }
 
 export type Id = string;
