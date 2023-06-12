@@ -18,25 +18,27 @@
 
 <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="inputEmail">Email address</label>
+    <label for="inputUserName">Gebruikersnaam</label>
     <input
       type="email"
       class="form-control"
-      placeholder="Email address"
-      formControlName="emailAddress"
-      id="inputEmail"
+      placeholder="userName"
+      formControlName="userName"
+      id="inputUserName"
       aria-describedby="emailHelp"
       [ngClass]="{
         'is-invalid':
-          loginForm.get('emailAddress')?.invalid &&
-          loginForm.get('emailAddress')?.touched
+          loginForm.get('userName')?.invalid &&
+          loginForm.get('userName')?.touched
       }"
     />
     <span
-      *ngIf="!loginForm.get('email')?.valid && loginForm.get('email')?.touched"
+      *ngIf="
+        !loginForm.get('userName')?.valid && loginForm.get('userName')?.touched
+      "
       class="invalid-feedback"
     >
-      <p id="email-invalid">Please enter a valid email address</p>
+      <p id="email-invalid">Please enter a valid username address</p>
     </span>
   </div>
   <div class="form-group">
