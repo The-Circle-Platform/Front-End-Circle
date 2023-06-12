@@ -45,6 +45,8 @@ export class LoginComponent {
     ) {
       this.authService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe((reply : any) => {
         console.log(reply);
+        localStorage.setItem('token', reply.token);
+        this.router.navigate(["/"]);
       })
     }
   }

@@ -7,7 +7,6 @@
     <list default="true" id="f624183b-9476-4e97-be0f-120f812ee177" name="Changes" comment="Feature-branch online list met master branch gemerged">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/authServices/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/authServices/auth.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
