@@ -74,7 +74,9 @@
       Sign in
     </button>
   </div>
-
+  <div *ngIf="wrongPwOrUserName">
+    <p>Gerbruikersnaam of wachtwoord klopt niet</p>
+  </div>
   <p>
     <a routerLink="/">Homepage</a> |
     <a routerLink="/register">Register</a>

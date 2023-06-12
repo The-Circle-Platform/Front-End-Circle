@@ -47,6 +47,9 @@ export class LoginComponent {
         console.log(reply);
         localStorage.setItem('token', reply.token);
         this.router.navigate(["/"]);
+      }, (err) => {
+        console.log(err);
+        this.wrongPwOrUserName = true;
       })
     }
   }
