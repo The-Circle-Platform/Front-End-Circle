@@ -14,7 +14,7 @@ export class LoginComponent {
   subs!: Subscription;
   loginForm!: FormGroup;
   hide = true;
-  wrongPwOrEmail = false;
+  wrongPwOrUserName = false;
 
   constructor(
     private fb: FormBuilder,
@@ -33,31 +33,24 @@ export class LoginComponent {
       });
 
     this.loginForm = this.fb.group({
-      emailAddress: ["", Validators.required],
+      userName: ["", Validators.required],
       password: ["", Validators.required],
     }) as FormGroup;
   }
 
   onSubmit(): void {
-    console.log("hiervoor");
-    console.log(this.loginForm.value);
     if (
-      this.loginForm.value.emailAddress != "" &&
+      this.loginForm.value.userName != "" &&
       this.loginForm.value.password != ""
     ) {
-      // Kijk of die hierinkomt
-      console.log("hierna");
-
-      console.log(this.loginForm.value);
-
       this.authService
-        .login(this.loginForm.value.emailAddress, this.loginForm.value.password)
+        .login(this.loginForm.value.userName, this.loginForm.value.password)
         .subscribe((user: ILogin | undefined) => {
           if (user) {
-            this.wrongPwOrEmail = false;
+            this.wrongPwOrUserName = false;
             this.router.navigate(["/"]);
           } else {
-            this.wrongPwOrEmail = true;
+            this.wrongPwOrUserName = true;
             this.loginForm.value.password = "";
           }
         });
