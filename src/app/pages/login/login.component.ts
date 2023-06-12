@@ -43,17 +43,9 @@ export class LoginComponent {
       this.loginForm.value.userName != "" &&
       this.loginForm.value.password != ""
     ) {
-      this.authService
-        .login(this.loginForm.value.userName, this.loginForm.value.password)
-        .subscribe((user: ILogin | undefined) => {
-          if (user) {
-            this.wrongPwOrUserName = false;
-            this.router.navigate(["/"]);
-          } else {
-            this.wrongPwOrUserName = true;
-            this.loginForm.value.password = "";
-          }
-        });
+      this.authService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe((reply : any) => {
+        console.log(reply);
+      })
     }
   }
 }

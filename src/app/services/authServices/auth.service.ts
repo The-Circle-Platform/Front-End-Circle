@@ -54,30 +54,15 @@ export class AuthService {
   }
 
   login(
-    emailAddress: string,
-    password: string
-  ): Observable<ILogin | undefined> {
+      userName: string,
+      password: string
+  ): Observable<Object>
+  {
     const credentials = {
-      emailAddress: emailAddress,
-      password: password,
-    };
-
-    return this.http
-      .post<UserIdentity>(`${this.siteEndpoint}/login`, credentials, {
-        headers: this.headers,
-      })
-      .pipe(
-        map((data: any) => {
-          location.reload();
-          localStorage.setItem(this.CURRENT_USER, JSON.stringify(data.results));
-          this.currentUser$.next(data);
-          return data;
-        }),
-        catchError((error) => {
-          console.log("Error message:", error.error.message);
-          return of(undefined);
-        })
-      );
+      userName: userName,
+      password: password
+    }
+    return this.http.post("https://localhost:7058/api/Auth/login", credentials);
   }
 
   register(userData: IRegister): Observable<UserInfo | undefined> {
