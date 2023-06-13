@@ -1,0 +1,17 @@
+.btn {
+    border-radius: 0;
+    background-color: #DF007C;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #FD2D00;
+    transition: all 0.8s;
+    transform: scale(1.05);
+}
+
+
+/* .btn:hover::after {
+    transition: 0.4s;
+} */

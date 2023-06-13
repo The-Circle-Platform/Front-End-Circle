@@ -32,8 +32,7 @@
     font-weight: 600;
 }
 
-
-/* .active {
+.active {
     font-size: 1.2rem;
     color: white !important;
 }
@@ -43,6 +42,13 @@
     color: white;
 }
 
+.navbar-brand {
+    font-size: 1.7rem;
+    font-style: italic;
+    color: white;
+    margin-left: 10px;
+}
+
 .nav-link:hover {
     color: white;
     transform: scale(0.95);
@@ -50,9 +56,9 @@
 }
 
 .nav-link:hover::after {
-    transition: 1s;
+    transition: 1s, ease-in-out;
     transform: scale(1);
-} */
+}
 
 .toolbar img {
     margin: 0 16px;

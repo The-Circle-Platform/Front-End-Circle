@@ -1,16 +1,12 @@
 <!--Bedenk mechanisme voor verversen -->
-<div class="container">
+<div class="container my-3">
     <div>
-        <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('asc')">Ascending</button>
-        <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('desc')">Descending</button>
-        <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('status')">Status</button>
+        <button class="btn mx-1 my-2 p-3" (click)="toggleSortOrder('asc')">Ascending</button>
+        <button class="btn mx-1 my-2" (click)="toggleSortOrder('desc')">Descending</button>
+        <button class="btn mx-1 my-2" (click)="toggleSortOrder('status')">Status</button>
     </div>
     <h1>Lijst transparante gebruikers</h1>
-    <!-- <select id="sortOrder ">
-        <option value="asc ">Naam</option>
-        <option value="status ">Status</option>
-    </select> -->
-    <div class="row ">
+    <div class="row">
         <div *ngFor="let user of list$ | async; " class="col-lg-4 ">
             <app-user-card [User]="user "></app-user-card>
         </div>
