@@ -16,8 +16,8 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
   recording: boolean = false;
   mediaRecorder!: MediaRecorder;
-  paused: boolean = false;
   chunks: Blob[] = [];
+  liveChunks: Blob[] = [];
   stream: any;
   async ngOnInit(): Promise<void> {
     const videoElement = this.videoPlayer.nativeElement;
@@ -38,13 +38,17 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
   cameraOn() {
     const videoElement = this.videoPlayer.nativeElement;
     videoElement.play();
-    this.mediaRecorder.resume();
+    if(this.recording ==true){
+      this.mediaRecorder.resume();
+    }
   }
 
   cameraOff() {
     const videoElement = this.videoPlayer.nativeElement;
     videoElement.pause();
-    this.mediaRecorder.pause();
+    if(this.recording ==true){
+      this.mediaRecorder.pause();
+    }
   }
 
   async startStream() {
@@ -54,17 +58,23 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
 
       this.chunks = [];      
       this.mediaRecorder = new MediaRecorder(this.stream);
+
       this.mediaRecorder.addEventListener('dataavailable', (event) => {  
         if (event.data.size > 0) {
-          console.log(this.paused);
-          this.chunks.push(event.data);
+          this.liveChunks.push(event.data);
+          this.chunks.push(this.liveChunks[0]);
+          console.log('Live chunks', this.liveChunks);
+          this.liveChunks.pop();
+          console.log('End Chunks', this.chunks);
+          
         }
       });
 
-      console.log(this.chunks);
+      
 
       this.mediaRecorder.addEventListener('stop', () => {
         const videoBlob = new Blob(this.chunks, { type: 'video/mp4' });
+        console.log(videoBlob);
         const videoUrl = URL.createObjectURL(videoBlob);
         const a = document.createElement('a');
         a.href = videoUrl;
@@ -74,13 +84,13 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
       });
 
 
-      this.mediaRecorder.start();
+      this.mediaRecorder.start(2000);
       this.recording = true;
 
-      const minutesInterval = 30000; // 1 minuut = 60.000 millisecondes
-      this.subscription = interval(minutesInterval).subscribe(() => {
-      this.sendDataToServer();
-    });
+      // const minutesInterval = 2000; // 1 minuut = 60.000 millisecondes
+      // this.subscription = interval(minutesInterval).subscribe(() => {
+      // this.sendDataToServer();
+    // });
 
     } catch (error) {
       console.error('Error accessing webcam:', error);
@@ -101,5 +111,6 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
     this.chunks.forEach((blob: Blob, index: number) => {
       formData.append(`recording_${index}`, blob, `recording_${index}.mp4`);
     });
+    console.log(formData);
   }
 }
