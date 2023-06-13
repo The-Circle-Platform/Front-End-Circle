@@ -76,9 +76,15 @@ export class AuthService {
             );
     }
 
-    register(userData: IRegister): Observable<IRegister | undefined> {
+    register(email: string, userName: string, role: string): Observable<IRegister | undefined> {
+        const userData = {
+            email: email,
+            userName: userName,
+        };
+        let adminUrl = "";
+        if(role) adminUrl = "-admin";
         return this.http
-            .post<IRegister>(`${this.siteEndpoint}/register`, userData, {
+            .post<IRegister>(`${this.siteEndpoint}/register${adminUrl}`, userData, {
                 headers: this.headers,
             })
             .pipe(
