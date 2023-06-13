@@ -15,7 +15,6 @@ export interface ILogin {
 }
 
 export interface IRegister {
-    // TODO: Add more fields
     emailAddress: string;
     username: string;
 }
