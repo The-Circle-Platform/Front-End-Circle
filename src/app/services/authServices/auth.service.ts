@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from 'src/app/shared/moduleconfig/config.service';
-import { IRegister, ILogin } from '../../Domain/Models/User';
+import { IRegister } from '../../Domain/Models/User';
 
 @Injectable({
     providedIn: 'root',
@@ -65,17 +65,25 @@ export class AuthService {
         );
     }
 
-    register(email: string, userName: string, role: string): Observable<IRegister | undefined> {
+    register(
+        email: string,
+        userName: string,
+        role: string
+    ): Observable<IRegister | undefined> {
         const userData = {
             email: email,
             userName: userName,
         };
-        let adminUrl = "";
-        if(role) adminUrl = "-admin";
+        let adminUrl = '';
+        if (role) adminUrl = '-admin';
         return this.http
-            .post<IRegister>(`${this.siteEndpoint}/register${adminUrl}`, userData, {
-                headers: this.headers,
-            })
+            .post<IRegister>(
+                `${this.siteEndpoint}/register${adminUrl}`,
+                userData,
+                {
+                    headers: this.headers,
+                }
+            )
             .pipe(
                 map((data: any) => {
                     localStorage.setItem(
@@ -110,20 +118,18 @@ export class AuthService {
     }
 
     getUserFromLocalStorage(): Observable<string | undefined> {
-        const user = localStorage.getItem(this.CURRENT_TOKEN);
+        const token = localStorage.getItem(this.CURRENT_TOKEN);
 
-        if (user) {
-            const localUser = JSON.parse(user);
-            return of(localUser);
+        if (token) {
+            return of(token);
         } else {
             return of(undefined);
         }
     }
 
     getAuthorizationToken(): string | undefined {
-        const token = JSON.parse(
-            localStorage.getItem(this.CURRENT_TOKEN) || ''
-        );
+        const token = localStorage.getItem(this.CURRENT_TOKEN) || '';
+
         return token;
     }
 }

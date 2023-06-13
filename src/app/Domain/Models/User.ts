@@ -9,11 +9,6 @@ export interface User extends IUser {
     followCount: number;
 }
 
-export interface ILogin {
-    emailAddress: string;
-    password: string;
-}
-
 export interface IRegister {
     emailAddress: string;
     username: string;
