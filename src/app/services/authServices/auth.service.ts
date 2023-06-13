@@ -56,24 +56,13 @@ export class AuthService {
             userName: userName,
             password: password,
         };
-        return this.http
-            .post<ILogin>(`${this.siteEndpoint}/login`, credentials, {
+        return this.http.post<string>(
+            `${this.siteEndpoint}/login`,
+            credentials,
+            {
                 headers: this.headers,
-            })
-            .pipe(
-                map((data: any) => {
-                    localStorage.setItem(
-                        this.CURRENT_TOKEN,
-                        JSON.stringify(data.token)
-                    );
-                    this.currentToken$.next(data);
-                    return data;
-                }),
-                catchError((error) => {
-                    console.log('Error message:', error.error.message);
-                    return of(undefined);
-                })
-            );
+            }
+        );
     }
 
     register(userData: IRegister): Observable<IRegister | undefined> {
