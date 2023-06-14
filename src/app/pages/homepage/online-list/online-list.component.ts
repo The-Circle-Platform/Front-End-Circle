@@ -30,7 +30,7 @@ export class OnlineListComponent implements OnInit {
     // TODO: Link to stream function needs to be implemented.
 
     ngOnInit(): void {
-        this.logger.trace('converting data to export');
+        // this.logger.trace('converting data to export');
         //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
 
         // TODO: Decomment when function works fully
