@@ -1,1 +1,15 @@
 <p>profile-page works!</p>
+
+<p>
+    <label for="Profielfoto">Profielfoto</label>
+</p>
+<input placeholder="Upload je profielfoto." type="file" id="file" (change)="onSelectFile($event)" name="Profielfoto">
+<div class="ImageSelector">
+    Afbeelding geselecteerd:<br />
+    <span *ngIf="PfpUser!.Pfp">
+        Afbeeldingsnaam: {{PfpUser!.Pfp.ImageName}}
+    </span>
+    <span *ngIf="!PfpUser!.Pfp">
+        Geen afbeelding geselecteerd.
+    </span>
+</div>

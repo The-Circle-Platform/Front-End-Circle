@@ -18,5 +18,14 @@ export interface IRegister {
     username: string;
 }
 
+export interface Pfp {
+    ImageName: string;
+    Base64Image: string;
+}
+
+export interface PfpUser {
+    Pfp: Pfp;
+}
+
 export type Id = string;
 export type ResourceId = { id: Id };

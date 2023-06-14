@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DecodedToken } from 'src/app/Domain/Models/User';
+import { DecodedToken, PfpUser } from 'src/app/Domain/Models/User';
 import { AuthService } from '../../services/authServices/auth.service';
 
 @Component({
@@ -13,6 +13,7 @@ export class NavComponent implements OnInit {
     isNavbarCollapsed = true;
     loggedInUser$!: Observable<string | undefined>;
     username: string | undefined;
+    // PfpUser: PfpUser | undefined;
 
     constructor(private authService: AuthService) {}
 
