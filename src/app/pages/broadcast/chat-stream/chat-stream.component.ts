@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { delay } from 'rxjs';
+import {delay, Subscription} from 'rxjs';
 import { ChatMessage, ChatMessageDTO } from 'src/app/Domain/Models/ChatMessage';
 import { User } from 'src/app/Domain/Models/User';
+import {LoggerService} from "../../../services/loggerServices/logger.service";
 
 @Component({
   selector: 'app-chat-stream',
@@ -17,14 +18,14 @@ export class ChatStreamComponent implements OnInit{
   public IsBusy: boolean;
   public warning: string;
   public currentChatBox: ChatMessageDTO| undefined;
-
+  private subscription: Subscription | undefined;
   private hubConnection: HubConnection | undefined;
   public HostUserId: number | undefined;
   public WriterId: number | undefined;
 
   //Template value for textbox.
 
-  constructor(private router: ActivatedRoute){
+  constructor(private router: ActivatedRoute, private logger: LoggerService){
     this.ListOfChats = [];
     //Placeholder value.
     this.HostUserId = 1;
@@ -74,8 +75,11 @@ export class ChatStreamComponent implements OnInit{
     .build();
 
     //Setup receiver methode
+    this.subscription = this.logger.logToDB("/hubs/ChatHub/", "Connect").subscribe((res => {
+      console.log(res);
+      this.subscription?.unsubscribe();
+    }));
     const ReceiverEndpoint = `ReceiveChat-${this.HostUserId}`;
-
     this.hubConnection.on(ReceiverEndpoint, (updatedMessageList: ChatMessage[])=>{
       console.log("Received new chatmessages");
       console.log(updatedMessageList);
@@ -91,6 +95,10 @@ export class ChatStreamComponent implements OnInit{
       console.log("Get current chatmessages");
       
       this.hubConnection?.send("RetrieveCurrentChat", this.HostUserId).then();
+      this.subscription = this.logger.logToDB("/hubs/ChatHub/", "RetrieveCurrentChat").subscribe((res => {
+        console.log(res);
+        this.subscription?.unsubscribe();
+      }));
     })
     .catch((err)=> console.log(`Error with signalR connection ${err}`));
     
@@ -115,6 +123,11 @@ export class ChatStreamComponent implements OnInit{
   private SendToServer(chatMessage: ChatMessageDTO){
     this.hubConnection?.send("SendMessage", chatMessage).then(()=>{
       console.log("Gelukt");
+      this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
+        console.log(res);
+        this.subscription?.unsubscribe();
+      }));
+
     }).catch((err)=>{
       console.log("Niet gelukt");
     });
