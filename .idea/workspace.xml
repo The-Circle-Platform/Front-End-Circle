@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f624183b-9476-4e97-be0f-120f812ee177" name="Changes" comment="Feature-branch online list met master branch gemerged">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/broadcast/chat-stream/chat-stream.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/broadcast/chat-stream/chat-stream.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/loggerServices/logger.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/loggerServices/logger.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +53,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/login&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/logging&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Xin20/Desktop/Projecct The circle/Frontend/Front-End-Circle&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -91,6 +93,7 @@
       <workItem from="1686051753647" duration="2886000" />
       <workItem from="1686644461699" duration="1719000" />
       <workItem from="1686648896158" duration="634000" />
+      <workItem from="1686727690596" duration="2892000" />
     </task>
     <task id="LOCAL-00001" summary="Feature-branch online list met master branch gemerged">
       <created>1686082424180</created>
