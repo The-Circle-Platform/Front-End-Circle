@@ -9,15 +9,9 @@ export interface User extends IUser {
     followCount: number;
 }
 
-export interface ILogin {
-    emailAddress: string;
-    password: string;
-}
-
 export interface IRegister {
-    // TODO: Add more fields
     emailAddress: string;
-    password: string;
+    username: string;
 }
 
 export type Id = string;
