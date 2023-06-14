@@ -4,6 +4,7 @@ import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { User } from 'src/app/Domain/Models/User';
 import { LoggerService } from 'src/app/services/loggerServices/logger.service';
 import { userService } from 'src/app/services/userServices/user.service';
+import { securityService } from 'src/app/services/authServices/security';
 
 @Component({
     selector: 'app-online-list',
@@ -21,7 +22,8 @@ export class OnlineListComponent implements OnInit {
     constructor(
         public userService: userService,
         private http: HttpClient,
-        private logger: LoggerService
+        private logger: LoggerService,
+        public securityService: securityService
     ) {
         this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
         this.refresher = new Observable<any>();
@@ -34,6 +36,7 @@ export class OnlineListComponent implements OnInit {
         //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
 
         // TODO: Decomment when function works fully
+
         this.RefreshList();
     }
 
