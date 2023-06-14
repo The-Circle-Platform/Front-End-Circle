@@ -6,10 +6,10 @@
 <input placeholder="Upload je profielfoto." type="file" id="file" (change)="onSelectFile($event)" name="Profielfoto">
 <div class="ImageSelector">
     Afbeelding geselecteerd:<br />
-    <span *ngIf="PfpUser!.Pfp">
-        Afbeeldingsnaam: {{PfpUser!.Pfp.ImageName}}
+    <span *ngIf="PfpUser && PfpUser.Pfp">
+        Afbeeldingsnaam: {{PfpUser.Pfp.ImageName}}
     </span>
-    <span *ngIf="!PfpUser!.Pfp">
+    <span *ngIf="!PfpUser || !PfpUser.Pfp">
         Geen afbeelding geselecteerd.
     </span>
 </div>

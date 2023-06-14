@@ -22,10 +22,12 @@ export class ProfilePageComponent {
                 const image = reader.result as string;
                 console.log('Length van afbeeldinge');
                 console.log(image.length);
-                this.PfpUser!.Pfp = {
-                    ImageName: imageFile.name,
-                    Base64Image: image,
-                };
+                if (this.PfpUser) {
+                    this.PfpUser.Pfp = {
+                        ImageName: imageFile.name,
+                        Base64Image: image,
+                    };
+                }
             };
         }
     }
