@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DecodedToken } from 'src/app/Domain/Models/User';
 import { AuthService } from '../../services/authServices/auth.service';
-import { User } from 'src/app/Domain/Models/User';
 
 @Component({
     selector: 'app-nav',
@@ -12,11 +12,19 @@ export class NavComponent implements OnInit {
     @Input() title!: string;
     isNavbarCollapsed = true;
     loggedInUser$!: Observable<string | undefined>;
+    username: string | undefined;
 
     constructor(private authService: AuthService) {}
 
     ngOnInit(): void {
         this.loggedInUser$ = this.authService.currentToken$;
+
+        const user = this.authService.decodeJwtToken(
+            this.authService.getAuthorizationToken() || ''
+        ) as DecodedToken;
+
+        this.username =
+            user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
     }
 
     logout(): void {

@@ -33,22 +33,12 @@
       </ul>
       <ul *ngIf="loggedInUser$ | async as user" class="navbar-nav">
         <li class="nav-item">
-          <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-link" id="userFullName" ngbDropdownToggle>
-              {{ user.userName }}
-            </button>
-      <ng-template #loggedOut>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="login">Login</a>
-        </li>
-      </ng-template>
+          <div ngbDropdown class="nav-link d-inline-block">
+            {{ username }}
           </div>
-          <div>
-      <ul>
-
-
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Zoek" aria-label="Search" />
+        </li>
+      </ul>
+      <form class="d-flex"> <input class="form-control me-2" type="search" placeholder="Zoek" aria-label="Search" />
         <button class="btn btn-outline-success" type="submit">Zoek</button>
       </form>
     </div>
