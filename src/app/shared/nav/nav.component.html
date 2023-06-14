@@ -22,12 +22,30 @@
         <li class="nav-item" *ngIf="loggedInUser$ | async as user; else loggedOut">
           <a class="nav-link" (click)="logout()">Uitloggen</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link"> </a>
+        </li>
         <ng-template #loggedOut>
           <li class="nav-item">
             <a class="nav-link" routerLink="login">Login</a>
           </li>
         </ng-template>
       </ul>
+      <ul *ngIf="loggedInUser$ | async as user" class="navbar-nav">
+        <li class="nav-item">
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-link" id="userFullName" ngbDropdownToggle>
+              {{ user.userName }}
+            </button>
+      <ng-template #loggedOut>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="login">Login</a>
+        </li>
+      </ng-template>
+          </div>
+          <div>
+      <ul>
+
 
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Zoek" aria-label="Search" />
