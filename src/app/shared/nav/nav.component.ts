@@ -20,9 +20,7 @@ export class NavComponent implements OnInit {
     ngOnInit(): void {
         this.loggedInUser$ = this.authService.currentToken$;
 
-        const user = this.authService.decodeJwtToken(
-            this.authService.getAuthorizationToken() || ''
-        ) as DecodedToken;
+        const user = this.authService.getDecodedToken();
 
         this.username =
             user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
