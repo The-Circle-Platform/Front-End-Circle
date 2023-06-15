@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../services/authServices/auth.service';
 
 
 @Component({
@@ -9,10 +11,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class NavComponent implements OnInit {
     @Input() title!: string;
     isNavbarCollapsed = true;
+    loggedInUser$!: Observable<string | undefined>;
 
-    constructor() {}
+    constructor(private authService: AuthService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.loggedInUser$ = this.authService.currentToken$;
+    }
 
-    logout(): void {}
+    logout(): void {
+        this.authService.logout();
+    }
 }

@@ -1,8 +1,8 @@
 export const environment = {
-  production: true,
+    production: true,
 
-  SERVER_DOCS_URL: 'https://meal-delivery-api.up.railway.app/',
-  SERVER_API_URL: 'https://meal-delivery-api.up.railway.app/',
+    SERVER_DOCS_URL: 'https://nonexistingyet/',
+    SERVER_API_URL: 'https://nonexistingyet/',
 
-  appVersion: '1.2.3',
+    appVersion: '1.2.3',
 };

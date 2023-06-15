@@ -1,1 +1,42 @@
-<h1>Works</h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <!-- Where Chat comes -->
+            
+                <h1>Chat Interface</h1>
+                <div class="chat-container">
+                    <div class="media user-message">
+                        <div class="media-body">
+                            <h5 class="mt-0">User</h5>
+                            <p>Hello, how can I help you?</p>
+                        </div>
+                    </div>
+                    <div class="media bot-message">
+                        <div class="media-body">
+                            <h5 class="mt-0">Bot</h5>
+                            <p>Here is a response from the bot.</p>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+        <div class="col">
+            <div class="vidBox">
+                <video #videoPlayer autoplay></video> 
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col buttonrow">
+                <button class="button" (click)="startStream()" [disabled]="recording" value="Start stream" >Start stream</button>
+                <button class="button" (click)="endStream()" [disabled]="!recording" value="End stream" >End stream</button>
+                <button class="button" (click)="cameraOn()" value="Camera aan" >SeeChange aan</button>
+                <button class="button" (click)="cameraOff()" value="Camera uit" >SeeChange uit</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                
+            </div>
+        </div>
+</div>

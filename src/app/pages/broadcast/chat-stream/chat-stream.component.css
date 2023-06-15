@@ -16,7 +16,6 @@
 }
 
 .media-body {
-    background-color: #f5f5f5;
     border-radius: 10px;
     padding: 10px;
 }
@@ -27,14 +26,23 @@
 
 .user-message {
     text-align: right;
-}
+    .media-body {
+        background-color: #c7c7c7;
+    }
+} 
 
-.user-message .media-body {
-    background-color: #f0f7ff;
-}
+.own-message {
+    text-align: right;
+    .media-body {
+        background-color: #d12179;
+    }
+} 
 
 .bot-message {
     text-align: left;
+    .media-body {
+        background-color: #63f863;
+    }
 }
 
 .moveLeft10 {
