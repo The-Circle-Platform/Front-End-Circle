@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core"
 import {config} from "rxjs";
 import {Buffer} from 'buffer/';
 // import * as crypto from "crypto-browserify";
-import * as crypto from "crypto-browserify";
+import * as crypto from "jsencrypt";
+import {environment} from "../../../environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class securityService{
@@ -27,40 +28,44 @@ export class securityService{
     // }
 
     private userPrivateKey: string;
+    private userPublicKey: string;
+    private serverPrivateKey: string;
     private serverPublicKey: string;
 
+    private userCrypto = new crypto.JSEncrypt();
+    private serverCrypto = new crypto.JSEncrypt();
+
     constructor() {
-        // this.userPrivateKey = userPrivateKey;
-        // this.serverPublicKey = serverPublicKey;
-        this.userPrivateKey = "userPrivateKey";
-        this.serverPublicKey = "serverPublicKey";
+        this.userPrivateKey = environment.PRIVATE_KEY;
+        this.userPublicKey = environment.PUBLIC_KEY;
+        this.userCrypto.setPrivateKey(this.userPublicKey);
+        this.userCrypto.setPublicKey(this.userPrivateKey);
+
+        this.serverPrivateKey = environment.PRIVATE_KEY;
+        this.serverPublicKey = environment.PUBLIC_KEY;
+        this.serverCrypto.setPrivateKey(this.serverPublicKey);
+        this.serverCrypto.setPublicKey(this.serverPrivateKey);
     }
 
-    encryptPrivate(plaintext: string): string {
-        let buffer = new Buffer(plaintext);
-        let encrypted = crypto.privateEncrypt(this.userPrivateKey, buffer);
-
-        return encrypted.toString('base64');
+    encryptWithUserPrivateKey(plaintext: string): string {
+        let enc = this.userCrypto.encrypt(plaintext);
+        return enc.toString();
     }
 
-    encryptPublic(plaintext: string): string {
-        let buffer = new Buffer(plaintext);
-        let encrypted = crypto.publicEncrypt(this.serverPublicKey, buffer);
-
-        return encrypted.toString('base64');
+    encryptWithServerPublicKey(plaintext: string): string {
+        let enc = this.serverCrypto.encrypt(plaintext);
+        return enc.toString();
     }
 
-    decryptPrivate(cypher: string): string {
-        let buffer = Buffer.from(cypher, 'base64');
-        let plaintext = crypto.privateDecrypt(this.userPrivateKey, buffer);
-
-        return plaintext.toString('utf8')
+    decryptWithUserPrivateKey(cypher: string): string {
+        let enc = this.userCrypto.decrypt(cypher);
+        return enc.toString();
     }
 
-    decryptPublic(cypher: string): string {
-        let buffer = Buffer.from(cypher, 'base64');
-        let plaintext = crypto.publicDecrypt(this.serverPublicKey, buffer);
-
-        return plaintext.toString('utf8')
+    decryptWithServerPublicKey(cypher: string): string {
+        let enc = this.serverCrypto.decrypt(cypher);
+        return enc.toString();
     }
+
+    
 }
