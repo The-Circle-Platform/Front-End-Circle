@@ -28,7 +28,7 @@ export class ProfilePageComponent {
                 console.log('Length van afbeeldinge');
                 console.log(image.length);
 
-                console.log('Here', this.PfpUser); // ------- How does this work? -Xin?
+                console.log('Here', this.PfpUser); // ------- How does this work?
 
                 if (this.PfpUser) {
                     this.PfpUser.Pfp = {

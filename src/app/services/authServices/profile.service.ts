@@ -3,7 +3,7 @@ import { UserService } from '../userServices/user.service';
 import { securityService } from './security';
 
 @Injectable({ providedIn: 'root' })
-export class profileService {
+export class ProfileService {
     tokenKey: string;
 
     constructor(
