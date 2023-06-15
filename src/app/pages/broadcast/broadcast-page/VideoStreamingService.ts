@@ -19,32 +19,23 @@ export class VideoStreamingService {
         await this.getOrCreateConnection();
         console.log('is connected: ', this.isConnected);
         console.log('chunk: ' + JSON.stringify( chunks[0]));
-        //let testje = new TextEncoder().encode('blablabla');
-        //let iets = await  chunks[0].text();
-        //let data = new UserModel('thomas',  iets );
 
-        //weird unknown type
+        let Astring: string = await blobToBase64(chunks[0]);
 
-        let probablyNotAString = await blobToBase64(chunks[0])
-        console.log("something", probablyNotAString)
+        let base64String = Astring.substring(Astring.indexOf(',') + 1);
+        console.log('EpicString: ',base64String);
 
-        // string of the 64. Need string!!! aaaaargh.
-
-        let Astring: string = blobToBase64(chunks[0]).toString()
-        console.log("A String?", Astring)
-
-        //
-        function blobToBase64(blob: any) {
-            return new Promise((resolve, data: any) => {
+        function blobToBase64(blob: Blob): Promise<string> {
+            return new Promise((resolve, data) => {
                 const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
+                reader.onloadend = () => resolve(reader.result as string);
                 reader.readAsDataURL(blob);
 
             });
         }
+        let data = new UserModel('thomas',  base64String );
 
-
-        //await this.hubConnection.invoke('Upload', data);
+        await this.hubConnection.invoke('Upload', data);
 
 
 
