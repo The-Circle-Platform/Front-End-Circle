@@ -64,12 +64,14 @@ export class OnlineListComponent implements OnInit {
 
     DummyData(): User[] {
         return [
-            { id: 66, isOnline: true, userName: 'TestDave', followCount: 13 },
+            { id: 66, isOnline: true, userName: 'TestDave', followCount: 13 , email: "dave@test.nl", balance: 5},
             {
                 id: 67,
                 isOnline: false,
                 userName: 'TestLinda',
                 followCount: 138,
+                email: "linda@test.nl",
+                balance: 10
             },
         ];
     }
