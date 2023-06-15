@@ -1,4 +1,4 @@
-<form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <label for="inputUserName">Gebruikersnaam</label>
         <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName"

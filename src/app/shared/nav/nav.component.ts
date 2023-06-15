@@ -11,11 +11,18 @@ export class NavComponent implements OnInit {
     @Input() title!: string;
     isNavbarCollapsed = true;
     loggedInUser$!: Observable<string | undefined>;
+    username: string | undefined;
+    // PfpUser: PfpUser | undefined;
 
     constructor(private authService: AuthService) {}
 
     ngOnInit(): void {
         this.loggedInUser$ = this.authService.currentToken$;
+
+        const user = this.authService.getDecodedToken();
+
+        this.username =
+            user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
     }
 
     logout(): void {

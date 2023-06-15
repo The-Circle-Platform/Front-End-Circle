@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { User } from 'src/app/Domain/Models/User';
-import { LoggerService } from 'src/app/services/loggerServices/logger.service';
-import { userService } from 'src/app/services/userServices/user.service';
+import { User } from '../../../Domain/Models/User';
+import { LoggerService } from '../../../services/loggerServices/logger.service';
+import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
     selector: 'app-online-list',
@@ -19,7 +19,7 @@ export class OnlineListComponent implements OnInit {
     currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
 
     constructor(
-        public userService: userService,
+        public userService: UserService,
         private http: HttpClient,
         private logger: LoggerService
     ) {
