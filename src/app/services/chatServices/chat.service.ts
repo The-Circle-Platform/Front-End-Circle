@@ -42,7 +42,7 @@ export class ChatService{
                 
 
                 // Assigns new user to response.
-                this.ListOfChats = response.Messages;
+                this.ListOfChats = response.OriginalList;
             }
         );
 
@@ -68,7 +68,7 @@ export class ChatService{
         const payload: ChatRequestDTO = {
             Signature: [],
             SenderUserId: chatMessage.WebUserId,
-            Message: chatMessage,
+            OriginalData: chatMessage,
         };
 
         // Sends payload to server.
