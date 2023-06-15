@@ -1,15 +1,19 @@
 <p>profile-page works!</p>
 
-<p>
-    <label for="Profielfoto">Profielfoto</label>
-</p>
-<input placeholder="Upload je profielfoto." type="file" id="file" (change)="onSelectFile($event)" name="Profielfoto">
-<div class="ImageSelector">
-    Afbeelding geselecteerd:<br />
-    <span *ngIf="PfpUser && PfpUser.Pfp">
-        Afbeeldingsnaam: {{PfpUser.Pfp.ImageName}}
-    </span>
-    <span *ngIf="!PfpUser || !PfpUser.Pfp">
-        Geen afbeelding geselecteerd.
-    </span>
-</div>
+<form class="form-signin" [formGroup]="pfpForm" (ngSubmit)="onSubmit()">
+
+    <p>
+        <label for="Profielfoto">Profielfoto</label>
+    </p>
+    <input placeholder="Upload je profielfoto." type="file" id="file" (change)="onSelectFile($event)"
+        name="Profielfoto">
+    <div class="ImageSelector">
+        Afbeelding geselecteerd:<br />
+        <span *ngIf="PfpUser && PfpUser.Pfp">
+            Afbeeldingsnaam: {{PfpUser.Pfp.ImageName}}
+        </span>
+        <span *ngIf="!PfpUser || !PfpUser.Pfp">
+            Geen afbeelding geselecteerd.
+        </span>
+    </div>
+</form>

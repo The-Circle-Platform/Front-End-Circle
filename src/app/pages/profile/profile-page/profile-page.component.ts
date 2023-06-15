@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PfpUser } from 'src/app/Domain/Models/User';
+import { UserService } from 'src/app/services/userServices/user.service';
 
 @Component({
     selector: 'app-profile-page',
@@ -8,6 +11,13 @@ import { PfpUser } from 'src/app/Domain/Models/User';
 })
 export class ProfilePageComponent {
     PfpUser: PfpUser | undefined;
+    pfpForm!: FormGroup;
+
+    constructor(
+        private fb: FormBuilder,
+        public userService: UserService,
+        private router: Router
+    ) {}
 
     onSelectFile(event: any) {
         console.log('onSelectFile');
@@ -29,6 +39,15 @@ export class ProfilePageComponent {
                     };
                 }
             };
+        }
+    }
+
+    onSubmit(): void {
+        if (this.pfpForm.value.userName != '') {
+            this.userService.uploadPfp(
+                this.pfpForm.value.imageFile.name,
+                this.pfpForm.value.image
+            );
         }
     }
 }

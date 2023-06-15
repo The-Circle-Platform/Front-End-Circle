@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DecodedToken, PfpUser } from 'src/app/Domain/Models/User';
 import { AuthService } from '../../services/authServices/auth.service';
 
 @Component({

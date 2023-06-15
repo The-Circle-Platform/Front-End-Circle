@@ -6,7 +6,7 @@ import { User } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 
 @Injectable({ providedIn: 'root' })
-export class userService implements IService<User> {
+export class UserService implements IService<User> {
     private siteEndpoint: string;
 
     constructor(
@@ -17,6 +17,7 @@ export class userService implements IService<User> {
             this.configService.getConfig().apiEndpoint
         }api/user`;
     }
+
     Get(id: number): Observable<User> {
         return this.httpClient.get<User>(this.siteEndpoint + '/' + id);
     }
@@ -30,6 +31,10 @@ export class userService implements IService<User> {
     }
 
     Update(entity: User): Observable<User> {
+        throw new Error('Method not implemented.');
+    }
+
+    uploadPfp(name: string, image: string) {
         throw new Error('Method not implemented.');
     }
 }

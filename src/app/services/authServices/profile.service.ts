@@ -1,30 +1,32 @@
-import { Injectable } from "@angular/core";
-import { userService } from "../userServices/user.service";
-import { User } from "src/app/Domain/Models/User";
-import { securityService } from "./security";
+import { Injectable } from '@angular/core';
+import { UserService } from '../userServices/user.service';
+import { User } from 'src/app/Domain/Models/User';
+import { securityService } from './security';
 
-@Injectable({providedIn: 'root'})
-export class profileService{
-
+@Injectable({ providedIn: 'root' })
+export class profileService {
     tokenKey: string;
 
-    constructor(private userService: userService, private secureService: securityService){
-        this.tokenKey = "local";
+    constructor(
+        private userService: UserService,
+        private secureService: securityService
+    ) {
+        this.tokenKey = 'local';
     }
 
-    DeleteLocalToken(){
+    DeleteLocalToken() {
         localStorage.clear();
     }
 
-    StoreToken(authToken: string){
+    StoreToken(authToken: string) {
         localStorage.setItem(this.tokenKey, authToken);
     }
 
-    GetToken(): string | undefined{
+    GetToken(): string | undefined {
         const token = localStorage.getItem(this.tokenKey);
-        if(token){
-            return token
-        } else{
+        if (token) {
+            return token;
+        } else {
             return undefined;
         }
     }
