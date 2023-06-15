@@ -40,15 +40,14 @@ export class BroadcastPageComponent implements OnInit {
       console.error('Error accessing webcam:', error);
     }
 
-    // Start receiving the video stream
-    await this._VideoStreamingService.startVideoStreaming(this.chunks)
+
 
   }
 
-  private processVideoData(videoData: string): void {
+  private processVideoData(videoData: any): void {
     // Update the video element with the new video frame
     const videoElement = this.videoPlayer.nativeElement;
-    videoElement.src = videoData;
+    videoElement.src = videoData.toString();
     videoElement.play();
   }
 
@@ -70,31 +69,28 @@ export class BroadcastPageComponent implements OnInit {
   async startStream() {
     try {
       this.recordingCamInit = true;
-
       this.chunks = [];
       this.mediaRecorder = new MediaRecorder(this.stream);
+
       this.mediaRecorder.addEventListener('dataavailable', (event) => {
         if (event.data.size > 0) {
           this.chunks.push(event.data);
         }
       });
 
-      this.mediaRecorder.addEventListener('stop', () => {
-        const videoBlob = new Blob(this.chunks, {type: 'video/mp4'});
-        const videoUrl = URL.createObjectURL(videoBlob);
-        const a = document.createElement('a');
-        a.href = videoUrl;
-        a.download = 'captured-video.mp4';
-        a.click();
-        URL.revokeObjectURL(videoUrl);
-      });
-
-      this.mediaRecorder.start();
+      this.mediaRecorder.start(2000);
       this.recording = true;
 
-        console.log(this.chunks)
-
-
+        // Send the recorded video chunks to the service at regular intervals
+        setInterval(() => {
+          console.log('chunkssssss Interval', this.chunks);
+          if (this.chunks.length) {
+            this._VideoStreamingService.startVideoStreaming(this.chunks)
+            this.chunks = []; // Clear the recorded chunks
+          } else {
+            console.log('no chunks available.');
+          }
+        }, 2000);
     } catch (error) {
       console.error('Error accessing webcam:', error);
     }
@@ -105,8 +101,17 @@ export class BroadcastPageComponent implements OnInit {
       this.mediaRecorder.stop();
       this.recording = false;
       this.recordingCamInit=false;
-      console.log(this.chunks)
       this._VideoStreamingService.stopVideoStreaming();
     }
+
+    this.mediaRecorder.addEventListener('stop', () => {
+      const videoBlob = new Blob(this.chunks, {type: 'video/mp4'});
+      const videoUrl = URL.createObjectURL(videoBlob);
+      const a = document.createElement('a');
+      a.href = videoUrl;
+      a.download = 'captured-video.mp4';
+      a.click();
+      URL.revokeObjectURL(videoUrl);
+    });
   }   
 }
