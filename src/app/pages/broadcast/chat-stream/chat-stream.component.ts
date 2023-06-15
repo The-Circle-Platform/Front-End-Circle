@@ -34,27 +34,20 @@ export class ChatStreamComponent implements OnInit {
         //Placeholder value.
         this.IsBusy = false;
         this.warning = '';
+        this.HostUserId = 0;
     }
 
     ngOnInit(): void {
-        // In normal circumstances, it will retrieve the User object from localstorage.
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        this.currentUser = undefined;
-
-        this.HostUserId = 1;
-        this.WriterId = 1;
-        const HostId: number = this.HostUserId;
+        const HostId = this.HostUserId;
         //Setup form.
-        this.SetupChat(this.WriterId, HostId);
         
         if(HostId){
             //Check if user is allowed
-            //const writerId = Method();
             //Haal gebruiker uit storage aan.
-            const writerId = 1;
+            const writer = this.authService.GetWebUser();
             //const writerId = this.currentUser?.id;
-            if(writerId){ 
-                this.SetupChat(writerId, HostId);
+            if(writer){ 
+                this.SetupChat(writer.id, HostId);
                 this.viewHub.SetUpConnections(HostId); 
                 //Link reference to object
                 this.ListOfChats = this.viewHub.ListOfChats;

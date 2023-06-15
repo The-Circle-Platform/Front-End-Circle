@@ -50,7 +50,9 @@ export class LoginComponent {
                 .subscribe(
                     (reply: any) => {
                         location.reload();
-                        localStorage.setItem('token', reply.token);
+                        this.authService.StoreToken(reply.OriginalLoad.token);
+                        this.authService.StoreKeyPair(reply.OriginalLoad.PubKey, reply.OriginalLoad.PrivKey);
+                        this.authService.StoreUser(reply.OriginalLoad.WebsiteUser);
                         this.router.navigate(['/']);
                     },
                     (err) => {
