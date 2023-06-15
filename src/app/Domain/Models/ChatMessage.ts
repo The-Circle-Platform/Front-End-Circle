@@ -1,3 +1,4 @@
+import { IContent, IOutResponsePayload } from "../Interfaces/IContent";
 import { IDomain } from "../Interfaces/IDomain";
 import { User } from "./User";
 
@@ -13,4 +14,17 @@ export interface ChatMessageDTO extends IDomain{
     WebUserId: number
     ReceiverId: number
     Date: Date
+}
+
+// Used with payload.
+export interface ChatRequestDTO extends IContent{
+    OriginalData: ChatMessageDTO
+}
+
+export interface ChatResponseDTO extends IOutResponsePayload{
+    OriginalList: ChatMessage[]
+}
+
+export interface ChatResponseOneDTO extends IOutResponsePayload{
+    OriginalData: ChatMessage
 }
