@@ -6,10 +6,10 @@
         name="Profielfoto">
     <div class="ImageSelector">
         Afbeelding geselecteerd:<br />
-        <span *ngIf="PfpUser && PfpUser.Pfp">
-            Afbeeldingsnaam: {{PfpUser.Pfp.ImageName}}
+        <span *ngIf="pfpUser && pfpUser.Pfp">
+            Afbeeldingsnaam: {{pfpUser.Pfp.ImageName}}
         </span>
-        <span *ngIf="!PfpUser || !PfpUser.Pfp">
+        <span *ngIf="!pfpUser || !pfpUser.Pfp">
             Geen afbeelding geselecteerd.
         </span>
     </div>

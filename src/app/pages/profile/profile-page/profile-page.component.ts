@@ -8,11 +8,15 @@ import { UserService } from '../../../services/userServices/user.service';
     styleUrls: ['./profile-page.component.css'],
 })
 export class ProfilePageComponent {
-    PfpUser: PfpUser | undefined;
+    pfpUser: PfpUser | undefined;
 
     constructor(public userService: UserService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //    this.userService.getPfp(userId).subscribe((pfpUser) => {
+        //         this.pfpUser = pfpUser;
+        //     })
+    }
 
     onSelectFile(event: any) {
         console.log('onSelectFile');
@@ -28,10 +32,10 @@ export class ProfilePageComponent {
                 console.log('Length van afbeeldinge');
                 console.log(image.length);
 
-                console.log('Here', this.PfpUser); // ------- How does this work?
+                console.log('Here', this.pfpUser); // ------- How does this work?
 
-                if (this.PfpUser) {
-                    this.PfpUser.Pfp = {
+                if (this.pfpUser) {
+                    this.pfpUser.Pfp = {
                         ImageName: imageFile.name,
                         Base64Image: image,
                     };
@@ -41,9 +45,9 @@ export class ProfilePageComponent {
     }
 
     onSubmit(): void {
-        console.log('Here', this.PfpUser);
-        if (this.PfpUser) {
-            this.userService.uploadPfp(this.PfpUser);
+        console.log('Here', this.pfpUser);
+        if (this.pfpUser) {
+            this.userService.uploadPfp(this.pfpUser);
         }
     }
 }
