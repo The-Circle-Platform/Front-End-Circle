@@ -14,7 +14,7 @@ export class VideoStreamingService {
 
 
 
-    public async startVideoStreaming(chunks: Blob[]): Promise<void> {
+    public async startVideoStreaming(chunks: Blob[]) {
         await this.getOrCreateConnection();
         console.log('is connected: ', this.isConnected);
 

@@ -41,14 +41,7 @@ export class BroadcastPageComponent implements OnInit {
     }
 
     // Start receiving the video stream
-    this._VideoStreamingService.startVideoStreaming(this.chunks).subscribe(
-        (videoData: string) => {
-          // Process the received video data, e.g., update the video element with the new frame
-          this.processVideoData(videoData);
-        },
-        (error: any) => {
-          console.error('Error receiving video stream:', error);
-        });
+    await this._VideoStreamingService.startVideoStreaming(this.chunks)
 
   }
 
