@@ -30,7 +30,7 @@ import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.c
 import { LoginComponent } from "./pages/login/login.component";
 import { RegistrationPageComponent } from "./pages/registration/registration-page/registration-page.component";
 import { ConfigModule } from "./shared/moduleconfig/config.module";
-import { environment } from "src/environments/environment";
+import { environment } from "../environments/environment";
 import { ReactiveFormsModule } from "@angular/forms";
 import { LoggedInAuthGuard } from "./services/authServices/auth.guards";
 import { FormsModule } from "@angular/forms";

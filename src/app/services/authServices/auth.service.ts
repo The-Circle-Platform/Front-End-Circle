@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ConfigService } from 'src/app/shared/moduleconfig/config.service';
+import { ConfigService } from '../../shared/moduleconfig/config.service';
 import { DecodedToken, IRegister } from '../../Domain/Models/User';
 
 @Injectable({

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PfpUser } from 'src/app/Domain/Models/User';
-import { UserService } from 'src/app/services/userServices/user.service';
+import { PfpUser } from '../../../Domain/Models/User';
+import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
     selector: 'app-profile-page',
