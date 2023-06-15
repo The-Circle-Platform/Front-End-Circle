@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PfpUser } from '../../../Domain/Models/User';
+import { PfpUser, User } from '../../../Domain/Models/User';
 import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { UserService } from '../../../services/userServices/user.service';
     styleUrls: ['./profile-page.component.css'],
 })
 export class ProfilePageComponent {
-    pfpUser: PfpUser | undefined;
+    pfpUser: User | undefined;
 
     constructor(public userService: UserService) {}
 
@@ -35,7 +35,11 @@ export class ProfilePageComponent {
                 console.log('Here', this.pfpUser); // ------- How does this work?
 
                 if (this.pfpUser) {
-                    this.pfpUser.Pfp = {
+                    this.pfpUser = {
+                        id: 0,
+                        userName: '',
+                        isOnline: true,
+                        followCount: 0,
                         ImageName: imageFile.name,
                         Base64Image: image,
                     };
