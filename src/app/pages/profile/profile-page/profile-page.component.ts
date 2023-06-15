@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { PfpUser } from '../../../Domain/Models/User';
 import { UserService } from '../../../services/userServices/user.service';
 
@@ -11,13 +9,10 @@ import { UserService } from '../../../services/userServices/user.service';
 })
 export class ProfilePageComponent {
     PfpUser: PfpUser | undefined;
-    pfpForm!: FormGroup;
 
-    constructor(
-        private fb: FormBuilder,
-        public userService: UserService,
-        private router: Router
-    ) {}
+    constructor(public userService: UserService) {}
+
+    ngOnInit(): void {}
 
     onSelectFile(event: any) {
         console.log('onSelectFile');
@@ -32,6 +27,9 @@ export class ProfilePageComponent {
                 const image = reader.result as string;
                 console.log('Length van afbeeldinge');
                 console.log(image.length);
+
+                console.log('Here', this.PfpUser); // ------- How does this work? -Xin?
+
                 if (this.PfpUser) {
                     this.PfpUser.Pfp = {
                         ImageName: imageFile.name,
@@ -43,11 +41,9 @@ export class ProfilePageComponent {
     }
 
     onSubmit(): void {
-        if (this.pfpForm.value.userName != '') {
-            this.userService.uploadPfp(
-                this.pfpForm.value.imageFile.name,
-                this.pfpForm.value.image
-            );
+        console.log('Here', this.PfpUser);
+        if (this.PfpUser) {
+            this.userService.uploadPfp(this.PfpUser);
         }
     }
 }

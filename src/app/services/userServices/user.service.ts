@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IService } from '../../Domain/Interfaces/IService';
-import { User } from '../../Domain/Models/User';
+import { PfpUser, User } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +19,7 @@ export class UserService implements IService<User> {
     }
 
     Get(id: number): Observable<User> {
-        return this.httpClient.get<User>(this.siteEndpoint + '/' + id);
+        return this.httpClient.get<User>(`${this.siteEndpoint}/${id}`);
     }
 
     GetAll(): Observable<User[]> {
@@ -27,14 +27,17 @@ export class UserService implements IService<User> {
     }
 
     Create(entity: User): Observable<any> {
-        return this.httpClient.post(this.siteEndpoint, entity, {});
+        return this.httpClient.post(this.siteEndpoint, entity);
     }
 
     Update(entity: User): Observable<User> {
-        throw new Error('Method not implemented.');
+        return this.httpClient.put<User>(
+            `${this.siteEndpoint}/${entity.id}`,
+            entity
+        );
     }
 
-    uploadPfp(name: string, image: string) {
-        throw new Error('Method not implemented.');
+    uploadPfp(pfpUser: PfpUser): Observable<any> {
+        return this.httpClient.post(`${this.siteEndpoint}/pfp`, pfpUser);
     }
 }

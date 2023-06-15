@@ -1,23 +1,8 @@
-<!--<div fxLayoutAlign="center center" fxFlexFill>-->
-<!--  <mat-card fxFlex="25">-->
-<!--    <form fxLayoutAlign="stretch" fxLayout="column">-->
-<!--      <mat-form-field>-->
-<!--        <input matInput placeholder="Vul Email in" />-->
-<!--      </mat-form-field>-->
-
-<!--      <mat-form-field>-->
-<!--        <input matInput matInput placeholder="Vul Gebruikersnaam in" />-->
-<!--      </mat-form-field>-->
-<!--      <button mat-raised-button type="submit">Registreer</button>-->
-<!--    </form>-->
-<!--  </mat-card>-->
-<!--</div>-->
-<!--###########################################################################################-->
-<form class="form-signin" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="inputEmail">Email</label>
     <input type="email" class="form-control" placeholder="email" formControlName="email" email id="inputEmail"
-           [ngClass]="{
+      [ngClass]="{
         'is-invalid':
           registerForm.get('email')?.invalid &&
           registerForm.get('email')?.touched
@@ -29,14 +14,14 @@
     </span>
   </div>
   <div class="form-group">
-  <label for="inputUserName">Gebruikersnaam</label>
-  <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName"
-         [ngClass]="{
+    <label for="inputUserName">Gebruikersnaam</label>
+    <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName"
+      [ngClass]="{
         'is-invalid':
           registerForm.get('userName')?.invalid &&
           registerForm.get('userName')?.touched
       }" />
-  <span *ngIf="
+    <span *ngIf="
         !registerForm.get('userName')?.valid && registerForm.get('userName')?.touched
       " class="invalid-feedback">
       <p id="userName-invalid">Voer een geldige gebruikersnaam in</p>
@@ -45,7 +30,7 @@
   </div>
 
   <div class="form-group">
-    <input type="checkbox" formControlName="role"  name="role" id="InputRole"> Administrator rol
+    <input type="checkbox" formControlName="role" name="role" id="InputRole"> Administrator rol
   </div>
 
   <div class="form-group">
@@ -53,9 +38,6 @@
       Registreren
     </button>
   </div>
-<!--  <div *ngIf="wrongPwOrUserName">-->
-<!--    <p>Gebruikersnaam of wachtwoord is onjuist</p>-->
-<!--  </div>-->
   <p>
     <a routerLink="/">Home</a> |
     <a routerLink="/login">Login</a>
