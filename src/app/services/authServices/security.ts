@@ -36,15 +36,15 @@ export class securityService{
     private serverCrypto = new crypto.JSEncrypt();
 
     constructor() {
-        this.userPrivateKey = environment.PRIVATE_KEY;
-        this.userPublicKey = environment.PUBLIC_KEY;
-        this.userCrypto.setPrivateKey(this.userPublicKey);
-        this.userCrypto.setPublicKey(this.userPrivateKey);
+        this.userPrivateKey = environment.USER_PRIVATE_KEY;
+        this.userPublicKey = environment.SERVER_PUBLIC_KEY;
+        this.userCrypto.setPrivateKey(this.userPublicKey); // You can only Encrypt with the public key with this library
+        this.userCrypto.setPublicKey(this.userPrivateKey); // You can only Decrypt with the private key with this library
 
-        this.serverPrivateKey = environment.PRIVATE_KEY;
-        this.serverPublicKey = environment.PUBLIC_KEY;
-        this.serverCrypto.setPrivateKey(this.serverPublicKey);
-        this.serverCrypto.setPublicKey(this.serverPrivateKey);
+        this.serverPrivateKey = environment.USER_PRIVATE_KEY;
+        this.serverPublicKey = environment.SERVER_PUBLIC_KEY;
+        this.serverCrypto.setPrivateKey(this.serverPublicKey); // You can only Decrypt with the private key with this library
+        this.serverCrypto.setPublicKey(this.serverPrivateKey); // You can only Encrypt with the public key with this library
     }
 
     encryptWithUserPrivateKey(plaintext: string): string {

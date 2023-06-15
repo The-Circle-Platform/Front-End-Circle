@@ -6,6 +6,7 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from 'src/app/shared/moduleconfig/config.service';
 import { IRegister } from '../../Domain/Models/User';
+import {securityService} from "./security";
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +14,8 @@ import { IRegister } from '../../Domain/Models/User';
 export class AuthService {
     public currentToken$ = new BehaviorSubject<string | undefined>(undefined);
     private readonly CURRENT_TOKEN = 'token';
+    private readonly CURRENT_PRIVATE_KEY = 'privateKey';
+    private readonly CURRENT_PUBLIC_KEY = 'publicKey';
     private readonly headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });
@@ -21,7 +24,8 @@ export class AuthService {
     constructor(
         private configService: ConfigService,
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private securityService: securityService
     ) {
         this.siteEndpoint = `${
             this.configService.getConfig().apiEndpoint
@@ -53,9 +57,14 @@ export class AuthService {
 
     login(userName: string, password: string): Observable<string | undefined> {
         const credentials = {
+            // userName: this.securityService.encryptWithServerPublicKey(userName),
+            // password: this.securityService.encryptWithServerPublicKey(password),
             userName: userName,
             password: password,
         };
+        console.log(`Username: ${credentials.userName} | Password: ${credentials.password}`)
+        // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
+
         return this.http.post<string>(
             `${this.siteEndpoint}/login`,
             credentials,
@@ -107,6 +116,8 @@ export class AuthService {
                 if (success) {
                     console.log('logout - removing local user info');
                     localStorage.removeItem(this.CURRENT_TOKEN);
+                    localStorage.removeItem(this.CURRENT_PRIVATE_KEY);
+                    localStorage.removeItem(this.CURRENT_PUBLIC_KEY);
                     this.currentToken$.next(undefined);
                 } else {
                     console.log('navigate result:', success);
