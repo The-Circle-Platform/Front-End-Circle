@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IService } from '../../Domain/Interfaces/IService';
-import { PfpUser, User } from '../../Domain/Models/User';
+import { User } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 
 @Injectable({ providedIn: 'root' })
@@ -38,13 +38,11 @@ export class UserService implements IService<User> {
     }
 
     uploadPfp(pfpUser: User): Observable<any> {
-        console.log('hij roept de methodedwafafa aan');
-        return this.httpClient.put(`${this.siteEndpoint}/2/pfp`, pfpUser);
+        console.log('Here');
+        return this.httpClient.put<User>(`${this.siteEndpoint}/1/pfp`, pfpUser);
     }
 
-    getPfp(userId: number): Observable<any> {
-        // TODO: Update this to use the correct endpoint
-        console.log('hij roept de methode aan', userId);
-        return this.httpClient.get(`${this.siteEndpoint}/${userId}`);
+    getPfp(user: User): Observable<any> {
+        return this.httpClient.get<User>(`${this.siteEndpoint}/${user.id}/pfp`);
     }
 }

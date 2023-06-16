@@ -13,9 +13,12 @@ export class ProfilePageComponent {
     constructor(public userService: UserService) {}
 
     ngOnInit(): void {
-        //    this.userService.getPfp(userId).subscribe((pfpUser) => {
-        //         this.pfpUser = pfpUser;
-        //     })
+        if (this.pfpUser) {
+            this.userService.getPfp(this.pfpUser).subscribe((pfpUser) => {
+                console.log(pfpUser);
+                this.pfpUser = pfpUser;
+            });
+        }
     }
 
     onSelectFile(event: any) {
@@ -23,35 +26,34 @@ export class ProfilePageComponent {
         if (event.target.files && event.target.files[0]) {
             const imageFile: File = event.target.files[0];
             const reader = new FileReader();
-            reader.readAsDataURL(event.target.files[0]); // read file as data url
-            //console.dir(event.target.files[0])
+            reader.readAsDataURL(event.target.files[0]);
             reader.onload = () => {
-                // called once readAsDataURL is completed
-                // set the image value to the Base64 string -> can be saved in dtb
                 const image = reader.result as string;
-                console.log('Length van afbeeldinge');
-                console.log(image.length);
 
-                /* if (this.pfpUser) { */
-                this.pfpUser = {
-                    id: 0,
-                    userName: '',
-                    isOnline: true,
-                    followCount: 0,
-                    ImageName: imageFile.name,
-                    Base64Image: image,
-                };
-                //}
-                console.log('Here', this.pfpUser?.Base64Image); // ------- How does this work?
+                if (!this.pfpUser) {
+                    this.pfpUser = {
+                        id: 1,
+                        userName: 'test',
+                        isOnline: true,
+                        followCount: 0,
+                        ImageName: imageFile.name,
+                        Base64Image: image,
+                    };
+                }
             };
         }
     }
 
     onSubmit(): void {
-        console.log('Here', this.pfpUser);
         if (this.pfpUser) {
-            console.log('onsubmit uuctcutcu', this.pfpUser);
-            this.userService.uploadPfp(this.pfpUser);
+            this.userService.uploadPfp(this.pfpUser).subscribe(
+                (reply: any) => {
+                    console.log(reply);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
         }
     }
 }
