@@ -64,7 +64,7 @@ export class ChatStreamComponent implements OnInit{
   }
 
   private SetupChat(userId: number, hostId: number){
-    this.currentChatBox = { Message: "", id: 0, WebUserId: userId, ReceiverId: hostId, Date: new Date() };
+    this.currentChatBox = { Message: "", Id: 0, WebUserId: userId, ReceiverId: hostId, Date: new Date() };
   }
 
   private connectToChatHub(){

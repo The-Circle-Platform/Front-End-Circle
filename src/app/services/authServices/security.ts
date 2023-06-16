@@ -59,10 +59,15 @@ export class securityService {
         return signature;
     }
 
-    verify(message: string, signature: string): boolean {
+    verify(message: any | any[], signature: string, key: string): boolean {
+
+        this.serverCrypto.setPublicKey(key);
+        this.serverCrypto.setKey(key);
+        this.serverCrypto.setPrivateKey(key);
+        console.log(message);
+        console.log(signature);
         // @ts-ignore
-        var verified = this.serverCrypto.verify(hash, signature, CryptoJS.SHA256);
-        console.log(verified)
+        var verified = this.serverCrypto.verify(message, signature, CryptoJS.SHA256);
         return verified;
     }
 

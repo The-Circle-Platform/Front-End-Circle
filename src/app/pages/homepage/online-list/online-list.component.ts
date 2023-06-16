@@ -52,11 +52,15 @@ export class OnlineListComponent implements OnInit {
             const ss = this.http
                 .get<userDTO>('https://localhost:7058/api/user')
                 .subscribe((e) => {
-                    console.log("HALP ME PLZ :(")
+
                     console.log(e.originalList)
                     this.users = e.originalList as User[];
                     console.log(this.users)
                     this.users = this.SortList(this.users);
+                    console.log("VERIFYING REQUEST")
+                    console.log(e);
+                    let jsonData = JSON.stringify(e.originalList, null, 0);
+                    console.log(this.securityService.verify(jsonData, e.signature!, e.pubKey))
                     //Will assign new value to behavioursubject.
                     /*value = !value;
           e[0].isOnline = value;*/
@@ -73,30 +77,18 @@ export class OnlineListComponent implements OnInit {
         this.list$.next(newUserList);
     }
 
-    DummyData(): User[] {
-        return [
-            { id: 66, isOnline: true, userName: 'TestDave', followCount: 13 , email: "dave@test.nl", balance: 5},
-            {
-                id: 67,
-                isOnline: false,
-                userName: 'TestLinda',
-                followCount: 138,
-                email: "linda@test.nl",
-                balance: 10
-            },
-        ];
-    }
+
 
     SortList(value: User[]): User[] {
         if (this.currentSortOrder == 'asc') {
-            return value.sort((a, b) => a.userName.localeCompare(b.userName));
+            return value.sort((a, b) => a.UserName.localeCompare(b.UserName));
         } else if (this.currentSortOrder == 'desc') {
-            return value.sort((a, b) => b.userName.localeCompare(a.userName));
+            return value.sort((a, b) => b.UserName.localeCompare(a.UserName));
         } else {
             return value.sort((a: User, b: User) => {
-                if (a.isOnline && !b.isOnline) {
+                if (a.IsOnline && !b.IsOnline) {
                     return -1;
-                } else if (!a.isOnline && b.isOnline) {
+                } else if (!a.IsOnline && b.IsOnline) {
                     return 1;
                 } else {
                     return 0;

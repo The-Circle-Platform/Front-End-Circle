@@ -13,7 +13,7 @@ export class UserCardComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.User);
     if(!this.User){
-      this.User = {id: 0, userName: "Unknown", isOnline: false, followCount: 1, email: "unknown", balance: 0};
+      this.User = {Id: 0, UserName: "Unknown", IsOnline: false, FollowCount: 1, Email: "unknown", Balance: 0};
     }
   }
 

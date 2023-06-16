@@ -1,7 +1,7 @@
 import { IDomain } from '../Interfaces/IDomain';
 
 export interface IUser extends IDomain {
-    userName: string;
+    UserName: string;
 }
 
 export interface DecodedToken {
@@ -25,10 +25,10 @@ export interface DecodedToken {
 // }
 
 export interface User extends IUser {
-    isOnline: boolean;
-    followCount: number;
-    email: string;
-    balance: number;
+    IsOnline: boolean;
+    FollowCount: number;
+    Email: string;
+    Balance: number;
 }
 
 export interface IRegister {
@@ -44,8 +44,9 @@ export class userDTO {
     originalList: User[] | undefined;
     publicKey: string | undefined;
     randomId: string | undefined;
-    signature: string | undefined;
+    signature: any;
     senderUserId: number | undefined;
-
+    privKey: any;
+    pubKey: any;
 
 }
