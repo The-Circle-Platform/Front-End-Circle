@@ -7,6 +7,7 @@ import { BroadcastPageComponent } from "./pages/broadcast/broadcast-page/broadca
 import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { RegistrationPageComponent } from "./pages/registration/registration-page/registration-page.component";
+import {ViewerCountComponent} from "./pages/broadcast/viewer-count/viewer-count.component";
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "homepage" },
@@ -21,6 +22,10 @@ const routes: Routes = [
     pathMatch: "full",
     component: RegistrationPageComponent,
   },
+    //temp path for development of view
+  {path: "viewerCount",
+  pathMatch: "full",
+  component: ViewerCountComponent}
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 <div class="container">
     <h1>Chat</h1>
+    <h1>Chat Interface</h1>
     <div class="chat-container">
 
         <div [ngClass]="WriterId == mess.writer.id ? 'own-message' : (HostUserId == mess.writer.id ? 'bot-message' : 'user-message')" 

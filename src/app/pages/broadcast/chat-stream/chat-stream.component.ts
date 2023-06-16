@@ -12,6 +12,7 @@ import {LoggerService} from "../../../services/loggerServices/logger.service";
   styleUrls: ['./chat-stream.component.css']
 })
 
+
 export class ChatStreamComponent implements OnInit{
 
   ListOfChats: ChatMessage[];
@@ -132,4 +133,5 @@ export class ChatStreamComponent implements OnInit{
       console.log("Niet gelukt");
     });
   }
+
 }

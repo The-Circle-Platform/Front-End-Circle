@@ -1,0 +1,14 @@
+.viewCount{
+    color: ghostwhite;
+    background-color: black;
+    align-items: center;
+    border: ghostwhite;
+    margin-left: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    scale: 120%;
+    border-radius: 12px;
+    font-weight: 500;
+    width: fit-content;
+
+}

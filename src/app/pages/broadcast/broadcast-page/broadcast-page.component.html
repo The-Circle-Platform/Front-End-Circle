@@ -4,7 +4,10 @@
             <!-- Where Chat comes -->
             
                 <h1>Chat Interface</h1>
-                <div class="chat-container">
+            <div class="viewCountWrapper">
+                <app-viewer-count [isStreamer] = true></app-viewer-count>
+            </div>
+            <div class="chat-container">
                     <div class="media user-message">
                         <div class="media-body">
                             <h5 class="mt-0">User</h5>
@@ -40,3 +43,5 @@
             </div>
         </div>
 </div>
+
+
