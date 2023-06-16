@@ -37,10 +37,15 @@ export class OnlineListComponent implements OnInit {
 
         // TODO: Decomment when function works fully
 
-        let encrypted = this.securityService.encryptWithUserPrivateKey("yo yo my friend");
-        let decrypted = this.securityService.decryptWithUserPrivateKey(encrypted);
-        console.log(`encrypted msg: ${encrypted}\ndecrypted msg: ${decrypted}`)
-
+        // let encrypted = this.securityService.sign("yo yo my friend");
+        // let decrypted = this.securityService.decryptWithUserPrivateKey(encrypted);
+        // console.log(`encrypted msg: ${encrypted}\ndecrypted msg: ${decrypted}`)
+        console.log('signature:')
+        let msg = "help me";
+        let sig = this.securityService.sign(msg);
+        console.log("Message: " + msg);
+        console.log(this.securityService.verify(msg, sig));
+        console.log('signature END')
         this.RefreshList();
     }
 

@@ -2,8 +2,10 @@ import { Injectable } from "@angular/core"
 import {config} from "rxjs";
 import {Buffer} from 'buffer/';
 // import * as crypto from "crypto-browserify";
+import * as CryptoJS from "crypto-js";
 import * as crypto from "jsencrypt";
 import {environment} from "../../../environments/environment";
+import {JSEncrypt} from "jsencrypt";
 
 @Injectable({providedIn: 'root'})
 export class securityService{
@@ -36,13 +38,13 @@ export class securityService{
     private serverCrypto = new crypto.JSEncrypt();
 
     constructor() {
-        this.userPrivateKey = environment.USER_PRIVATE_KEY;
-        this.userPublicKey = environment.SERVER_PUBLIC_KEY;
+        this.userPrivateKey = localStorage.getItem("privateKey");
+        this.userPublicKey = localStorage.getItem("publicKey");
         this.userCrypto.setPrivateKey(this.userPublicKey); // You can only Encrypt with the public key with this library
         this.userCrypto.setPublicKey(this.userPrivateKey); // You can only Decrypt with the private key with this library
 
-        this.serverPrivateKey = environment.USER_PRIVATE_KEY;
-        this.serverPublicKey = environment.SERVER_PUBLIC_KEY;
+        this.serverPrivateKey = localStorage.getItem("privateKey");
+        this.serverPublicKey = localStorage.getItem("publicKey");
         this.serverCrypto.setPrivateKey(this.serverPublicKey); // You can only Decrypt with the private key with this library
         this.serverCrypto.setPublicKey(this.serverPrivateKey); // You can only Encrypt with the public key with this library
     }
@@ -67,5 +69,14 @@ export class securityService{
         return enc.toString();
     }
 
-    
+    sign(plt:string): any {
+        // @ts-ignore
+        return this.userCrypto.sign(plt, CryptoJS.SHA256, "sha256")
+    }
+
+    verify(plaintext: string, signature: any): any {
+        // @ts-ignore
+        return this.userCrypto.verify(plaintext, signature, CryptoJS.SHA256)
+    }
+
 }
