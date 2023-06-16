@@ -38,8 +38,8 @@ export class UserService implements IService<User> {
     }
 
     uploadPfp(pfpUser: User): Observable<any> {
-        console.log('hij roept de methode aan', pfpUser);
-        return this.httpClient.post(`${this.siteEndpoint}/2/pfp`, pfpUser);
+        console.log('hij roept de methodedwafafa aan');
+        return this.httpClient.put(`${this.siteEndpoint}/2/pfp`, pfpUser);
     }
 
     getPfp(userId: number): Observable<any> {

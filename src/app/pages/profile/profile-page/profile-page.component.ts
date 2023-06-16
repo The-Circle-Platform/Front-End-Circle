@@ -50,6 +50,7 @@ export class ProfilePageComponent {
     onSubmit(): void {
         console.log('Here', this.pfpUser);
         if (this.pfpUser) {
+            console.log('onsubmit uuctcutcu', this.pfpUser);
             this.userService.uploadPfp(this.pfpUser);
         }
     }
