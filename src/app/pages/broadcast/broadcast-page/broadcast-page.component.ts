@@ -10,6 +10,10 @@ import { HubConnectionBuilder } from '@microsoft/signalr';
   styleUrls: ["./broadcast-page.component.css"],
 })
 export class BroadcastPageComponent implements OnInit, OnDestroy{
+  
+  NewStream: any | undefined;
+  HostId: number | undefined;
+  
   constructor() {}
   recordingCamInit: boolean = false;
   private subscription: Subscription = new Subscription;

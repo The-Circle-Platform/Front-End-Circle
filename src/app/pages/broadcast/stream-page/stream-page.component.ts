@@ -7,13 +7,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./stream-page.component.css']
 })
 export class StreamPageComponent implements OnInit {
-
-  HostId: number
+  NewStream: any;
+  HostId: number;
+  
   constructor(private router: ActivatedRoute){
     this.HostId = 0;
   }
   ngOnInit(): void {
     this.CheckParams();
+    //Get latest stream.
   }
 
   CheckParams(){

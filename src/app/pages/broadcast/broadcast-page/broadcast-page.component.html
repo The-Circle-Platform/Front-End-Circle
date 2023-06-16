@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <!-- TODO add host Id when stream function is done -->
-                <app-chat-stream></app-chat-stream>
+            <app-view-count [HostId]="HostId" [isStreamer]="true" [StreamId]="NewStream.Id"></app-view-count>
         </div>
         <div class="col">
             <div class="vidBox">
