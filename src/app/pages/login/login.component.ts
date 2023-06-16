@@ -38,6 +38,7 @@ export class LoginComponent {
     }
 
     onSubmit(): void {
+        console.log(this.loginForm.value);
         if (
             this.loginForm.value.userName != '' &&
             this.loginForm.value.password != ''
@@ -50,8 +51,10 @@ export class LoginComponent {
                 .subscribe(
                     (reply: any) => {
                         location.reload();
-                        this.authService.StoreToken(reply.OriginalLoad.token);
-                        this.authService.StoreUser(reply.OriginalLoad.WebsiteUser);
+                        this.authService.StoreToken(reply.token);
+                        // this.authService.StoreUser(
+                        //     reply.OriginalLoad.WebsiteUser
+                        // );
                         this.router.navigate(['/']);
                     },
                     (err) => {
