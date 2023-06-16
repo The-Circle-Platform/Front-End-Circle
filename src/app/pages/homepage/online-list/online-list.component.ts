@@ -77,18 +77,16 @@ export class OnlineListComponent implements OnInit {
         this.list$.next(newUserList);
     }
 
-
-
     SortList(value: User[]): User[] {
         if (this.currentSortOrder == 'asc') {
-            return value.sort((a, b) => a.UserName.localeCompare(b.UserName));
+            return value.sort((a, b) => a.userName.localeCompare(b.userName));
         } else if (this.currentSortOrder == 'desc') {
-            return value.sort((a, b) => b.UserName.localeCompare(a.UserName));
+            return value.sort((a, b) => b.userName.localeCompare(a.userName));
         } else {
             return value.sort((a: User, b: User) => {
-                if (a.IsOnline && !b.IsOnline) {
+                if (a.isOnline && !b.isOnline) {
                     return -1;
-                } else if (!a.IsOnline && b.IsOnline) {
+                } else if (!a.isOnline && b.isOnline) {
                     return 1;
                 } else {
                     return 0;

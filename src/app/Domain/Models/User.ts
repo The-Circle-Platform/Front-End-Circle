@@ -1,12 +1,12 @@
 import { IDomain } from '../Interfaces/IDomain';
 
 export interface IUser extends IDomain {
-    UserName: string;
+    userName: string;
 }
 
 export interface DecodedToken {
     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name': string;
-    'Id': number;
+    'id': number;
 }
 
 // {
@@ -25,10 +25,10 @@ export interface DecodedToken {
 // }
 
 export interface User extends IUser {
-    IsOnline: boolean;
-    FollowCount: number;
-    Email: string;
-    Balance: number;
+    isOnline: boolean;
+    followCount: number;
+    email: string;
+    balance: number;
 }
 
 export interface IRegister {

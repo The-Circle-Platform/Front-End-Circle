@@ -26,7 +26,7 @@ ngOnInit(): void {
       this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
       console.log(this.userName);
 
-      this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
+      this.subscription = this.userService.Get(tokenUser.id).subscribe((res => {
           console.log(res)
           this.user = res;
           console.log(this.user);

@@ -26,7 +26,7 @@ describe('UserCardComponent', () => {
   it("Should show offline user", ()=>{
     component.ngOnInit();
 
-    component.User = {Id: 0, IsOnline: false, UserName: "TestDonavan", FollowCount: 12, Email: "donavan@test.nl", Balance: 10};
+    component.User = {Id: 0, isOnline: false, UserName: "TestDonavan", followCount: 12, email: "donavan@test.nl", balance: 10};
 
     const span = fixture.nativeElement.querySelector("p");
 
@@ -34,7 +34,7 @@ describe('UserCardComponent', () => {
   })
 
   it("Should show Online user", ()=>{
-    component.User = {Id: 0, IsOnline: true, UserName: "TestDonavan", FollowCount: 12, Email: "donavan@test.nl", Balance: 1000};
+    component.User = {Id: 0, isOnline: true, UserName: "TestDonavan", followCount: 12, email: "donavan@test.nl", balance: 1000};
 
     fixture.detectChanges();
     component.ngOnInit();
