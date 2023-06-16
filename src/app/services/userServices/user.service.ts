@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { IService } from '../../Domain/Interfaces/IService';
-import { PfpUser, User, UserResponse, UserResponseList } from '../../Domain/Models/User';
+import {
+    PfpUser,
+    User,
+    UserResponse,
+    UserResponseList,
+} from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 
 @Injectable({ providedIn: 'root' })
@@ -20,7 +25,7 @@ export class UserService implements IService<User> {
 
     Get(id: number): Observable<User> {
         return this.httpClient.get<any>(`${this.siteEndpoint}/${id}`).pipe(
-            map((v: UserResponse)=>{
+            map((v: UserResponse) => {
                 return v.OriginalData;
             })
         );
@@ -28,14 +33,14 @@ export class UserService implements IService<User> {
 
     GetAll(): Observable<User[]> {
         return this.httpClient.get<any>(this.siteEndpoint).pipe(
-            map((v: UserResponseList)=>{
+            map((v: UserResponseList) => {
                 //Verification needed.
                 // place holder value at the moment.
-                const isValid:Boolean = true;
-                
-                if(isValid){
+                const isValid: Boolean = true;
+
+                if (isValid) {
                     return v.OriginalList;
-                } else{
+                } else {
                     return [];
                 }
             })
@@ -54,10 +59,9 @@ export class UserService implements IService<User> {
     }
 
     uploadPfp(pfpUser: User): Observable<any> {
-        return this.httpClient.put<User>(`${this.siteEndpoint}/1/pfp`, pfpUser);
-    }
-
-    getPfp(user: User): Observable<any> {
-        return this.httpClient.get<User>(`${this.siteEndpoint}/${user.id}/pfp`);
+        return this.httpClient.put<User>(
+            `${this.siteEndpoint}/${pfpUser.id}/pfp`,
+            pfpUser
+        );
     }
 }

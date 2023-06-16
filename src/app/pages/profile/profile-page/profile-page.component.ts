@@ -13,11 +13,11 @@ export class ProfilePageComponent {
     constructor(public userService: UserService) {}
 
     ngOnInit(): void {
-        if (this.pfpUser) {
-            this.userService.getPfp(this.pfpUser).subscribe((pfpUser) => {
-                console.log(pfpUser);
-                this.pfpUser = pfpUser;
-            });
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            // this.userService.Get(userId).subscribe((pfpUser) => {
+            //     this.pfpUser = pfpUser;
+            // });
         }
     }
 
