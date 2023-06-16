@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PfpUser, User } from '../../../Domain/Models/User';
+import { User } from '../../../Domain/Models/User';
 import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
@@ -32,18 +32,17 @@ export class ProfilePageComponent {
                 console.log('Length van afbeeldinge');
                 console.log(image.length);
 
-                console.log('Here', this.pfpUser); // ------- How does this work?
-
-                if (this.pfpUser) {
-                    this.pfpUser = {
-                        id: 0,
-                        userName: '',
-                        isOnline: true,
-                        followCount: 0,
-                        ImageName: imageFile.name,
-                        Base64Image: image,
-                    };
-                }
+                /* if (this.pfpUser) { */
+                this.pfpUser = {
+                    id: 0,
+                    userName: '',
+                    isOnline: true,
+                    followCount: 0,
+                    ImageName: imageFile.name,
+                    Base64Image: image,
+                };
+                //}
+                console.log('Here', this.pfpUser?.Base64Image); // ------- How does this work?
             };
         }
     }

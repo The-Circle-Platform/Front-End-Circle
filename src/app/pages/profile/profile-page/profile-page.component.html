@@ -11,10 +11,10 @@
     />
     <div class="ImageSelector">
         Afbeelding geselecteerd:<br />
-        <span *ngIf="pfpUser && pfpUser.Pfp">
-            Afbeeldingsnaam: {{ pfpUser.Pfp.ImageName }}
+        <span *ngIf="pfpUser && pfpUser.Base64Image">
+            Afbeeldingsnaam: {{ pfpUser.ImageName }}
         </span>
-        <span *ngIf="!pfpUser || !pfpUser.Pfp">
+        <span *ngIf="!pfpUser || !pfpUser.Base64Image">
             Geen afbeelding geselecteerd.
         </span>
     </div>

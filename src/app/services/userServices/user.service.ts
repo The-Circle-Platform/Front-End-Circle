@@ -37,12 +37,14 @@ export class UserService implements IService<User> {
         );
     }
 
-    uploadPfp(pfpUser: PfpUser): Observable<any> {
+    uploadPfp(pfpUser: User): Observable<any> {
+        console.log('hij roept de methode aan', pfpUser);
         return this.httpClient.post(`${this.siteEndpoint}/2/pfp`, pfpUser);
     }
 
     getPfp(userId: number): Observable<any> {
         // TODO: Update this to use the correct endpoint
+        console.log('hij roept de methode aan', userId);
         return this.httpClient.get(`${this.siteEndpoint}/${userId}`);
     }
 }

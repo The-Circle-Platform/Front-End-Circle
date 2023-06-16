@@ -18,6 +18,8 @@ export class UserCardComponent implements OnInit {
                 userName: 'Unknown',
                 isOnline: false,
                 followCount: 1,
+                ImageName: '',
+                Base64Image: '',
             };
         }
     }
