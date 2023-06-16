@@ -51,7 +51,6 @@ export class LoginComponent {
                     (reply: any) => {
                         location.reload();
                         this.authService.StoreToken(reply.OriginalLoad.token);
-                        this.authService.StoreKeyPair(reply.OriginalLoad.PubKey, reply.OriginalLoad.PrivKey);
                         this.authService.StoreUser(reply.OriginalLoad.WebsiteUser);
                         this.router.navigate(['/']);
                     },
