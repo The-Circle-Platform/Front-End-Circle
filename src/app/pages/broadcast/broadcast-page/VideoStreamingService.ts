@@ -36,9 +36,6 @@ export class VideoStreamingService {
         let data = new UserModel('thomas',  base64String );
 
         await this.hubConnection.invoke('Upload', data);
-
-
-
     }
 
 
