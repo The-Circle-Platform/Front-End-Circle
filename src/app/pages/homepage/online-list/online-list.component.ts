@@ -20,8 +20,7 @@ export class OnlineListComponent implements OnInit {
 
     constructor(
         public userService: UserService,
-        private http: HttpClient,
-        private logger: LoggerService
+        private logger: LoggerService,
     ) {
         this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
         this.refresher = new Observable<any>();
@@ -38,23 +37,18 @@ export class OnlineListComponent implements OnInit {
     }
 
     RefreshList() {
-        console.log('Ophalen streamers US-3');
-        //Subscribes to interval.
-        interval(2000).subscribe(() => {
+        //Subscribes to interval per minute
+        interval(60000).subscribe(() => {
             //Next step is to request users to api.
-            const ss = this.http
-                .get<User[]>('https://localhost:7058/api/user')
-                .subscribe((e) => {
-                    this.users = this.SortList(e);
-                    //Will assign new value to behavioursubject.
-                    /*value = !value;
-          e[0].isOnline = value;*/
+            const serve = this.userService.GetAll().subscribe((ul)=>{
+                this.users = ul;
+                this.SortList(this.users);
+                // Verify content
 
-                    this.Refresh(e);
+                this.Refresh(ul);
 
-                    //Will unsubscribe, so that this observable can be reused multiple times.
-                    ss.unsubscribe();
-                });
+                serve.unsubscribe();
+            });
         });
     }
 

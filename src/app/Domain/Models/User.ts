@@ -1,3 +1,4 @@
+import { IContent, IOutResponsePayload } from '../Interfaces/IContent';
 import { IDomain } from '../Interfaces/IDomain';
 
 export interface IUser extends IDomain {
@@ -27,6 +28,25 @@ export interface Pfp {
 
 export interface PfpUser {
     Pfp: Pfp;
+}
+
+export interface UserResponseList extends IContent{
+    OriginalList: User[]
+}
+
+export interface UserResponse extends IContent{
+    OriginalData: User
+}
+export interface LoginResponse extends IOutResponsePayload{
+    OriginalLoad: UserAuthResponse
+}
+
+export interface UserAuthResponse{
+    WebsiteUser: User
+    PrivKey : string
+    PubKey : string
+    token : string,
+    expiration: Date
 }
 
 export type Id = string;
