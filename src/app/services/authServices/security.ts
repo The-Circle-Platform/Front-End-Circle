@@ -3,6 +3,7 @@ import {config} from "rxjs";
 import {Buffer} from 'buffer/';
 // import * as crypto from "crypto-browserify";
 import * as crypto from "jsencrypt";
+import * as CryptoJS from 'crypto-js';
 import {environment} from "../../../environments/environment";
 
 @Injectable({providedIn: 'root'})
@@ -65,6 +66,20 @@ export class securityService{
     decryptWithServerPublicKey(cypher: string): string {
         let enc = this.serverCrypto.decrypt(cypher);
         return enc.toString();
+    }
+
+    sign(plaintext: string) : string | false {
+        //this.userPrivateKey = localStorage.getItem()
+        // @ts-ignore
+        var signature = this.userCrypto.sign(string, CryptoJS.SHA256, "sha256");
+        return signature;
+    }
+
+    verify (hash: string) : boolean {
+        // @ts-ignore
+        var verified = this.userCrypto.verify(hash, signature, CryptoJS.SHA256);
+        console.log(verified)
+        return verified;
     }
 
     
