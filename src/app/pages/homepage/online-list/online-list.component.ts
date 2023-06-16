@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { User } from 'src/app/Domain/Models/User';
+import {User, userDTO} from 'src/app/Domain/Models/User';
 import { LoggerService } from 'src/app/services/loggerServices/logger.service';
 import { userService } from 'src/app/services/userServices/user.service';
 import { securityService } from 'src/app/services/authServices/security';
@@ -37,9 +37,9 @@ export class OnlineListComponent implements OnInit {
 
         // TODO: Decomment when function works fully
 
-        let encrypted = this.securityService.encryptWithUserPrivateKey("yo yo my friend");
-        let decrypted = this.securityService.decryptWithUserPrivateKey(encrypted);
-        console.log(`encrypted msg: ${encrypted}\ndecrypted msg: ${decrypted}`)
+        // let encrypted = this.securityService.sign("yo yo my friend");
+        // let decrypted = this.securityService.decryptWithUserPrivateKey(encrypted);
+        // console.log(`encrypted msg: ${encrypted}\ndecrypted msg: ${decrypted}`)
 
         this.RefreshList();
     }
@@ -50,14 +50,18 @@ export class OnlineListComponent implements OnInit {
         interval(2000).subscribe(() => {
             //Next step is to request users to api.
             const ss = this.http
-                .get<User[]>('https://localhost:7058/api/user')
+                .get<userDTO>('https://localhost:7058/api/user')
                 .subscribe((e) => {
-                    this.users = this.SortList(e);
+                    console.log("HALP ME PLZ :(")
+                    console.log(e.originalList)
+                    this.users = e.originalList as User[];
+                    console.log(this.users)
+                    this.users = this.SortList(this.users);
                     //Will assign new value to behavioursubject.
                     /*value = !value;
           e[0].isOnline = value;*/
 
-                    this.Refresh(e);
+                    this.Refresh(e.originalList!);
 
                     //Will unsubscribe, so that this observable can be reused multiple times.
                     ss.unsubscribe();

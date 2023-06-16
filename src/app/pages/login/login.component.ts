@@ -50,8 +50,11 @@ export class LoginComponent {
                 .subscribe(
                     (reply: any) => {
                         location.reload();
-                        console.log(reply);
+
                         localStorage.setItem('token', reply.token);
+                        localStorage.setItem('token', reply.originalLoad.token);
+                        localStorage.setItem('privateKey', reply.originalLoad.privKey);
+                        localStorage.setItem('publicKey', reply.originalLoad.pubKey);
                         this.router.navigate(['/']);
                     },
                     (err) => {
