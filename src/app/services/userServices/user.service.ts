@@ -38,7 +38,6 @@ export class UserService implements IService<User> {
     }
 
     uploadPfp(pfpUser: User): Observable<any> {
-        console.log('Here');
         return this.httpClient.put<User>(`${this.siteEndpoint}/1/pfp`, pfpUser);
     }
 
