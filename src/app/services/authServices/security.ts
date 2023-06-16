@@ -52,9 +52,9 @@ export class securityService {
     }
 
 
-    sign(plaintext: string): string | false {
+    sign(message: any): string | false {
         // @ts-ignore
-        var signature = this.userCrypto.sign(string, CryptoJS.SHA256, "sha256");
+        var signature = this.userCrypto.sign(message, CryptoJS.SHA256, "sha256");
         console.log(signature)
         return signature;
     }

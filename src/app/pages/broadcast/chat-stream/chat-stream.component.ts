@@ -5,6 +5,7 @@ import {delay, Subscription} from 'rxjs';
 import { ChatMessage, ChatMessageDTO } from 'src/app/Domain/Models/ChatMessage';
 import { User } from 'src/app/Domain/Models/User';
 import {LoggerService} from "../../../services/loggerServices/logger.service";
+import { securityService } from 'src/app/services/authServices/security';
 
 @Component({
   selector: 'app-chat-stream',
@@ -26,7 +27,11 @@ export class ChatStreamComponent implements OnInit{
 
   //Template value for textbox.
 
-  constructor(private router: ActivatedRoute, private logger: LoggerService){
+  constructor(
+      private router: ActivatedRoute,
+      private logger: LoggerService,
+      private securityService: securityService
+  ){
     this.ListOfChats = [];
     //Placeholder value.
     this.HostUserId = 1;
@@ -122,7 +127,13 @@ export class ChatStreamComponent implements OnInit{
   }
 
   private SendToServer(chatMessage: ChatMessageDTO){
-    this.hubConnection?.send("SendMessage", chatMessage).then(()=>{
+    const body = {
+      "originalData": chatMessage,
+      "signature": this.securityService.sign(chatMessage)
+    }
+    console.log("help")
+    console.log(body);
+    this.hubConnection?.send("SendMessage", body).then(()=>{
       console.log("Gelukt");
       this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
         console.log(res);
