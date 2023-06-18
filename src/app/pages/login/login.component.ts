@@ -48,7 +48,9 @@ export class LoginComponent {
                     this.loginForm.value.password
                 )
                 .subscribe(
-                    () => {
+                    (reply: any) => {
+                        location.reload();
+                        localStorage.setItem('token', reply.token);
                         this.router.navigate(['/']);
                     },
                     (err) => {

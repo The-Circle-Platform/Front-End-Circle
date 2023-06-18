@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LogLevel } from '../../Domain/Models/LogLevel';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ConfigService } from 'src/app/shared/moduleconfig/config.service';
 
 @Injectable({
     providedIn: 'root',
@@ -9,7 +11,14 @@ export class LoggerService {
     logLevel: LogLevel = new LogLevel();
     ipAddress = '';
 
-    constructor(private http:HttpClient) {}
+    constructor(private http:HttpClient, private configService: ConfigService) {}
+
+    addLog(action: string): Observable<any> {
+        const logData = { action: action }
+
+        return this.http.post(this.configService.getConfig().apiEndpoint, logData);
+    }
+
 
     trace(msg: string): void {
         this.logWith(this.logLevel.Trace, msg);

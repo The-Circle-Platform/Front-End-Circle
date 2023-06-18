@@ -4,20 +4,29 @@ export interface IUser extends IDomain {
     userName: string;
 }
 
+export interface DecodedToken {
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name': string;
+}
+
 export interface User extends IUser {
     isOnline: boolean;
     followCount: number;
-}
-
-export interface ILogin {
-    emailAddress: string;
-    password: string;
+    followers: Array<User>
+    following: Array<User>
 }
 
 export interface IRegister {
-    // TODO: Add more fields
     emailAddress: string;
-    password: string;
+    username: string;
+}
+
+export interface Pfp {
+    ImageName: string;
+    Base64Image: string;
+}
+
+export interface PfpUser {
+    Pfp: Pfp;
 }
 
 export type Id = string;

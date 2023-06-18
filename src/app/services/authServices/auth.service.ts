@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ConfigService } from 'src/app/shared/moduleconfig/config.service';
-import { IRegister, ILogin } from '../../Domain/Models/User';
+import { ConfigService } from '../../shared/moduleconfig/config.service';
+import { DecodedToken, IRegister } from '../../Domain/Models/User';
 
 @Injectable({
     providedIn: 'root',
@@ -56,31 +56,34 @@ export class AuthService {
             userName: userName,
             password: password,
         };
-        return this.http
-            .post<ILogin>(`${this.siteEndpoint}/login`, credentials, {
+        return this.http.post<string>(
+            `${this.siteEndpoint}/login`,
+            credentials,
+            {
                 headers: this.headers,
-            })
-            .pipe(
-                map((data: any) => {
-                    localStorage.setItem(
-                        this.CURRENT_TOKEN,
-                        JSON.stringify(data.token)
-                    );
-                    this.currentToken$.next(data);
-                    return data;
-                }),
-                catchError((error) => {
-                    console.log('Error message:', error.error.message);
-                    return of(undefined);
-                })
-            );
+            }
+        );
     }
 
-    register(userData: IRegister): Observable<IRegister | undefined> {
+    register(
+        email: string,
+        userName: string,
+        role: string
+    ): Observable<IRegister | undefined> {
+        const userData = {
+            email: email,
+            userName: userName,
+        };
+        let adminUrl = '';
+        if (role) adminUrl = '-admin';
         return this.http
-            .post<IRegister>(`${this.siteEndpoint}/register`, userData, {
-                headers: this.headers,
-            })
+            .post<IRegister>(
+                `${this.siteEndpoint}/register${adminUrl}`,
+                userData,
+                {
+                    headers: this.headers,
+                }
+            )
             .pipe(
                 map((data: any) => {
                     localStorage.setItem(
@@ -115,20 +118,24 @@ export class AuthService {
     }
 
     getUserFromLocalStorage(): Observable<string | undefined> {
-        const user = localStorage.getItem(this.CURRENT_TOKEN);
+        const token = localStorage.getItem(this.CURRENT_TOKEN);
 
-        if (user) {
-            const localUser = JSON.parse(user);
-            return of(localUser);
+        if (token) {
+            return of(token);
         } else {
             return of(undefined);
         }
     }
 
     getAuthorizationToken(): string | undefined {
-        const token = JSON.parse(
-            localStorage.getItem(this.CURRENT_TOKEN) || ''
-        );
+        const token = localStorage.getItem(this.CURRENT_TOKEN) || '';
+
         return token;
+    }
+
+    getDecodedToken(): DecodedToken {
+        return this.decodeJwtToken(
+            this.getAuthorizationToken() || ''
+        ) as DecodedToken;
     }
 }

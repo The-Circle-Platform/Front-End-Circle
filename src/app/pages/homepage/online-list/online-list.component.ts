@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { User } from 'src/app/Domain/Models/User';
-import { LoggerService } from 'src/app/services/loggerServices/logger.service';
-import { userService } from 'src/app/services/userServices/user.service';
+import { User } from '../../../Domain/Models/User';
+import { LoggerService } from '../../../services/loggerServices/logger.service';
+import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
     selector: 'app-online-list',
@@ -19,7 +19,7 @@ export class OnlineListComponent implements OnInit {
     currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
 
     constructor(
-        public userService: userService,
+        public userService: UserService,
         private http: HttpClient,
         private logger: LoggerService
     ) {
@@ -30,7 +30,7 @@ export class OnlineListComponent implements OnInit {
     // TODO: Link to stream function needs to be implemented.
 
     ngOnInit(): void {
-        this.logger.trace('converting data to export');
+        // this.logger.trace('converting data to export');
         //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
 
         // TODO: Decomment when function works fully
@@ -64,12 +64,14 @@ export class OnlineListComponent implements OnInit {
 
     DummyData(): User[] {
         return [
-            { id: 66, isOnline: true, userName: 'TestDave', followCount: 13 },
+            { id: 66, isOnline: true, userName: 'TestDave', followCount: 13, followers: [], following: [] },
             {
                 id: 67,
                 isOnline: false,
                 userName: 'TestLinda',
                 followCount: 138,
+                followers: [],
+                following: []
             },
         ];
     }
