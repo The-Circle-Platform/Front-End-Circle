@@ -51,10 +51,10 @@ export class LoginComponent {
                 .subscribe(
                     (reply: any) => {
                         location.reload();
+
                         this.authService.StoreToken(reply.originalLoad.token);
-                        // this.authService.StoreUser(
-                        //     reply.OriginalLoad.WebsiteUser
-                        // );
+                        this.authService.StoreUser(reply.originalLoad.WebsiteUser);
+
                         this.router.navigate(['/']);
                     },
                     (err) => {

@@ -2,12 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { IService } from '../../Domain/Interfaces/IService';
-import {
-    PfpUser,
-    User,
-    UserResponse,
-    UserResponseList,
-} from '../../Domain/Models/User';
+import { User, UserResponse, UserResponseList } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 
 @Injectable({ providedIn: 'root' })
@@ -53,14 +48,14 @@ export class UserService implements IService<User> {
 
     Update(entity: User): Observable<User> {
         return this.httpClient.put<User>(
-            `${this.siteEndpoint}/${entity.id}`,
+            `${this.siteEndpoint}/${entity.Id}`,
             entity
         );
     }
 
     uploadPfp(pfpUser: User): Observable<any> {
         return this.httpClient.put<User>(
-            `${this.siteEndpoint}/${pfpUser.id}/pfp`,
+            `${this.siteEndpoint}/${pfpUser.Id}/pfp`,
             pfpUser
         );
     }

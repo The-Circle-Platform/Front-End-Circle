@@ -1,3 +1,3 @@
 export interface IDomain{
-    id: number
+    Id: number
 }

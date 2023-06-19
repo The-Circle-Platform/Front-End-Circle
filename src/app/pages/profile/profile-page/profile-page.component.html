@@ -1,27 +1,37 @@
-<form (ngSubmit)="onSubmit()">
-    <p>
-        <label for="Profielfoto">Profielfoto</label>
-    </p>
-    <input
-        placeholder="Upload je profielfoto."
-        type="file"
-        id="file"
-        (change)="onSelectFile($event)"
-        name="Profielfoto"
-    />
-    <div class="ImageSelector">
-        Afbeelding geselecteerd:<br />
-        <span *ngIf="pfpUser && pfpUser.Base64Image">
-            Afbeeldingsnaam: {{ pfpUser.ImageName }}
-        </span>
-        <span *ngIf="!pfpUser || !pfpUser.Base64Image">
-            Geen afbeelding geselecteerd.
-        </span>
-    </div>
+<ng-container>
+    <section class="vh-100" style="background-color: #9de2ff;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-md-9 col-lg-7 col-xl-5">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex text-black">
+                                <div class="flex-shrink-0">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                        alt="Generic placeholder image" class="img-fluid"
+                                        style="width: 180px; border-radius: 10px;">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="mb-1">{{user?.UserName}}</h5>
+                                    <p class="mb-2 pb-1" style="color: #2b2a2a;">{{user?.UserName}}</p>
+                                    <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                                        style="background-color: #efefef;">
+                                        <div>
+                                            <p class="small text-muted mb-1">Bitconnect Balance</p>
+                                            <p class="mb-0">{{user?.Balance}}</p>
+                                        </div>
 
-    <div class="form-group">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">
-            aanpassen
-        </button>
-    </div>
-</form>
+                                    </div>
+                                    <div class="d-flex pt-1">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</ng-container>
