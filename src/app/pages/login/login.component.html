@@ -1,5 +1,8 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
+        <div *ngIf="!hasIntegrity">
+            <h1 style="color: red">WAARSCHUWING, DE DATA VAN DEZE REQUEST IS NIET INTEGER. HET KAN ZIJN DAT IEMAND DE DATA HEEFT VERANDERD</h1>
+        </div>
         <label for="inputUserName">Gebruikersnaam</label>
         <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName"
             [ngClass]="{

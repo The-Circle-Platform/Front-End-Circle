@@ -6,16 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="3ac5a6ba-b102-4385-afcd-f1d39e94e30e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/Domain/Interfaces/IService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Domain/Interfaces/IService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/Domain/Models/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Domain/Models/User.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/broadcast/chat-stream/chat-stream.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/broadcast/chat-stream/chat-stream.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/online-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/homepage/online-list/user-card/user-card.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/login/login.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/profile/profile-page/profile-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/profile/profile-page/profile-page.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/profile/profile-page/profile-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/profile/profile-page/profile-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/authServices/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/authServices/auth.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/services/authServices/security.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/authServices/security.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/userServices/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/userServices/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +43,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2QpHGQQD7TbYgBUtFpc6VR8yHME" />
   <component name="ProjectLevelVcsManager">
@@ -54,23 +53,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/encryption&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/Jaar2/Periode4/TheCircle/Front-End-Circle/.idea/workspace.xml&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\dev\\Jaar2\\Periode4\\TheCircle\\Front-End-Circle\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ToolWindowRun.ShowToolbar": "false",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging Dev",
+    "last_opened_file_path": "C:/dev/Jaar2/Periode4/TheCircle/Front-End-Circle/.idea/workspace.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\dev\\Jaar2\\Periode4\\TheCircle\\Front-End-Circle\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="npm.Angular CLI Server">
     <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
       <method v="2" />
@@ -104,7 +103,7 @@
       <workItem from="1686829995410" duration="372000" />
       <workItem from="1686833869839" duration="2200000" />
       <workItem from="1686899247485" duration="5952000" />
-      <workItem from="1687158682182" duration="3447000" />
+      <workItem from="1687158682182" duration="13257000" />
     </task>
     <task id="LOCAL-00001" summary="Feature-branch online list met master branch gemerged">
       <created>1686082424180</created>
