@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PfpUser } from '../../../Domain/Models/User';
+import { User } from '../../../Domain/Models/User';
 import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
@@ -8,30 +8,34 @@ import { UserService } from '../../../services/userServices/user.service';
     styleUrls: ['./profile-page.component.css'],
 })
 export class ProfilePageComponent {
-    PfpUser: PfpUser | undefined;
+    pfpUser: User | undefined;
 
     constructor(public userService: UserService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            // this.userService.Get(userId).subscribe((pfpUser) => {
+            //     this.pfpUser = pfpUser;
+            // });
+        }
+    }
 
     onSelectFile(event: any) {
         console.log('onSelectFile');
         if (event.target.files && event.target.files[0]) {
             const imageFile: File = event.target.files[0];
             const reader = new FileReader();
-            reader.readAsDataURL(event.target.files[0]); // read file as data url
-            //console.dir(event.target.files[0])
+            reader.readAsDataURL(event.target.files[0]);
             reader.onload = () => {
-                // called once readAsDataURL is completed
-                // set the image value to the Base64 string -> can be saved in dtb
                 const image = reader.result as string;
-                console.log('Length van afbeeldinge');
-                console.log(image.length);
 
-                console.log('Here', this.PfpUser); // ------- How does this work?
-
-                if (this.PfpUser) {
-                    this.PfpUser.Pfp = {
+                if (!this.pfpUser) {
+                    this.pfpUser = {
+                        id: 1,
+                        userName: 'test',
+                        isOnline: true,
+                        followCount: 0,
                         ImageName: imageFile.name,
                         Base64Image: image,
                     };
@@ -41,9 +45,15 @@ export class ProfilePageComponent {
     }
 
     onSubmit(): void {
-        console.log('Here', this.PfpUser);
-        if (this.PfpUser) {
-            this.userService.uploadPfp(this.PfpUser);
+        if (this.pfpUser) {
+            this.userService.uploadPfp(this.pfpUser).subscribe(
+                (reply: any) => {
+                    console.log(reply);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
         }
     }
 }

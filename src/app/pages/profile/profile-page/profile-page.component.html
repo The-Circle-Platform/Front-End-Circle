@@ -2,21 +2,26 @@
     <p>
         <label for="Profielfoto">Profielfoto</label>
     </p>
-    <input placeholder="Upload je profielfoto." type="file" id="file" (change)="onSelectFile($event)"
-        name="Profielfoto">
+    <input
+        placeholder="Upload je profielfoto."
+        type="file"
+        id="file"
+        (change)="onSelectFile($event)"
+        name="Profielfoto"
+    />
     <div class="ImageSelector">
         Afbeelding geselecteerd:<br />
-        <span *ngIf="PfpUser && PfpUser.Pfp">
-            Afbeeldingsnaam: {{PfpUser.Pfp.ImageName}}
+        <span *ngIf="pfpUser && pfpUser.Base64Image">
+            Afbeeldingsnaam: {{ pfpUser.ImageName }}
         </span>
-        <span *ngIf="!PfpUser || !PfpUser.Pfp">
+        <span *ngIf="!pfpUser || !pfpUser.Base64Image">
             Geen afbeelding geselecteerd.
         </span>
     </div>
 
     <div class="form-group">
         <button class="btn btn-lg btn-primary btn-block" type="submit">
-            Aanmelden
+            aanpassen
         </button>
     </div>
 </form>
