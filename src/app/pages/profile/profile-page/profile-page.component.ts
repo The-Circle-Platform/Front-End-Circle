@@ -13,41 +13,29 @@ import { securityService } from '../../../services/authServices/security';
 export class ProfilePageComponent implements OnInit, OnDestroy {
     pfpUser: User | undefined;
 
-    private userName: String | undefined;
-    public user: User | undefined;
-    private subscription: Subscription | undefined;
-    constructor(
-        private authService: AuthService,
-        private userService: UserService,
-        private securityService: securityService
-    ) {}
+  private userName: String | undefined;
+  public user: User | undefined;
+  private subscription: Subscription | undefined;
+  public hasIntegrity: boolean = true;
+  constructor(private authService: AuthService, private userService: userService, private securityService: securityService) {}
 
-    ngOnDestroy(): void {
-        this.subscription?.unsubscribe();
-    }
+ngOnInit(): void {
+    var jwt = localStorage.getItem("token");
+    if(jwt) {
+      const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
+      console.log(tokenUser)
+      this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+      console.log(this.userName);
 
-    ngOnInit(): void {
-        console.log('henk');
-        this.securityService.sign('henk');
-        const jwt = localStorage.getItem('token');
-        if (jwt) {
-            const tokenUser = this.authService.decodeJwtToken(
-                jwt
-            ) as DecodedToken;
-            this.userName =
-                tokenUser[
-                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-                ];
-            console.log(this.userName);
+      this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
+          this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
+          if(this.hasIntegrity) {
+            console.log(res);
+            this.user = res.originalData;
+            console.log(this.user?.userName);
+          }
 
-            this.subscription = this.userService
-                .Get(tokenUser.Id)
-                .subscribe((res) => {
-                    console.log(res);
-                    this.user = res;
-                    console.log(this.user);
-                });
-        }
+      }))
     }
 
     onSelectFile(event: any) {

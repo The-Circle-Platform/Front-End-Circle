@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/authServices/auth.service';
+import {securityService} from "../../services/authServices/security";
+import {userDTO} from "../../Domain/Models/User";
 
 @Component({
     selector: 'app-login',
@@ -14,11 +16,13 @@ export class LoginComponent {
     loginForm!: FormGroup;
     hide = true;
     wrongPwOrUserName = false;
+    public hasIntegrity: boolean = true;
 
     constructor(
         private fb: FormBuilder,
         public authService: AuthService,
-        private router: Router
+        private router: Router,
+        private securityService: securityService
     ) {}
 
     ngOnInit(): void {
@@ -27,7 +31,7 @@ export class LoginComponent {
             .subscribe((user: string | undefined) => {
                 if (user) {
                     console.log('Gebruiker is al ingelogd');
-                    this.router.navigate(['/']);
+                    //this.router.navigate(['/']);
                 }
             });
 
@@ -43,19 +47,26 @@ export class LoginComponent {
             this.loginForm.value.userName != '' &&
             this.loginForm.value.password != ''
         ) {
+            var encryptedPassword = this.securityService.encryptWithServerPublicKey(this.loginForm.value.password);
             this.authService
                 .login(
                     this.loginForm.value.userName,
-                    this.loginForm.value.password
+                    encryptedPassword
                 )
                 .subscribe(
                     (reply: any) => {
-                        location.reload();
+                         this.hasIntegrity = this.securityService.verify(reply.originalLoad.websiteUser, reply.signature);
 
-                        this.authService.StoreToken(reply.originalLoad.token);
-                        this.authService.StoreUser(reply.originalLoad.WebsiteUser);
+                        console.log(this.hasIntegrity)
+                        if(this.hasIntegrity) {
+                            location.reload();
+                            localStorage.setItem('token', reply.originalLoad.token);
+                            localStorage.setItem('privateKey', reply.originalLoad.privateKey);
+                            localStorage.setItem('publicKey', reply.originalLoad.publicKey);
+                            //this.router.navigate(['/']);
+                        }
 
-                        this.router.navigate(['/']);
+
                     },
                     (err) => {
                         console.log(err);
