@@ -34,6 +34,7 @@ import { environment } from "../environments/environment";
 import { ReactiveFormsModule } from "@angular/forms";
 import { LoggedInAuthGuard } from "./services/authServices/auth.guards";
 import { FormsModule } from "@angular/forms";
+import { ViewCountComponent } from './pages/broadcast/view-count/view-count.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { FormsModule } from "@angular/forms";
     StreamPageComponent,
     LoginComponent,
     RegistrationPageComponent,
+    ViewCountComponent,
   ],
   imports: [
     BrowserModule,

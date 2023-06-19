@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IService } from '../../Domain/Interfaces/IService';
-import { PfpUser, User } from '../../Domain/Models/User';
+import { PfpUser, User, UserResponse, UserResponseList } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 
 @Injectable({ providedIn: 'root' })
@@ -19,11 +19,27 @@ export class UserService implements IService<User> {
     }
 
     Get(id: number): Observable<User> {
-        return this.httpClient.get<User>(`${this.siteEndpoint}/${id}`);
+        return this.httpClient.get<any>(`${this.siteEndpoint}/${id}`).pipe(
+            map((v: UserResponse)=>{
+                return v.OriginalData;
+            })
+        );
     }
 
     GetAll(): Observable<User[]> {
-        return this.httpClient.get<User[]>(this.siteEndpoint);
+        return this.httpClient.get<any>(this.siteEndpoint).pipe(
+            map((v: UserResponseList)=>{
+                //Verification needed.
+                // place holder value at the moment.
+                const isValid:Boolean = true;
+                
+                if(isValid){
+                    return v.OriginalList;
+                } else{
+                    return [];
+                }
+            })
+        );
     }
 
     Create(entity: User): Observable<any> {

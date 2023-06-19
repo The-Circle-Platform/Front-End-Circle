@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
-import { DecodedToken, IRegister } from '../../Domain/Models/User';
+import { DecodedToken, IRegister, User } from '../../Domain/Models/User';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +13,9 @@ import { DecodedToken, IRegister } from '../../Domain/Models/User';
 export class AuthService {
     public currentToken$ = new BehaviorSubject<string | undefined>(undefined);
     private readonly CURRENT_TOKEN = 'token';
+    private readonly CURRENT_USER = "Pop";
+    private readonly PRIVATE_PART = "Publiek";
+    private readonly PUBLIC_PART = "Secrete";
     private readonly headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });
@@ -137,5 +140,38 @@ export class AuthService {
         return this.decodeJwtToken(
             this.getAuthorizationToken() || ''
         ) as DecodedToken;
+    }
+
+    StoreToken(token: string){
+        localStorage.setItem(this.CURRENT_TOKEN, token);
+    }
+
+    StoreKeyPair(pubKey: string, priv:string){
+        localStorage.setItem(this.PRIVATE_PART, priv);
+        localStorage.setItem(this.PUBLIC_PART, pubKey);
+    }
+
+    StoreUser(user: User){
+        const jsonUser: string = JSON.stringify(user);
+        localStorage.setItem(this.CURRENT_USER, jsonUser);
+    }
+
+    GetWebUser():User | null{
+        const userJson = localStorage.getItem(this.CURRENT_USER);
+
+        if(userJson){
+            const User:User = JSON.parse(userJson);
+            return User;
+        } else{
+            return null;
+        }
+    }
+
+    GetPubKey(){
+        return localStorage.getItem(this.PUBLIC_PART);
+    }
+
+    GetPrivKey(){
+        return localStorage.getItem(this.PRIVATE_PART);
     }
 }
