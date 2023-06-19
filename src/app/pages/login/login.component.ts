@@ -51,7 +51,7 @@ export class LoginComponent {
                 .subscribe(
                     (reply: any) => {
                         location.reload();
-                        this.authService.StoreToken(reply.token);
+                        this.authService.StoreToken(reply.originalLoad.token);
                         // this.authService.StoreUser(
                         //     reply.OriginalLoad.WebsiteUser
                         // );
