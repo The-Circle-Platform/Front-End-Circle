@@ -17,24 +17,20 @@ export class VideoStreamingService {
 
     public async startVideoStreaming(chunks: Blob[]) {
         await this.getOrCreateConnection();
-        console.log('is connected: ', this.isConnected);
-        console.log('chunk: ' + JSON.stringify( chunks[0]));
 
         let Astring: string = await blobToBase64(chunks[0]);
 
         let base64String = Astring.substring(Astring.indexOf(',') + 1);
-        console.log('EpicString: ',base64String);
+        console.log(base64String)
 
         function blobToBase64(blob: Blob): Promise<string> {
             return new Promise((resolve, data) => {
                 const reader = new FileReader();
                 reader.onloadend = () => resolve(reader.result as string);
                 reader.readAsDataURL(blob);
-
             });
         }
-        let data = new UserModel('thomas',  base64String );
-
+        const data = new UserModel('thomas',  base64String );
         await this.hubConnection.invoke('Upload', data);
     }
 
@@ -67,7 +63,32 @@ export class VideoStreamingService {
             this.hubConnection.stop();
         }
     }
+
+    base64ToBlob(base64String: string, mimeType: string): Blob {
+        const byteArrays = [];
+        console.log(base64String)
+
+        for (let offset = 0; offset < base64String.length; offset += 512) {
+            const slice = base64String.slice(offset, offset + 512);
+            const byteNumbers = new Array(slice.length);
+
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+        return new Blob(byteArrays, { type: mimeType });
+    }
 }
+
+async function base64ToBlob(base64String: string): Promise<Blob> {
+    //video/x-matroska;codecs=avc1 misschien data: dit ipv applicaton blah.
+    const response = await fetch(`data:application/octet-stream;base64,${base64String}`);
+    const blob = await response.blob();
+    return blob;
+}
+
 
 export class UserModel {
     name: string;

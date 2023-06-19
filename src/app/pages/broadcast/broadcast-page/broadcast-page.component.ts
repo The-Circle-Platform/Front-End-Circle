@@ -24,6 +24,7 @@ export class BroadcastPageComponent implements OnInit {
     recording: boolean = false;
     mediaRecorder!: MediaRecorder;
     chunks: Blob[] = [];
+    chunksTest: Blob[] = []
     stream: any;
 
 
@@ -73,22 +74,24 @@ export class BroadcastPageComponent implements OnInit {
             this.chunks = [];
             this.mediaRecorder = new MediaRecorder(this.stream);
             this.recording = true;
-            this.mediaRecorder.start(200);
+            this.mediaRecorder.start(3000);
             this.mediaRecorder.addEventListener('dataavailable', async (event) => {
                 if (event.data.size > 0) {
                     this.chunks.push(event.data);
-                    console.log("data1",this.chunks)
+                    console.log("data1", this.chunks)
                 }
                 if (this.chunks.length) {
                     console.log("sending data")
                     console.log(this.chunks)
                     await this._VideoStreamingService.startVideoStreaming(this.chunks)
+
+
                     this.chunks = []; // Clear the recorded chunks
+
                 } else {
                     console.log('no chunks available.');
                 }
             });
-
         } catch (error) {
             console.error('Error accessing webcam:', error);
         }
@@ -99,15 +102,15 @@ export class BroadcastPageComponent implements OnInit {
             this.mediaRecorder.stop();
             this.recording = false;
             this.recordingCamInit = false;
-            this._VideoStreamingService.stopVideoStreaming();
         }
-
-        this.mediaRecorder.addEventListener('stop', () => {
-            const videoBlob = new Blob(this.chunks, {type: 'video/mp4'});
+        this.mediaRecorder.addEventListener('stop', async () => {
+            // this.videoData = await this._VideoStreamingService.startVideoStreaming(this.finalChunks);
+            // this.cdRef.detectChanges();
+            const videoBlob = new Blob(this.chunks, {type: 'video/x-matroska;codecs=avc1'});
             const videoUrl = URL.createObjectURL(videoBlob);
             const a = document.createElement('a');
             a.href = videoUrl;
-            a.download = 'captured-video.mp4';
+            a.download = 'captured-video.mkv';
             a.click();
             URL.revokeObjectURL(videoUrl);
         });

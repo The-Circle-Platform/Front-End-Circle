@@ -3,5 +3,6 @@
 <div>
     <button (click)="playVideo()">Play Video</button>
     <hr>
-    <video width="840" height="440" [src]="url" controls></video>
+    <video #videoPlayer width="840" height="440" controls >
+    </video>
 </div>
