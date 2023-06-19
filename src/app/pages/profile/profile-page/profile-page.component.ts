@@ -41,7 +41,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             console.log(this.userName);
 
             this.subscription = this.userService
-                .Get(tokenUser.Id)
+                .Get(tokenUser.id)
                 .subscribe((res) => {
                     console.log(res);
                     this.user = res.originalData;
@@ -61,7 +61,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
                 if (!this.pfpUser) {
                     this.pfpUser = {
-                        Id: 1,
+                        id: 1,
                         userName: 'test',
                         isOnline: true,
                         followCount: 0,

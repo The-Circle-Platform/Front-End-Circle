@@ -32,14 +32,14 @@ export class userService implements IService<User> {
 
     Update(entity: User): Observable<userDTO> {
         return this.httpClient.put<userDTO>(
-            `${this.siteEndpoint}/${entity.Id}`,
+            `${this.siteEndpoint}/${entity.id}`,
             entity
         );
     }
 
     uploadPfp(pfpUser: User): Observable<userDTO> {
         return this.httpClient.put<userDTO>(
-            `${this.siteEndpoint}/${pfpUser.Id}/pfp`,
+            `${this.siteEndpoint}/${pfpUser.id}/pfp`,
             pfpUser
         );
     }

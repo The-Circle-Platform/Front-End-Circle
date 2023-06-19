@@ -66,7 +66,7 @@ export class OnlineListComponent implements OnInit {
             //Will assign new value to behavioursubject.
             /*value = !value;
           e[0].isOnline = value;*/
-
+            console.log(e.originalList!);
             this.Refresh(e.originalList!);
 
             //Will unsubscribe, so that this observable can be reused multiple times.

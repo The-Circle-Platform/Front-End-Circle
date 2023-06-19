@@ -7,7 +7,7 @@ export interface IUser extends IDomain {
 
 export interface DecodedToken {
     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name': string;
-    Id: number;
+    id: number;
 }
 
 // {
@@ -24,7 +24,7 @@ export interface DecodedToken {
 //     "signature": "RrpK1x/3FQCvRh5YZX/LrdAUoYNoWNJqVC1yl8RygJ24TJMI0BAlAVsNjDK2Ek1672fBHXXoY0lRUiQmVDq8tLFut8RdZE0JTn2tToa6GWFWWdqq5dG7pme9q4I7GE1yxRhr2FQF/UPdPXaI9hrzmsCB7yjb33Kk2PUd5fXMejo=",
 //     "senderUserId": 0
 // }
-//[{"Id":1,"UserName":"Jascha","IsOnline":false,"UserChatMessages":null,"StreamChatMessages":null,"CurrentWatchList":null}]
+//[{"id":1,"UserName":"Jascha","IsOnline":false,"UserChatMessages":null,"StreamChatMessages":null,"CurrentWatchList":null}]
 export interface User extends IUser {
     isOnline: boolean;
     followCount: number;
@@ -70,8 +70,8 @@ export interface UserAuthResponse {
     expiration: Date;
 }
 
-export type Id = string;
-export type ResourceId = { id: Id };
+export type id = string;
+export type ResourceId = { id: id };
 
 export class userDTO {
     originalData: undefined | User;
