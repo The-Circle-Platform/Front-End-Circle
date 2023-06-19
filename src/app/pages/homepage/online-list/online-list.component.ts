@@ -15,6 +15,7 @@ export class OnlineListComponent implements OnInit {
     value: Boolean = true;
     refresher: Observable<any>;
     list$: BehaviorSubject<User[] | undefined>;
+    hasIntigrety: boolean | undefined;
 
     users: User[] = [];
     currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
@@ -60,7 +61,14 @@ export class OnlineListComponent implements OnInit {
                     // console.log("VERIFYING REQUEST")
                     // console.log(e);
                     let jsonData = JSON.stringify(e.originalList, null, 0).toLowerCase();
-                    this.securityService.verify(jsonData, e.signature!)
+                     this.hasIntigrety = this.securityService.verify(jsonData, e.signature!)
+                    if(this.hasIntigrety) {
+                        console.log("Data has not changed");
+                    }
+                    else {
+                        console.log("Data is not the same as was send by server");
+
+                    }
                     //Will assign new value to behavioursubject.
                     /*value = !value;
           e[0].isOnline = value;*/
@@ -81,14 +89,14 @@ export class OnlineListComponent implements OnInit {
 
     SortList(value: User[]): User[] {
         if (this.currentSortOrder == 'asc') {
-            return value.sort((a, b) => a.UserName.localeCompare(b.UserName));
+            return value.sort((a, b) => a.userName.localeCompare(b.userName));
         } else if (this.currentSortOrder == 'desc') {
-            return value.sort((a, b) => b.UserName.localeCompare(a.UserName));
+            return value.sort((a, b) => b.userName.localeCompare(a.userName));
         } else {
             return value.sort((a: User, b: User) => {
-                if (a.IsOnline && !b.IsOnline) {
+                if (a.isOnline && !b.isOnline) {
                     return -1;
-                } else if (!a.IsOnline && b.IsOnline) {
+                } else if (!a.isOnline && b.isOnline) {
                     return 1;
                 } else {
                     return 0;

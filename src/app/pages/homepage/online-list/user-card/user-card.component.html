@@ -2,15 +2,15 @@
 
     <div class="card-header rounded-0">
         <div class="card-title">
-            <h3>{{User.UserName}}</h3>
+            <h3>{{User.userName}}</h3>
         </div>
     </div>
     <img src="https://cdnb.artstation.com/p/assets/images/images/032/092/715/large/max-white-guy.jpg?1605462631" class="card-img-top rounded-0" alt="...">
     <div class="card-body">
-        <span *ngIf=User.IsOnline>
+        <span *ngIf=User.isOnline>
             <p>Status: Online <span class="online">●</span></p>
         </span>
-        <span *ngIf=!User.IsOnline>
+        <span *ngIf=!User.isOnline>
             <p>Status: Offline<span class="offline">●</span> </p>
         </span>
         <!-- May be edited to specific stream -->

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../../../services/authServices/auth.service";
-import {DecodedToken, User} from "../../../Domain/Models/User";
+import {DecodedToken, User, userDTO} from "../../../Domain/Models/User";
 import {userService} from "../../../services/userServices/user.service";
 import {Subscription} from "rxjs";
 import {securityService} from "../../../services/authServices/security";
@@ -23,18 +23,17 @@ ngOnInit(): void {
     var jwt = localStorage.getItem("token");
     if(jwt) {
       const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
+      console.log(tokenUser)
       this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
       console.log(this.userName);
 
       this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
           console.log(res)
-          this.user = res;
-          console.log(this.user);
+          this.user = res.originalData;
+          console.log("henk")
+          console.log(this.user?.userName);
       }))
-
-
     }
-
   }
 
     ngOnDestroy(): void {
