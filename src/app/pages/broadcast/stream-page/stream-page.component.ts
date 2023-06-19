@@ -14,17 +14,18 @@ export class StreamPageComponent implements OnInit {
     this.HostId = 0;
   }
   ngOnInit(): void {
+    console.log("Hello page algemeen")
     this.CheckParams();
-    //Use router to get url parameters in order to get transparent user Id
+    //Use router to get url parameters in order to get transparent user id
     //Get latest stream.
   }
 
   CheckParams(){
     this.router.paramMap.subscribe((v)=>{
-      const Id: string = v.get("id")!;
-
-      if(Id) {
-        this.HostId = parseInt(Id);
+      const id: string = v.get("id")!;
+      console.log(`De ONE PIECE IS ID ${id}`);
+      if(id) {
+        this.HostId = parseInt(id);
         this.GetLatestStream(this.HostId);
       } else {
         console.log("Geen params");

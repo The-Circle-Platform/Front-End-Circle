@@ -39,29 +39,33 @@ export class OnlineListComponent implements OnInit {
         //Subscribes to interval.
         //interval(200000000000).subscribe(() => {
         //Next step is to request users to api.
-        const ss = this.http
-            .get<userDTO>('https://localhost:7058/api/user')
-            .subscribe((e) => {
-                // console.log(e.originalList)
-                this.users = e.originalList as User[];
-                // console.log(this.users)
-                this.users = this.SortList(this.users);
-                // console.log("VERIFYING REQUEST")
-                // console.log(e);
-                this.hasIntigrety = this.securityService.verify(
-                    e.originalList,
-                    e.signature!
-                );
-                if (this.hasIntigrety) {
-                    console.log('Data has not changed');
-                } else {
-                    console.log('Data is not the same as was send by server');
-                }
-                //Will assign new value to behavioursubject.
-                /*value = !value;
-          e[0].isOnline = value;*/
 
-                this.Refresh(e.originalList!);
+        const ss = this.userService.GetAll().subscribe((e) => {
+            console.log(e.originalList)
+            this.users = e.originalList as User[];
+            // console.log(this.users)
+            this.users = this.SortList(this.users);
+            // console.log("VERIFYING REQUEST")
+            // console.log(e);
+            const jsonData = JSON.stringify(
+                e.originalList,
+                null,
+                0
+            ).toLowerCase();
+            this.hasIntigrety = this.securityService.verify(
+                jsonData,
+                e.signature!
+            );
+            if (this.hasIntigrety) {
+                console.log('Data has not changed');
+            } else {
+                console.log('Data is not the same as was send by server');
+            }
+            //Will assign new value to behavioursubject.
+            /*value = !value;
+          e[0].isOnline = value;*/
+            console.log(e.originalList!);
+            this.Refresh(e.originalList!);
 
                 //Will unsubscribe, so that this observable can be reused multiple times.
                 ss.unsubscribe();

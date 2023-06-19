@@ -52,7 +52,7 @@ export class ViewCountComponent implements OnInit{
         .then(async (u) => {
           console.log("Connection started");
           if(!this.isStreamer) {
-            const ownUserId = this.authService.GetWebUser()?.Id;
+            const ownUserId = this.authService.GetWebUser()?.id;
             this._hubConnection?.send("ConnectToStream", this.StreamId, ownUserId).then();
           }
         })

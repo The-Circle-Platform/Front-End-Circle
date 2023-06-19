@@ -96,7 +96,7 @@ export class AuthService {
         const RegisterRequestDTO = {
             signature: signature,
             originalRegisterData: userData,
-            SenderUserId: this.GetWebUser()?.Id,
+            SenderUserId: this.GetWebUser()?.id,
         };
         let adminUrl = '';
         if (role) adminUrl = '-admin';

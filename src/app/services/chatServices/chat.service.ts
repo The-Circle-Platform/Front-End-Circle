@@ -91,10 +91,10 @@ export class ChatService{
             ?.send('SendMessage', payload)
             .then(() => {
                 console.log('Gelukt');
-                this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
-                    console.log(res);
-                    this.subscription?.unsubscribe();
-                }));
+                // this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
+                //     console.log(res);
+                //     this.subscription?.unsubscribe();
+                // }));
 
             })
             .catch((err) => {

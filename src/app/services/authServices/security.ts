@@ -59,7 +59,7 @@ export class securityService {
         );
 
         const signature = this.userCrypto.sign(
-            '{"id":1,"username":"jascha","isonline":false,"followcount":0,"balance":0}',
+            '[{"id":1,"UserName":"Jascha","IsOnline":false,"UserChatMessages":null,"StreamChatMessages":null,"CurrentWatchList":null}]',
             // @ts-ignore
             CryptoJS.SHA256,
             'sha256'

@@ -14,7 +14,7 @@ export class UserCardComponent implements OnInit {
         console.log(this.User);
         if (!this.User) {
             this.User = {
-                Id: 0,
+                id: 0,
                 userName: 'Unknown',
                 isOnline: false,
                 followCount: 1,

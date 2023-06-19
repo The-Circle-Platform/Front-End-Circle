@@ -47,7 +47,7 @@ export class ChatStreamComponent implements OnInit {
             const writer = this.authService.GetWebUser();
             //const writerId = this.currentUser?.id;
             if(writer){ 
-                this.SetupChat(writer.Id, HostId);
+                this.SetupChat(writer.id, HostId);
                 this.viewHub.SetUpConnections(HostId); 
                 //Link reference to object
                 this.ListOfChats = this.viewHub.ListOfChats;
@@ -64,7 +64,7 @@ export class ChatStreamComponent implements OnInit {
     private SetupChat(userId: number, hostId: number) {
         this.currentChatBox = {
             Message: '',
-            Id: 0,
+            id: 0,
             WebUserId: userId,
             ReceiverId: hostId,
             Date: new Date(),
@@ -76,6 +76,7 @@ export class ChatStreamComponent implements OnInit {
         this.warning = '';
         console.log('Sending started');
         if (this.currentChatBox != undefined) {
+            console.log("Versturen gestart.");
             this.viewHub.SendToServer(this.currentChatBox);
             //Resets
             this.currentChatBox.Message = '';

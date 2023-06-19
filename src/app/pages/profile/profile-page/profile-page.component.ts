@@ -23,10 +23,6 @@ export class ProfilePageComponent implements OnInit {
         private securityService: securityService
     ) {}
 
-    ngOnDestroy(): void {
-        throw new Error('Method not implemented.');
-    }
-
     ngOnInit(): void {
         const jwt = localStorage.getItem('token');
         if (jwt) {
@@ -41,7 +37,7 @@ export class ProfilePageComponent implements OnInit {
             console.log(this.userName);
 
             this.subscription = this.userService
-                .Get(tokenUser.Id)
+                .Get(tokenUser.id)
                 .subscribe((res) => {
                     this.hasIntegrity = this.securityService.verify(
                         res.originalData,
@@ -67,7 +63,7 @@ export class ProfilePageComponent implements OnInit {
 
                 if (!this.pfpUser) {
                     this.pfpUser = {
-                        Id: 1,
+                        id: 1,
                         userName: 'test',
                         isOnline: true,
                         followCount: 0,
@@ -91,5 +87,9 @@ export class ProfilePageComponent implements OnInit {
                 }
             );
         }
+    }
+
+    ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
     }
 }

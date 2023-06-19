@@ -55,6 +55,9 @@ export class LoginComponent {
                 )
                 .subscribe(
                     (reply: any) => {
+                        //location.reload();
+                        console.log(reply);
+                        this.authService.StoreUser(reply.originalLoad.websiteUser);
                          this.hasIntegrity = this.securityService.verify(reply.originalLoad.websiteUser, reply.signature);
 
                         console.log(this.hasIntegrity)

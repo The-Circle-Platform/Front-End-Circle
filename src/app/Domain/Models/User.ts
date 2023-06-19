@@ -7,7 +7,7 @@ export interface IUser extends IDomain {
 
 export interface DecodedToken {
     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name': string;
-    Id: number;
+    id: number;
 }
 
 export interface User extends IUser {
@@ -55,8 +55,8 @@ export interface UserAuthResponse {
     expiration: Date;
 }
 
-export type Id = string;
-export type ResourceId = { id: Id };
+export type id = string;
+export type ResourceId = { id: id };
 
 export class userDTO {
     originalData: undefined | User;

@@ -22,8 +22,8 @@ export class UserService implements IService<User> {
         return this.httpClient.get<userDTO>(`${this.siteEndpoint}/${id}`);
     }
 
-    GetAll(): Observable<userDTO[]> {
-        return this.httpClient.get<userDTO[]>(this.siteEndpoint);
+    GetAll(): Observable<userDTO> {
+        return this.httpClient.get<userDTO>(this.siteEndpoint);
     }
 
     Create(entity: User): Observable<any> {
@@ -32,14 +32,14 @@ export class UserService implements IService<User> {
 
     Update(entity: User): Observable<userDTO> {
         return this.httpClient.put<userDTO>(
-            `${this.siteEndpoint}/${entity.Id}`,
+            `${this.siteEndpoint}/${entity.id}`,
             entity
         );
     }
 
     uploadPfp(pfpUser: User): Observable<userDTO> {
         return this.httpClient.put<userDTO>(
-            `${this.siteEndpoint}/${pfpUser.Id}/pfp`,
+            `${this.siteEndpoint}/${pfpUser.id}/pfp`,
             pfpUser
         );
     }
