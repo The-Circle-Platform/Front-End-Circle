@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/authServices/auth.service';
 import { DecodedToken, User } from '../../../Domain/Models/User';
-import { UserService } from '../../../services/userServices/user.service';
+import { userService } from '../../../services/userServices/user.service';
 import { Subscription } from 'rxjs';
 import { securityService } from '../../../services/authServices/security';
 
@@ -18,7 +18,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     private subscription: Subscription | undefined;
     constructor(
         private authService: AuthService,
-        private userService: UserService,
+        private userService: userService,
         private securityService: securityService
     ) {}
 
@@ -44,7 +44,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 .Get(tokenUser.Id)
                 .subscribe((res) => {
                     console.log(res);
-                    this.user = res;
+                    this.user = res.originalData;
                     console.log(this.user);
                 });
         }

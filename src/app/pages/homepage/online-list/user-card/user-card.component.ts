@@ -15,7 +15,7 @@ export class UserCardComponent implements OnInit {
         if (!this.User) {
             this.User = {
                 Id: 0,
-                UserName: 'Unknown',
+                userName: 'Unknown',
                 isOnline: false,
                 followCount: 1,
                 ImageName: '',

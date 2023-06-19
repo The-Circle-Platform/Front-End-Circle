@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { User, userDTO } from 'src/app/Domain/Models/User';
 import { LoggerService } from 'src/app/services/loggerServices/logger.service';
-import { UserService } from 'src/app/services/userServices/user.service';
+import { userService } from 'src/app/services/userServices/user.service';
 import { securityService } from 'src/app/services/authServices/security';
 
 @Component({
@@ -21,7 +21,7 @@ export class OnlineListComponent implements OnInit {
     currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
 
     constructor(
-        public userService: UserService,
+        public userService: userService,
         private http: HttpClient,
         private logger: LoggerService,
         public securityService: securityService
@@ -43,7 +43,7 @@ export class OnlineListComponent implements OnInit {
         //Next step is to request users to api.
 
         const ss = this.userService.GetAll().subscribe((e) => {
-            // console.log(e.originalList)
+            console.log(e.originalList)
             this.users = e.originalList as User[];
             // console.log(this.users)
             this.users = this.SortList(this.users);

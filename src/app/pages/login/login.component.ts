@@ -50,10 +50,10 @@ export class LoginComponent {
                 )
                 .subscribe(
                     (reply: any) => {
-                        location.reload();
-
+                        //location.reload();
+                        console.log(reply);
                         this.authService.StoreToken(reply.originalLoad.token);
-                        this.authService.StoreUser(reply.originalLoad.WebsiteUser);
+                        this.authService.StoreUser(reply.originalLoad.websiteUser);
 
                         this.router.navigate(['/']);
                     },

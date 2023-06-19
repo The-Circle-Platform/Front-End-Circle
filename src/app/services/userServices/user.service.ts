@@ -22,8 +22,8 @@ export class userService implements IService<User> {
         return this.httpClient.get<userDTO>(`${this.siteEndpoint}/${id}`);
     }
 
-    GetAll(): Observable<userDTO[]> {
-        return this.httpClient.get<userDTO[]>(this.siteEndpoint);
+    GetAll(): Observable<userDTO> {
+        return this.httpClient.get<userDTO>(this.siteEndpoint);
     }
 
     Create(entity: User): Observable<any> {
