@@ -23,11 +23,10 @@ export interface DecodedToken {
 //     "signature": "RrpK1x/3FQCvRh5YZX/LrdAUoYNoWNJqVC1yl8RygJ24TJMI0BAlAVsNjDK2Ek1672fBHXXoY0lRUiQmVDq8tLFut8RdZE0JTn2tToa6GWFWWdqq5dG7pme9q4I7GE1yxRhr2FQF/UPdPXaI9hrzmsCB7yjb33Kk2PUd5fXMejo=",
 //     "senderUserId": 0
 // }
-
+//[{"Id":1,"UserName":"Jascha","IsOnline":false,"UserChatMessages":null,"StreamChatMessages":null,"CurrentWatchList":null}]
 export interface User extends IUser {
     IsOnline: boolean;
     FollowCount: number;
-    Email: string;
     Balance: number;
 }
 

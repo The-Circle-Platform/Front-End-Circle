@@ -47,20 +47,20 @@ export class OnlineListComponent implements OnInit {
     RefreshList() {
         console.log('Ophalen streamers US-3');
         //Subscribes to interval.
-        interval(2000).subscribe(() => {
+        //interval(200000000000).subscribe(() => {
             //Next step is to request users to api.
             const ss = this.http
                 .get<userDTO>('https://localhost:7058/api/user')
                 .subscribe((e) => {
 
-                    console.log(e.originalList)
+                    // console.log(e.originalList)
                     this.users = e.originalList as User[];
-                    console.log(this.users)
+                    // console.log(this.users)
                     this.users = this.SortList(this.users);
-                    console.log("VERIFYING REQUEST")
-                    console.log(e);
-                    let jsonData = JSON.stringify(e.originalList, null, 0);
-                    console.log(this.securityService.verify(jsonData, e.signature!, e.pubKey))
+                    // console.log("VERIFYING REQUEST")
+                    // console.log(e);
+                    let jsonData = JSON.stringify(e.originalList, null, 0).toLowerCase();
+                    this.securityService.verify(jsonData, e.signature!)
                     //Will assign new value to behavioursubject.
                     /*value = !value;
           e[0].isOnline = value;*/
@@ -70,7 +70,7 @@ export class OnlineListComponent implements OnInit {
                     //Will unsubscribe, so that this observable can be reused multiple times.
                     ss.unsubscribe();
                 });
-        });
+        //});
     }
 
     Refresh(newUserList: User[]) {
