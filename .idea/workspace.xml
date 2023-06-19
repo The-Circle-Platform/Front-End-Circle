@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ac5a6ba-b102-4385-afcd-f1d39e94e30e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/app/services/authServices/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/authServices/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/authServices/security.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/services/authServices/security.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +95,7 @@
       <workItem from="1686829995410" duration="372000" />
       <workItem from="1686833869839" duration="2200000" />
       <workItem from="1686899247485" duration="5952000" />
-      <workItem from="1687158682182" duration="11714000" />
+      <workItem from="1687158682182" duration="13257000" />
     </task>
     <task id="LOCAL-00001" summary="Feature-branch online list met master branch gemerged">
       <created>1686082424180</created>

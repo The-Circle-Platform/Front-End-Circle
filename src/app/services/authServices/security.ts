@@ -47,10 +47,11 @@ export class securityService {
         this.serverCrypto.setPrivateKey(this.serverPublicKey); // You can only Decrypt with the private key with this library
     }
 
-    encryptWithServerPublicKey(plaintext: string): string {
+    encryptWithServerPublicKey(plaintext: string): string{
         this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
-        let enc = this.serverCrypto.encrypt(plaintext);
-        return enc.toString();
+        var encrypted = this.serverCrypto.encrypt(plaintext);
+        return encrypted.toString();
+
     }
 
 
