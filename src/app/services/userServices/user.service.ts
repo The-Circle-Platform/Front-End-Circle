@@ -6,7 +6,7 @@ import { User, userDTO } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 
 @Injectable({ providedIn: 'root' })
-export class userService implements IService<User> {
+export class UserService implements IService<User> {
     private siteEndpoint: string;
 
     constructor(
