@@ -4,6 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { User } from '../../Domain/Models/User';
 import { ChatMessage, ChatRequestDTO, ChatResponseDTO, ChatMessageDTO } from '../../Domain/Models/ChatMessage';
+import { LoggerService } from "../loggerServices/logger.service";
+import { Subscription } from "rxjs";
+import { securityService } from "../authServices/security";
 
 @Injectable({providedIn: 'root'})
 export class ChatService{
@@ -15,8 +18,12 @@ export class ChatService{
     private hubConnection: HubConnection | undefined;
     public currentUser: User | undefined = undefined;
     public hubEndpoint: string;
+    subscription: Subscription | undefined;
     
-    constructor(public con: ConfigService)
+    constructor(
+        public con: ConfigService, 
+        private logger: LoggerService, 
+        private securityService: securityService)
     {
         this.ListOfChats = [];
         this.hubEndpoint = `${con.getApiEndpoint()}hubs/ChatHub`
@@ -38,8 +45,11 @@ export class ChatService{
             (response: ChatResponseDTO) => {
                 console.log('Received new chatmessages');
                 console.log(response);
-                //Verify received packages.
-                
+                // Turn into string
+                const stringJson = JSON.stringify(response);
+
+                //Verify signature
+                this.securityService.verify(stringJson, response.Signature);
 
                 // Assigns new user to response.
                 this.ListOfChats = response.OriginalList;
@@ -52,10 +62,14 @@ export class ChatService{
             .then(async () => {
                 // -> Send connection
                 console.log('Get current chatmessages');
-
                 this.hubConnection
                     ?.send('RetrieveCurrentChat', HostId)
-                    .then();
+                    .then(()=>{
+                        this.subscription = this.logger.logToDB("/hubs/ChatHub/", "RetrieveCurrentChat").subscribe((res => {
+                            console.log(res);
+                            this.subscription?.unsubscribe();
+                          }));
+                    });
             })
             .catch((err) =>
                 console.log(`Error with signalR connection ${err}`)
@@ -64,9 +78,10 @@ export class ChatService{
 
     public SendToServer(chatMessage: ChatMessageDTO) {
         //Create signature
-        //TODO: Hier een methode voor het signen.
+        const txt = JSON.stringify(chatMessage);
+        const signature = this.securityService.sign(txt);
         const payload: ChatRequestDTO = {
-            Signature: [],
+            Signature: signature,
             SenderUserId: chatMessage.WebUserId,
             OriginalData: chatMessage,
         };
@@ -76,11 +91,14 @@ export class ChatService{
             ?.send('SendMessage', payload)
             .then(() => {
                 console.log('Gelukt');
+                this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
+                    console.log(res);
+                    this.subscription?.unsubscribe();
+                }));
+
             })
             .catch((err) => {
                 console.log('Niet gelukt');
             });
     }
-
-
 }

@@ -14,12 +14,13 @@ export class UserCardComponent implements OnInit {
         console.log(this.User);
         if (!this.User) {
             this.User = {
-                id: 0,
-                userName: 'Unknown',
+                Id: 0,
+                UserName: 'Unknown',
                 isOnline: false,
                 followCount: 1,
                 ImageName: '',
                 Base64Image: '',
+                Balance: 0,
             };
         }
     }

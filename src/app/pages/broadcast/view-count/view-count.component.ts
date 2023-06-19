@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { ViewService } from './viewCounter.service';
+import { securityService } from 'src/app/services/authServices/security';
+import { AuthService } from 'src/app/services/authServices/auth.service';
 
 @Component({
   selector: 'app-view-count',
@@ -19,11 +21,10 @@ export class ViewCountComponent implements OnInit{
   @Input()
   StreamId: number | undefined;
 
-  constructor(public viewHub: ViewService){}
+  constructor(public viewHub: ViewService, public securityService: securityService, private authService: AuthService){}
 
   ngOnInit(): void {
     this.connect();
-    console.log(this.numberList);
   }
 
   private connect(): void {
@@ -34,16 +35,25 @@ export class ViewCountComponent implements OnInit{
     this._hubConnection.on("UpdateViewerCount" + this.StreamId, (message) => {
       console.log(message);
       // Verificatie 
+      const signature = message.signature;
+      const updatedCount = message.OriginalCount;
 
+      const isValid = this.securityService.verify(updatedCount, signature);
 
-      this.numberList = message.OriginalCount;
+      if(isValid){
+        this.numberList = message.OriginalCount;
+      } else{
+        console.warn("Data is tainted");
+      }
+      
     });
 
     this._hubConnection.start()
         .then(async (u) => {
           console.log("Connection started");
           if(!this.isStreamer) {
-            this._hubConnection?.send("ConnectToStream", {ConnectionId: null, StreamId: 1, UserId: 1}).then();
+            const ownUserId = this.authService.GetWebUser()?.Id;
+            this._hubConnection?.send("ConnectToStream", this.StreamId, ownUserId).then();
           }
         })
         .catch((err) => console.log('error while establishing signalr connection: ' + err));

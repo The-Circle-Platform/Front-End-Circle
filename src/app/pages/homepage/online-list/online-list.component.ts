@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { User } from '../../../Domain/Models/User';
-import { LoggerService } from '../../../services/loggerServices/logger.service';
-import { UserService } from '../../../services/userServices/user.service';
+import { User, userDTO } from 'src/app/Domain/Models/User';
+import { LoggerService } from 'src/app/services/loggerServices/logger.service';
+import { UserService } from 'src/app/services/userServices/user.service';
+import { securityService } from 'src/app/services/authServices/security';
 
 @Component({
     selector: 'app-online-list',
@@ -14,13 +15,16 @@ export class OnlineListComponent implements OnInit {
     value: Boolean = true;
     refresher: Observable<any>;
     list$: BehaviorSubject<User[] | undefined>;
+    hasIntigrety: boolean | undefined;
 
     users: User[] = [];
     currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
 
     constructor(
         public userService: UserService,
+        private http: HttpClient,
         private logger: LoggerService,
+        public securityService: securityService
     ) {
         this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
         this.refresher = new Observable<any>();
@@ -29,44 +33,51 @@ export class OnlineListComponent implements OnInit {
     // TODO: Link to stream function needs to be implemented.
 
     ngOnInit(): void {
-        // this.logger.trace('converting data to export');
-        //this.refresher = this.http.get<User[]>("https://localhost:7058/api/user");
-
-        // TODO: Decomment when function works fully
         this.RefreshList();
     }
 
     RefreshList() {
-        //Subscribes to interval per minute
-        interval(60000).subscribe(() => {
-            //Next step is to request users to api.
-            const serve = this.userService.GetAll().subscribe((ul)=>{
-                this.users = ul;
-                this.SortList(this.users);
-                // Verify content
+        console.log('Ophalen streamers US-3');
+        //Subscribes to interval.
+        //interval(200000000000).subscribe(() => {
+        //Next step is to request users to api.
 
-                this.Refresh(ul);
+        const ss = this.userService.GetAll().subscribe((e) => {
+            // console.log(e.originalList)
+            this.users = e.originalList as User[];
+            // console.log(this.users)
+            this.users = this.SortList(this.users);
+            // console.log("VERIFYING REQUEST")
+            // console.log(e);
+            const jsonData = JSON.stringify(
+                e.originalList,
+                null,
+                0
+            ).toLowerCase();
+            this.hasIntigrety = this.securityService.verify(
+                jsonData,
+                e.signature!
+            );
+            if (this.hasIntigrety) {
+                console.log('Data has not changed');
+            } else {
+                console.log('Data is not the same as was send by server');
+            }
+            //Will assign new value to behavioursubject.
+            /*value = !value;
+          e[0].isOnline = value;*/
 
-                serve.unsubscribe();
-            });
+            this.Refresh(e.originalList!);
+
+            //Will unsubscribe, so that this observable can be reused multiple times.
+            ss.unsubscribe();
         });
+        //});
     }
 
     Refresh(newUserList: User[]) {
         this.list$.next(newUserList);
     }
-
-    // DummyData(): User[] {
-    //     return [
-    //         { id: 66, isOnline: true, userName: 'TestDave', followCount: 13 },
-    //         {
-    //             id: 67,
-    //             isOnline: false,
-    //             userName: 'TestLinda',
-    //             followCount: 138,
-    //         },
-    //     ];
-    // }
 
     SortList(value: User[]): User[] {
         if (this.currentSortOrder == 'asc') {

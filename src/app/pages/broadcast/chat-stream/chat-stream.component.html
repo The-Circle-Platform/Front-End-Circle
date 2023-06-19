@@ -1,8 +1,9 @@
 <div class="container">
     <h1>Chat</h1>
+    <h1>Chat Interface</h1>
     <div class="chat-container">
 
-        <div [ngClass]="WriterId == mess.writer.id ? 'own-message' : (HostUserId == mess.writer.id ? 'bot-message' : 'user-message')" 
+        <div [ngClass]="WriterId == mess.writer.Id ? 'own-message' : (HostUserId == mess.writer.Id ? 'bot-message' : 'user-message')"
         class="media" *ngFor="let mess of ListOfChats;">
             <div class="media-body">
                 <h5 class="mt-0">{{ mess.writer.userName }}</h5>
