@@ -1,6 +1,7 @@
 <ng-container>
     <div *ngIf="!hasIntegrity">
-        <h1 style="color: red">WAARSCHUWING, DE DATA VAN DEZE REQUEST IS NIET INTEGER. HET KAN ZIJN DAT IEMAND DE DATA HEEFT VERANDERD</h1>
+        <h1 style="color: red">WAARSCHUWING, DE DATA VAN DEZE REQUEST IS NIET INTEGER. HET KAN ZIJN DAT IEMAND DE DATA
+            HEEFT VERANDERD</h1>
     </div>
     <section class="vh-100" style="background-color: #9de2ff;">
         <div class="container py-5 h-100">
@@ -26,7 +27,28 @@
 
                                     </div>
                                     <div class="d-flex pt-1">
+                                        <form (ngSubmit)="onSubmit()">
+                                            <p>
+                                                <label for="Profielfoto">Profielfoto</label>
+                                            </p>
+                                            <input placeholder="Upload je profielfoto." type="file" id="file"
+                                                (change)="onSelectFile($event)" name="Profielfoto" />
+                                            <div class="ImageSelector">
+                                                Afbeelding geselecteerd:<br />
+                                                <span *ngIf="pfpUser && pfpUser.Base64Image">
+                                                    Afbeeldingsnaam: {{ pfpUser.ImageName }}
+                                                </span>
+                                                <span *ngIf="!pfpUser || !pfpUser.Base64Image">
+                                                    Geen afbeelding geselecteerd.
+                                                </span>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                                                    aanpassen
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
