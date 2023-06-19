@@ -57,7 +57,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             console.log(this.userName);
 
             this.subscription = this.userService
-                .Get(tokenUser.id)
+                .Get(tokenUser.Id)
                 .subscribe((res) => {
                     console.log(res);
                     this.hasIntegrity = this.securityService.verify(
