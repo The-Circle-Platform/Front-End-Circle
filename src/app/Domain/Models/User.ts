@@ -13,8 +13,8 @@ export interface DecodedToken {
 export interface User extends IUser {
     isOnline: boolean;
     followCount: number;
-    ImageName: string;
-    Base64Image: string;
+    imageName: string;
+    base64Image: string;
     balance: number;
 }
 
@@ -28,7 +28,7 @@ export interface Register {
 }
 
 export interface Pfp {
-    ImageName: string;
+    imageName: string;
     Base64Image: string;
 }
 

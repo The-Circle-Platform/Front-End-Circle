@@ -23,51 +23,30 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         private securityService: securityService
     ) {}
 
-    // ngOnInit(): void {
-    //     var jwt = localStorage.getItem("token");
-    //     if(jwt) {
-    //       const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
-    //       console.log(tokenUser)
-    //       this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-    //       console.log(this.userName);
-    //
-    //       this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
-    //           this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
-    //           if(this.hasIntegrity) {
-    //             console.log(res);
-    //             this.user = res.originalData;
-    //             console.log(this.user?.userName);
-    //           }
-    //
-    //       }))
-    //     }
-    //   }
-
     ngOnInit(): void {
         const jwt = localStorage.getItem('token');
         if (jwt) {
             const tokenUser = this.authService.decodeJwtToken(
                 jwt
             ) as DecodedToken;
-            console.log(tokenUser);
+            console.log('tokenUser: ', tokenUser);
             this.userName =
                 tokenUser[
                     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
                 ];
-            console.log(this.userName);
 
             this.subscription = this.userService
                 .Get(tokenUser.Id)
                 .subscribe((res) => {
-                    console.log(res);
+                    console.log('res: ', res);
                     this.hasIntegrity = this.securityService.verify(
                         res.originalData,
                         res.signature
                     );
-                    if (this.hasIntegrity) {
-                        this.user = res.originalData;
-                        console.log(this.user?.balance);
-                    }
+                    console.log('this.hasIntegrity ', this.hasIntegrity);
+                    // if (this.hasIntegrity) {
+                    this.user = res.originalData;
+                    // }
                 });
         }
     }
@@ -87,8 +66,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                         userName: 'test',
                         isOnline: true,
                         followCount: 0,
-                        ImageName: imageFile.name,
-                        Base64Image: image,
+                        imageName: imageFile.name,
+                        base64Image: image,
                         balance: 0,
                     };
                 }
@@ -100,12 +79,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         if (this.pfpUser) {
             this.userService.uploadPfp(this.pfpUser).subscribe(
                 (reply: any) => {
-                    console.log(reply);
+                    console.log('reply: ', reply);
                 },
                 (err) => {
                     console.log(err);
                 }
             );
+            location.reload();
         }
     }
 

@@ -63,9 +63,9 @@ export class securityService {
         const messageJson = JSON.stringify(message, null, 0).toLowerCase();
 
         this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
-        //console.log(message);
-        console.log(signature);
-        console.log(message);
+
+        console.log("signature: ", signature);
+        console.log("message: ", message);
 
         const verified = this.serverCrypto.verify(
             messageJson,
