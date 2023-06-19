@@ -15,6 +15,7 @@ export class StreamPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.CheckParams();
+    //Use router to get url parameters in order to get transparent user Id
     //Get latest stream.
   }
 
@@ -24,10 +25,19 @@ export class StreamPageComponent implements OnInit {
 
       if(Id) {
         this.HostId = parseInt(Id);
+        this.GetLatestStream(this.HostId);
       } else {
         console.log("Geen params");
       } 
     })
+  }
+
+  GetLatestStream(HostId: number){
+    console.log("Get latest stream");
+
+    //Perform latest https request to server
+
+    //If it succeeds, connect to the livestream endpoints and receive videostream.
   }
   
 }

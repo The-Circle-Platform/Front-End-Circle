@@ -5,6 +5,10 @@
             <app-chat-stream [HostUserId]="HostId"></app-chat-stream>
         </div>
         <div class="col-sm-5 col-md-8 col-lg-6">
+            <div class="viewCountWrapper">
+                <app-viewer-count [isStreamer] = false></app-viewer-count>
+            </div>
+
             <app-streaming-player></app-streaming-player>
         </div>
     </div>

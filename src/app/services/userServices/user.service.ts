@@ -26,18 +26,11 @@ export class UserService implements IService<User> {
         );
     }
 
-    GetAll(): Observable<User[]> {
+    GetAll(): Observable<any> {
         return this.httpClient.get<any>(this.siteEndpoint).pipe(
             map((v: UserResponseList)=>{
-                //Verification needed.
                 // place holder value at the moment.
-                const isValid:Boolean = true;
-                
-                if(isValid){
-                    return v.OriginalList;
-                } else{
-                    return [];
-                }
+                return v;
             })
         );
     }
@@ -48,7 +41,7 @@ export class UserService implements IService<User> {
 
     Update(entity: User): Observable<User> {
         return this.httpClient.put<User>(
-            `${this.siteEndpoint}/${entity.id}`,
+            `${this.siteEndpoint}/${entity.Id}`,
             entity
         );
     }
