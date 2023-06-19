@@ -55,6 +55,7 @@ export class LoginComponent {
                         localStorage.setItem('token', reply.originalLoad.token);
                         localStorage.setItem('privateKey', reply.originalLoad.privKey);
                         localStorage.setItem('publicKey', reply.originalLoad.pubKey);
+                        localStorage.setItem('userId', reply.originalLoad.websiteUser.id)
                         this.router.navigate(['/']);
                     },
                     (err) => {

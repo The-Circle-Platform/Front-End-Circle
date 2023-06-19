@@ -57,12 +57,12 @@ export class AuthService {
 
     login(userName: string, password: string): Observable<string | undefined> {
         const credentials = {
-            // userName: this.securityService.encryptWithServerPublicKey(userName),
-            // password: this.securityService.encryptWithServerPublicKey(password),
-            userName: userName,
-            password: password,
+            UserName: userName,
+            Password: password,
+            // userName: userName,
+            // password: password,
         };
-        console.log(`Username: ${credentials.userName} | Password: ${credentials.password}`)
+        console.log(`Username: ${credentials.UserName} | Password: ${credentials.Password}`)
         // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
 
         return this.http.post<string>(

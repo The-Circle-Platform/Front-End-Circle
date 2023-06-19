@@ -46,7 +46,7 @@ export class ChatStreamComponent implements OnInit{
     const currentUser: User | undefined = undefined;
 
     this.HostUserId = 1;
-    this.WriterId = 1;
+    this.WriterId = +localStorage.getItem('userId')! || 1;
     //Setup form.
     this.SetupChat(this.WriterId, this.HostUserId);
     this.connectToChatHub();
@@ -129,7 +129,8 @@ export class ChatStreamComponent implements OnInit{
   private SendToServer(chatMessage: ChatMessageDTO){
     const body = {
       "originalData": chatMessage,
-      "signature": this.securityService.sign(chatMessage)
+      "signature": this.securityService.sign(chatMessage),
+      "senderUserId": chatMessage.WebUserId
     }
     console.log("help")
     console.log(body);
@@ -138,7 +139,8 @@ export class ChatStreamComponent implements OnInit{
       this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
         console.log(res);
         this.subscription?.unsubscribe();
-      }));
+      })
+      );
 
     }).catch((err)=>{
       console.log("Niet gelukt");
