@@ -15,11 +15,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
   private userName: String | undefined;
   public user: User | undefined;
   private subscription: Subscription | undefined;
+  public hasIntegrity: boolean = true;
   constructor(private authService: AuthService, private userService: userService, private securityService: securityService) {}
 
 ngOnInit(): void {
-  console.log("henk")
-  this.securityService.sign('henk');
     var jwt = localStorage.getItem("token");
     if(jwt) {
       const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
@@ -28,10 +27,13 @@ ngOnInit(): void {
       console.log(this.userName);
 
       this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
-          console.log(res)
-          this.user = res.originalData;
-          console.log("henk")
-          console.log(this.user?.userName);
+          this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
+          if(this.hasIntegrity) {
+            console.log(res);
+            this.user = res.originalData;
+            console.log(this.user?.userName);
+          }
+
       }))
     }
   }

@@ -15,7 +15,7 @@ export class OnlineListComponent implements OnInit {
     value: Boolean = true;
     refresher: Observable<any>;
     list$: BehaviorSubject<User[] | undefined>;
-    hasIntigrety: boolean | undefined;
+    hasIntigrety: boolean = true;
 
     users: User[] = [];
     currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
@@ -60,8 +60,7 @@ export class OnlineListComponent implements OnInit {
                     this.users = this.SortList(this.users);
                     // console.log("VERIFYING REQUEST")
                     // console.log(e);
-                    let jsonData = JSON.stringify(e.originalList, null, 0).toLowerCase();
-                     this.hasIntigrety = this.securityService.verify(jsonData, e.signature!)
+                     this.hasIntigrety = this.securityService.verify(e.originalList, e.signature!)
                     if(this.hasIntigrety) {
                         console.log("Data has not changed");
                     }
