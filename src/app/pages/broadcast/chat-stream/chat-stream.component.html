@@ -6,7 +6,7 @@
         <div [ngClass]="WriterId == mess.writer.Id ? 'own-message' : (HostUserId == mess.writer.Id ? 'bot-message' : 'user-message')"
         class="media" *ngFor="let mess of ListOfChats;">
             <div class="media-body">
-                <h5 class="mt-0">{{ mess.writer.UserName }}</h5>
+                <h5 class="mt-0">{{ mess.writer.userName }}</h5>
                 <p>{{ mess.message }}</p>
                 <p>{{ mess.date }}</p>
             </div>

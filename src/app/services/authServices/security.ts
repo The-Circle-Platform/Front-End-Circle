@@ -72,9 +72,7 @@ export class securityService {
     }
 
     verify(message: any | any[], signature: string): boolean {
-        this.serverCrypto.setPublicKey(
-            'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCXn1KW/Kxp3+1olLQuH7p71io4C0CKF61GySLQ29kOQ6uDQGmDLYof9oquHgAQp/ZHm/jVnthdmXG8iO4i8I/lIi1aQn34I9wn6HmBMRNUai59UuQlyPZDCTWk7EFz0gPwZ46aV/uWdMwCPk2Xn+OAejcESLBP3WG9HbTHo0/lQIDAQAB'
-        );
+        this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
         //console.log(message);
         console.log(signature);
         console.log(message);

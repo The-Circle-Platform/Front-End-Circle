@@ -2,7 +2,7 @@ import { IContent, IOutResponsePayload } from '../Interfaces/IContent';
 import { IDomain } from '../Interfaces/IDomain';
 
 export interface IUser extends IDomain {
-    UserName: string;
+    userName: string;
 }
 
 export interface DecodedToken {
@@ -74,7 +74,7 @@ export type Id = string;
 export type ResourceId = { id: Id };
 
 export class userDTO {
-    originalData: any;
+    originalData: undefined | User;
     originalList: User[] | undefined;
     publicKey: string | undefined;
     randomId: string | undefined;

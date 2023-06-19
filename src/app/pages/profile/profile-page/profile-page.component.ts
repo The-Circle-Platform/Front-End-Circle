@@ -1,10 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { PfpUser } from '../../../Domain/Models/User';
-import {AuthService} from "../../../services/authServices/auth.service";
-import {DecodedToken, User} from "../../../Domain/Models/User";
-import {UserService} from "../../../services/userServices/user.service";
-import {Subscription} from "rxjs";
-import {securityService} from "../../../services/authServices/security";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AuthService } from '../../../services/authServices/auth.service';
+import { DecodedToken, User } from '../../../Domain/Models/User';
+import { UserService } from '../../../services/userServices/user.service';
+import { Subscription } from 'rxjs';
+import { securityService } from '../../../services/authServices/security';
 
 @Component({
     selector: 'app-profile-page',
@@ -23,31 +22,34 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         private securityService: securityService
     ) {}
 
-
     ngOnDestroy(): void {
         this.subscription?.unsubscribe();
-      }
-    
+    }
+
     ngOnInit(): void {
-       console.log("henk")
+        console.log('henk');
         this.securityService.sign('henk');
-          const jwt = localStorage.getItem("token");
-          if(jwt) {
-            const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
-            this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        const jwt = localStorage.getItem('token');
+        if (jwt) {
+            const tokenUser = this.authService.decodeJwtToken(
+                jwt
+            ) as DecodedToken;
+            this.userName =
+                tokenUser[
+                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+                ];
             console.log(this.userName);
-      
-            this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
-                console.log(res)
-                this.user = res;
-                console.log(this.user);
-            }))
-      
-      
-          }
-      
+
+            this.subscription = this.userService
+                .Get(tokenUser.Id)
+                .subscribe((res) => {
+                    console.log(res);
+                    this.user = res;
+                    console.log(this.user);
+                });
         }
-  
+    }
+
     onSelectFile(event: any) {
         console.log('onSelectFile');
         if (event.target.files && event.target.files[0]) {
@@ -60,7 +62,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 if (!this.pfpUser) {
                     this.pfpUser = {
                         Id: 1,
-                        UserName: 'test',
+                        userName: 'test',
                         isOnline: true,
                         followCount: 0,
                         ImageName: imageFile.name,
@@ -84,5 +86,4 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             );
         }
     }
-
 }
