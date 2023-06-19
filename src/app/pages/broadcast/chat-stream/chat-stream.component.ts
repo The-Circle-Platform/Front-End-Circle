@@ -8,6 +8,7 @@ import {
 import { User } from '../../../Domain/Models/User';
 import { ChatService } from '../../../services/chatServices/chat.service';
 import { AuthService } from 'src/app/services/authServices/auth.service';
+import { securityService } from 'src/app/services/authServices/security';
 
 @Component({
     selector: 'app-chat-stream',
@@ -19,7 +20,7 @@ export class ChatStreamComponent implements OnInit {
     public IsBusy: boolean;
     public warning: string;
     public currentChatBox: ChatMessageDTO | undefined;
-
+    private hubConnection: HubConnection | undefined;
     //private hubConnection: HubConnection | undefined;
     
     @Input()
@@ -29,7 +30,10 @@ export class ChatStreamComponent implements OnInit {
     public currentUser: User | undefined = undefined;
     //Template value for textbox.
 
-    constructor(private Router: Router, private viewHub: ChatService, private authService: AuthService) {
+    constructor(private Router: Router, 
+        private viewHub: ChatService, 
+        private authService: AuthService,
+        private securityService: securityService) {
         this.ListOfChats = [];
         //Placeholder value.
         this.IsBusy = false;
@@ -48,7 +52,7 @@ export class ChatStreamComponent implements OnInit {
             //const writerId = this.currentUser?.id;
             if(writer){ 
                 this.SetupChat(writer.id, HostId);
-                this.viewHub.SetUpConnections(HostId); 
+                this.SetUpConnections(HostId); 
                 //Link reference to object
                 this.ListOfChats = this.viewHub.ListOfChats;
             } else{
@@ -77,7 +81,7 @@ export class ChatStreamComponent implements OnInit {
         console.log('Sending started');
         if (this.currentChatBox != undefined) {
             console.log("Versturen gestart.");
-            this.viewHub.SendToServer(this.currentChatBox);
+            this.SendToServer(this.currentChatBox);
             //Resets
             this.currentChatBox.Message = '';
             this.IsBusy = true;
@@ -87,55 +91,66 @@ export class ChatStreamComponent implements OnInit {
         }
     }
 
-    // private SetUpConnections(HostId: number) {
-    //     console.log('Begin connectie chat');
+    private SetUpConnections(HostId: number) {
+        console.log('Begin connectie chat');
 
-    //     //Setup url
-    //     this.hubConnection = new HubConnectionBuilder()
-    //         .withUrl(this.viewHub.hubEndpoint)
-    //         .build();
+        //Setup url
+        this.hubConnection = new HubConnectionBuilder()
+            .withUrl(this.viewHub.hubEndpoint)
+            .build();
 
-    //     //Setup receiver methode
-    //     const ReceiverEndpoint = `ReceiveChat-${HostId}`;
+        //Setup receiver methode
+        const ReceiverEndpoint = `ReceiveChat-${HostId}`;
 
-    //     this.hubConnection.on(
-    //         ReceiverEndpoint,
-    //         (updatedMessageList: ChatMessage[]) => {
-    //             console.log('Received new chatmessages');
-    //             //Verify received packages.
+        this.hubConnection.on(
+            ReceiverEndpoint,
+            (updatedMessageList: any) => {
+                console.log('Received new chatmessages');
+                //Verify received packages.
+                // Turn into string
+                const stringJson = JSON.stringify(updatedMessageList.originalList);
+
+                //Verify signature
+                const isValid = this.securityService.verify(stringJson, updatedMessageList.signature);
                 
-    //             this.ListOfChats = updatedMessageList;
-    //             this.IsBusy = false;
-    //         }
-    //     );
+                if(isValid){
+                    this.ListOfChats = updatedMessageList.originalList;
+                } else{
+                    this.warning = 'Data integriteit is aangetast, probeer later nog eens.';
+                }
+                
 
-    //     //Start connection
+                this.IsBusy = false;
+            }
+        );
 
-    //     this.hubConnection
-    //         .start()
-    //         .then(async () => {
-    //             // -> Send connection
-    //             console.log('Get current chatmessages');
+        //Start connection
 
-    //             this.hubConnection
-    //                 ?.send('RetrieveCurrentChat', HostId)
-    //                 .then();
-    //         })
-    //         .catch((err) =>
-    //             console.log(`Error with signalR connection ${err}`)
-    //         );
-    // }
+        this.hubConnection
+            .start()
+            .then(async () => {
+                // -> Send connection
+                console.log('Get current chatmessages');
+
+                this.hubConnection
+                    ?.send('RetrieveCurrentChat', HostId)
+                    .then();
+            })
+            .catch((err) =>
+                console.log(`Error with signalR connection ${err}`)
+            );
+    }
 
     
 
-    // private SendToServer(chatMessage: ChatMessageDTO) {
-    //     this.hubConnection
-    //         ?.send('SendMessage', chatMessage)
-    //         .then(() => {
-    //             console.log('Gelukt');
-    //         })
-    //         .catch((err) => {
-    //             console.log('Niet gelukt');
-    //         });
-    // }
+    private SendToServer(chatMessage: ChatMessageDTO) {
+        this.hubConnection
+            ?.send('SendMessage', chatMessage)
+            .then(() => {
+                console.log('Gelukt');
+            })
+            .catch((err) => {
+                console.log('Niet gelukt');
+            });
+    }
 }

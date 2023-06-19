@@ -12,6 +12,7 @@ export class StreamPageComponent implements OnInit {
   
   constructor(private router: ActivatedRoute){
     this.HostId = 0;
+    this.NewStream = {id: 1};
   }
   ngOnInit(): void {
     console.log("Hello page algemeen")
