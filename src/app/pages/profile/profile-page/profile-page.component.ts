@@ -13,14 +13,32 @@ import { securityService } from '../../../services/authServices/security';
 export class ProfilePageComponent implements OnInit, OnDestroy {
     pfpUser: User | undefined;
 
-    private userName: String | undefined;
-    public user: User | undefined;
-    private subscription: Subscription | undefined;
-    constructor(
-        private authService: AuthService,
-        private userService: userService,
-        private securityService: securityService
-    ) {}
+
+  private userName: String | undefined;
+  public user: User | undefined;
+  private subscription: Subscription | undefined;
+  public hasIntegrity: boolean = true;
+  constructor(private authService: AuthService, private userService: userService, private securityService: securityService) {}
+
+// ngOnInit(): void {
+//     var jwt = localStorage.getItem("token");
+//     if(jwt) {
+//       const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
+//       console.log(tokenUser)
+//       this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+//       console.log(this.userName);
+//
+//       this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
+//           this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
+//           if(this.hasIntegrity) {
+//             console.log(res);
+//             this.user = res.originalData;
+//             console.log(this.user?.userName);
+//           }
+//
+//       }))
+//     }
+//   }
 
     ngOnDestroy(): void {
         this.subscription?.unsubscribe();
@@ -44,8 +62,12 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 .Get(tokenUser.id)
                 .subscribe((res) => {
                     console.log(res);
-                    this.user = res.originalData;
-                    console.log(this.user);
+                    this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
+                    if(this.hasIntegrity) {
+                        this.user = res.originalData;
+                        console.log(this.user?.balance);
+                    }
+
                 });
         }
     }
@@ -67,7 +89,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                         followCount: 0,
                         ImageName: imageFile.name,
                         Base64Image: image,
-                        Balance: 0,
+                        balance: 0,
                     };
                 }
             };

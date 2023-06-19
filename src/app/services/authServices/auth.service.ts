@@ -126,6 +126,7 @@ export class AuthService {
                     localStorage.removeItem(this.CURRENT_PRIVATE_KEY);
                     localStorage.removeItem(this.CURRENT_PUBLIC_KEY);
                     localStorage.removeItem(this.CURRENT_USER);
+
                     this.currentToken$.next(undefined);
                 } else {
                     console.log('navigate result:', success);
