@@ -21,8 +21,12 @@ export class NavComponent implements OnInit {
 
         const user = this.authService.getDecodedToken();
 
-        this.username =
-            user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+        if (user) {
+            this.username =
+                user[
+                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+                ];
+        }
     }
 
     logout(): void {

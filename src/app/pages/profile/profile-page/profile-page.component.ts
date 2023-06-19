@@ -11,12 +11,17 @@ import {securityService} from "../../../services/authServices/security";
     templateUrl: './profile-page.component.html',
     styleUrls: ['./profile-page.component.css'],
 })
-export class ProfilePageComponent implements OnInit,OnDestroy{
-    PfpUser: PfpUser | undefined;
+export class ProfilePageComponent implements OnInit, OnDestroy {
+    pfpUser: User | undefined;
+
     private userName: String | undefined;
     public user: User | undefined;
     private subscription: Subscription | undefined;
-    constructor( private authService: AuthService, private userService: UserService, private securityService: securityService) {}
+    constructor(
+        private authService: AuthService,
+        private userService: UserService,
+        private securityService: securityService
+    ) {}
 
 
     ngOnDestroy(): void {
@@ -43,35 +48,41 @@ export class ProfilePageComponent implements OnInit,OnDestroy{
       
         }
   
-      onSubmit(): void {
-          console.log('Here', this.PfpUser);
-          if (this.PfpUser) {
-              this.userService.uploadPfp(this.PfpUser);
-          }
-      }
     onSelectFile(event: any) {
         console.log('onSelectFile');
         if (event.target.files && event.target.files[0]) {
             const imageFile: File = event.target.files[0];
             const reader = new FileReader();
-            reader.readAsDataURL(event.target.files[0]); // read file as data url
-            //console.dir(event.target.files[0])
+            reader.readAsDataURL(event.target.files[0]);
             reader.onload = () => {
-                // called once readAsDataURL is completed
-                // set the image value to the Base64 string -> can be saved in dtb
                 const image = reader.result as string;
-                console.log('Length van afbeeldinge');
-                console.log(image.length);
 
-                console.log('Here', this.PfpUser); // ------- How does this work?
-
-                if (this.PfpUser) {
-                    this.PfpUser.Pfp = {
+                if (!this.pfpUser) {
+                    this.pfpUser = {
+                        Id: 1,
+                        UserName: 'test',
+                        isOnline: true,
+                        followCount: 0,
                         ImageName: imageFile.name,
                         Base64Image: image,
+                        Balance: 0,
                     };
                 }
             };
         }
     }
+
+    onSubmit(): void {
+        if (this.pfpUser) {
+            this.userService.uploadPfp(this.pfpUser).subscribe(
+                (reply: any) => {
+                    console.log(reply);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
+    }
+
 }

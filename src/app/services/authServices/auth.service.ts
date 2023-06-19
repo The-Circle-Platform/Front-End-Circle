@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
-import { DecodedToken, IRegister, User } from '../../Domain/Models/User';
+import { DecodedToken, IRegister, Register, User } from '../../Domain/Models/User';
 import { securityService } from "./security";
 
 @Injectable({
@@ -14,9 +14,9 @@ import { securityService } from "./security";
 export class AuthService {
     public currentToken$ = new BehaviorSubject<string | undefined>(undefined);
     private readonly CURRENT_TOKEN = 'token';
-    private readonly CURRENT_USER = "Pop";
-    private readonly PRIVATE_PART = "Publiek";
-    private readonly PUBLIC_PART = "Secrete";
+    private readonly CURRENT_USER = 'Pop';
+    private readonly PRIVATE_PART = 'Publiek';
+    private readonly PUBLIC_PART = 'Secrete';
     private readonly CURRENT_PRIVATE_KEY = 'privateKey';
     private readonly CURRENT_PUBLIC_KEY = 'publicKey';
     private readonly headers = new HttpHeaders({
@@ -65,7 +65,9 @@ export class AuthService {
             userName: userName,
             password: password,
         };
-        console.log(`Username: ${credentials.userName} | Password: ${credentials.password}`)
+        console.log(
+            `Username: ${credentials.userName} | Password: ${credentials.password}`
+        );
         // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
 
         return this.http.post<string>(
@@ -82,18 +84,20 @@ export class AuthService {
         userName: string,
         role: string
     ): Observable<IRegister | undefined> {
-        const userData = {
-            email: email,
-            userName: userName,
-        };
+        const originalRegisterData = {
+            Email: email,
+            Username: userName,
+        } as Register;
+        const userData = { originalRegisterData };
+
         const RegisterJsonString = JSON.stringify(userData);
         const signature = this.securityService.sign(RegisterJsonString);
 
         const RegisterRequestDTO = {
-            Signature: signature,
-            OriginalRegisterData: userData,
-            SenderUserId: this.GetWebUser()?.Id
-        }
+            signature: signature,
+            originalRegisterData: userData,
+            SenderUserId: this.GetWebUser()?.Id,
+        };
         let adminUrl = '';
         if (role) adminUrl = '-admin';
         return this.http
@@ -154,7 +158,7 @@ export class AuthService {
         ) as DecodedToken;
     }
 
-    StoreToken(token: string){
+    StoreToken(token: string) {
         localStorage.setItem(this.CURRENT_TOKEN, token);
     }
 
@@ -163,18 +167,18 @@ export class AuthService {
         localStorage.setItem(this.CURRENT_PUBLIC_KEY, pubKey);
     }
 
-    StoreUser(user: User){
+    StoreUser(user: User) {
         const jsonUser: string = JSON.stringify(user);
         localStorage.setItem(this.CURRENT_USER, jsonUser);
     }
 
-    GetWebUser():User | null{
+    GetWebUser(): User | null {
         const userJson = localStorage.getItem(this.CURRENT_USER);
 
-        if(userJson){
-            const User:User = JSON.parse(userJson);
+        if (userJson) {
+            const User: User = JSON.parse(userJson);
             return User;
-        } else{
+        } else {
             return null;
         }
     }

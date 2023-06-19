@@ -49,15 +49,26 @@ export class OnlineListComponent implements OnInit {
                     this.users = this.SortList(this.users);
                     // console.log("VERIFYING REQUEST")
                     // console.log(e);
-                    const jsonData = JSON.stringify(e.originalList, null, 0).toLowerCase();
-                    const isValid = this.securityService.verify(jsonData, e.signature!);
+                    const jsonData = JSON.stringify(
+                        e.originalList,
+                        null,
+                        0
+                    ).toLowerCase();
+
+                    const isValid = this.securityService.verify(
+                        jsonData,
+                        e.signature!
+                    );
+
                     //Will assign new value to behavioursubject.
-                    if(isValid){
+                    /*value = !value;
+          e[0].isOnline = value;*/
+
+                    if (isValid) {
                         this.Refresh(e.originalList!);
-                    } else{
-                        console.warn("Data is tainted");
+                    } else {
+                        console.warn('Data is tained');
                     }
-                    
 
                     //Will unsubscribe, so that this observable can be reused multiple times.
                     ss.unsubscribe();
@@ -76,9 +87,9 @@ export class OnlineListComponent implements OnInit {
             return value.sort((a, b) => b.UserName.localeCompare(a.UserName));
         } else {
             return value.sort((a: User, b: User) => {
-                if (a.IsOnline && !b.IsOnline) {
+                if (a.isOnline && !b.isOnline) {
                     return -1;
-                } else if (!a.IsOnline && b.IsOnline) {
+                } else if (!a.isOnline && b.isOnline) {
                     return 1;
                 } else {
                     return 0;
