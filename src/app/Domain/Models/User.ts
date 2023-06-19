@@ -15,7 +15,7 @@ export interface User extends IUser {
     followCount: number;
     ImageName: string;
     Base64Image: string;
-    Balance: number;
+    balance: number;
 }
 
 export interface IRegister {

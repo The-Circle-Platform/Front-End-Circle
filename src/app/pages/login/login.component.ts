@@ -31,7 +31,7 @@ export class LoginComponent {
             .subscribe((user: string | undefined) => {
                 if (user) {
                     console.log('Gebruiker is al ingelogd');
-                    //this.router.navigate(['/']);
+                    this.router.navigate(['/']);
                 }
             });
 
@@ -55,9 +55,12 @@ export class LoginComponent {
                 )
                 .subscribe(
                     (reply: any) => {
-                        //location.reload();
+                        location.reload();
                         console.log(reply);
+                        this.authService.StoreToken(reply.originalLoad.token);
                         this.authService.StoreUser(reply.originalLoad.websiteUser);
+
+                        this.router.navigate(['/']);
                          this.hasIntegrity = this.securityService.verify(reply.originalLoad.websiteUser, reply.signature);
 
                         console.log(this.hasIntegrity)
@@ -66,7 +69,7 @@ export class LoginComponent {
                             localStorage.setItem('token', reply.originalLoad.token);
                             localStorage.setItem('privateKey', reply.originalLoad.privateKey);
                             localStorage.setItem('publicKey', reply.originalLoad.publicKey);
-                            //this.router.navigate(['/']);
+                            this.router.navigate(['/']);
                         }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/authServices/auth.service';
 import { DecodedToken, User } from '../../../Domain/Models/User';
 import { UserService } from '../../../services/userServices/user.service';
@@ -10,7 +10,7 @@ import { securityService } from '../../../services/authServices/security';
     templateUrl: './profile-page.component.html',
     styleUrls: ['./profile-page.component.css'],
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy {
     pfpUser: User | undefined;
 
     private userName: String | undefined;
@@ -22,6 +22,26 @@ export class ProfilePageComponent implements OnInit {
         private userService: UserService,
         private securityService: securityService
     ) {}
+
+    // ngOnInit(): void {
+    //     var jwt = localStorage.getItem("token");
+    //     if(jwt) {
+    //       const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
+    //       console.log(tokenUser)
+    //       this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+    //       console.log(this.userName);
+    //
+    //       this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
+    //           this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
+    //           if(this.hasIntegrity) {
+    //             console.log(res);
+    //             this.user = res.originalData;
+    //             console.log(this.user?.userName);
+    //           }
+    //
+    //       }))
+    //     }
+    //   }
 
     ngOnInit(): void {
         const jwt = localStorage.getItem('token');
@@ -39,14 +59,14 @@ export class ProfilePageComponent implements OnInit {
             this.subscription = this.userService
                 .Get(tokenUser.id)
                 .subscribe((res) => {
+                    console.log(res);
                     this.hasIntegrity = this.securityService.verify(
                         res.originalData,
                         res.signature
                     );
                     if (this.hasIntegrity) {
-                        console.log(res);
                         this.user = res.originalData;
-                        console.log(this.user?.userName);
+                        console.log(this.user?.balance);
                     }
                 });
         }
@@ -69,7 +89,7 @@ export class ProfilePageComponent implements OnInit {
                         followCount: 0,
                         ImageName: imageFile.name,
                         Base64Image: image,
-                        Balance: 0,
+                        balance: 0,
                     };
                 }
             };

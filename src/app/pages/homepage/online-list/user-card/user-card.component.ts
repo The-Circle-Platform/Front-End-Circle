@@ -20,7 +20,7 @@ export class UserCardComponent implements OnInit {
                 followCount: 1,
                 ImageName: '',
                 Base64Image: '',
-                Balance: 0,
+                balance: 0,
             };
         }
     }

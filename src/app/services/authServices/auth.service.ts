@@ -123,6 +123,10 @@ export class AuthService {
                 if (success) {
                     console.log('logout - removing local user info');
                     localStorage.removeItem(this.CURRENT_TOKEN);
+                    localStorage.removeItem(this.CURRENT_PRIVATE_KEY);
+                    localStorage.removeItem(this.CURRENT_PUBLIC_KEY);
+                    localStorage.removeItem(this.CURRENT_USER);
+
                     this.currentToken$.next(undefined);
                 } else {
                     console.log('navigate result:', success);
