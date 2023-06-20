@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import * as crypto from "crypto-browserify";
 import * as crypto from 'jsencrypt';
 import * as CryptoJS from 'crypto-js';
 import {environment} from "../../../environments/environment";
@@ -63,11 +62,10 @@ export class securityService {
     verify(message: any, signature: string): boolean {
         const messageJson = JSON.stringify(message, null, 0).toLowerCase();
 
-
         this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
-        //console.log(message);
-        console.log(signature);
-        console.log(message);
+
+        console.log("signature: ", signature);
+        console.log("message: ", message);
 
         const verified = this.serverCrypto.verify(
             messageJson,

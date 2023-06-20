@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/authServices/auth.service';
 import { DecodedToken, User } from '../../../Domain/Models/User';
-import { userService } from '../../../services/userServices/user.service';
+import { UserService } from '../../../services/userServices/user.service';
 import { Subscription } from 'rxjs';
 import { securityService } from '../../../services/authServices/security';
 
@@ -13,61 +13,40 @@ import { securityService } from '../../../services/authServices/security';
 export class ProfilePageComponent implements OnInit, OnDestroy {
     pfpUser: User | undefined;
 
-
-  private userName: String | undefined;
-  public user: User | undefined;
-  private subscription: Subscription | undefined;
-  public hasIntegrity: boolean = true;
-  constructor(private authService: AuthService, private userService: userService, private securityService: securityService) {}
-
-// ngOnInit(): void {
-//     var jwt = localStorage.getItem("token");
-//     if(jwt) {
-//       const tokenUser = this.authService.decodeJwtToken(jwt) as DecodedToken;
-//       console.log(tokenUser)
-//       this.userName = tokenUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-//       console.log(this.userName);
-//
-//       this.subscription = this.userService.Get(tokenUser.Id).subscribe((res => {
-//           this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
-//           if(this.hasIntegrity) {
-//             console.log(res);
-//             this.user = res.originalData;
-//             console.log(this.user?.userName);
-//           }
-//
-//       }))
-//     }
-//   }
-
-    ngOnDestroy(): void {
-        this.subscription?.unsubscribe();
-    }
+    private userName: String | undefined;
+    public user: User | undefined;
+    private subscription: Subscription | undefined;
+    public hasIntegrity: boolean = true;
+    constructor(
+        private authService: AuthService,
+        private userService: UserService,
+        private securityService: securityService
+    ) {}
 
     ngOnInit(): void {
-        console.log('henk');
-        this.securityService.sign('henk');
         const jwt = localStorage.getItem('token');
         if (jwt) {
             const tokenUser = this.authService.decodeJwtToken(
                 jwt
             ) as DecodedToken;
+            console.log('tokenUser: ', tokenUser);
             this.userName =
                 tokenUser[
                     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
                 ];
-            console.log(this.userName);
 
             this.subscription = this.userService
-                .Get(tokenUser.id)
+                .Get(tokenUser.Id)
                 .subscribe((res) => {
-                    console.log(res);
-                    this.hasIntegrity = this.securityService.verify(res.originalData, res.signature);
-                    if(this.hasIntegrity) {
-                        this.user = res.originalData;
-                        console.log(this.user?.balance);
-                    }
-
+                    console.log('res: ', res);
+                    this.hasIntegrity = this.securityService.verify(
+                        res.originalData,
+                        res.signature
+                    );
+                    console.log('this.hasIntegrity ', this.hasIntegrity);
+                    // if (this.hasIntegrity) {
+                    this.user = res.originalData;
+                    // }
                 });
         }
     }
@@ -87,8 +66,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                         userName: 'test',
                         isOnline: true,
                         followCount: 0,
-                        ImageName: imageFile.name,
-                        Base64Image: image,
+                        imageName: imageFile.name,
+                        base64Image: image,
                         balance: 0,
                     };
                 }
@@ -100,12 +79,17 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         if (this.pfpUser) {
             this.userService.uploadPfp(this.pfpUser).subscribe(
                 (reply: any) => {
-                    console.log(reply);
+                    console.log('reply: ', reply);
                 },
                 (err) => {
                     console.log(err);
                 }
             );
+            location.reload();
         }
+    }
+
+    ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
     }
 }

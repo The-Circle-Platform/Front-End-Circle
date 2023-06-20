@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { User, userDTO } from 'src/app/Domain/Models/User';
 import { LoggerService } from 'src/app/services/loggerServices/logger.service';
-import { userService } from 'src/app/services/userServices/user.service';
+import { UserService } from 'src/app/services/userServices/user.service';
 import { securityService } from 'src/app/services/authServices/security';
 
 @Component({
@@ -21,7 +21,7 @@ export class OnlineListComponent implements OnInit {
     currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
 
     constructor(
-        public userService: userService,
+        public userService: UserService,
         private http: HttpClient,
         private logger: LoggerService,
         public securityService: securityService
@@ -29,8 +29,6 @@ export class OnlineListComponent implements OnInit {
         this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
         this.refresher = new Observable<any>();
     }
-
-    // TODO: Link to stream function needs to be implemented.
 
     ngOnInit(): void {
         this.RefreshList();
@@ -83,9 +81,9 @@ export class OnlineListComponent implements OnInit {
             console.log(e.originalList!);
             this.Refresh(e.originalList!);
 
-            //Will unsubscribe, so that this observable can be reused multiple times.
-            ss.unsubscribe();
-        });
+                //Will unsubscribe, so that this observable can be reused multiple times.
+                ss.unsubscribe();
+            });
         //});
     }
 
