@@ -1,8 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
-
-import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
-import { HubConnectionBuilder } from '@microsoft/signalr';
+import { LoggerService } from 'src/app/services/loggerServices/logger.service';
 
 @Component({
   selector: "app-broadcast-page",
@@ -14,7 +12,8 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
   NewStream: any | undefined;
   HostId: number | undefined;
   
-  constructor() {}
+  constructor(private loggerService: LoggerService) {}
+
   recordingCamInit: boolean = false;
   private subscription: Subscription = new Subscription;
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
@@ -23,6 +22,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
   paused: boolean = false;
   chunks: Blob[] = [];
   stream: any;
+
   async ngOnInit(): Promise<void> {
     const videoElement = this.videoPlayer.nativeElement;
     
@@ -84,6 +84,8 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
       const minutesInterval = 30000; // 1 minuut = 60.000 millisecondes
       this.subscription = interval(minutesInterval).subscribe(() => {
       this.sendDataToServer();
+
+      this.loggerService.addLog('Broadcasting - Start Stream')
     });
 
     } catch (error) {

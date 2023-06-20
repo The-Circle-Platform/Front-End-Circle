@@ -1,23 +1,53 @@
-import { Component } from '@angular/core';
-import { User } from '../../../Domain/Models/User';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AuthService } from '../../../services/authServices/auth.service';
+import { DecodedToken, User } from '../../../Domain/Models/User';
 import { UserService } from '../../../services/userServices/user.service';
+import { Subscription } from 'rxjs';
+import { securityService } from '../../../services/authServices/security';
 
 @Component({
     selector: 'app-profile-page',
     templateUrl: './profile-page.component.html',
     styleUrls: ['./profile-page.component.css'],
 })
-export class ProfilePageComponent {
+export class ProfilePageComponent implements OnInit, OnDestroy {
     pfpUser: User | undefined;
 
-    constructor(public userService: UserService) {}
+    private userName: String | undefined;
+    public user: User | undefined;
+    private subscription: Subscription | undefined;
+    public hasIntegrity: boolean = true;
+    constructor(
+        private authService: AuthService,
+        private userService: UserService,
+        private securityService: securityService
+    ) {}
 
     ngOnInit(): void {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            // this.userService.Get(userId).subscribe((pfpUser) => {
-            //     this.pfpUser = pfpUser;
-            // });
+        const jwt = localStorage.getItem('token');
+        if (jwt) {
+            const tokenUser = this.authService.decodeJwtToken(
+                jwt
+            ) as DecodedToken;
+            console.log('tokenUser: ', tokenUser);
+            this.userName =
+                tokenUser[
+                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+                ];
+
+            this.subscription = this.userService
+                .Get(tokenUser.Id)
+                .subscribe((res) => {
+                    console.log('res: ', res);
+                    this.hasIntegrity = this.securityService.verify(
+                        res.originalData,
+                        res.signature
+                    );
+                    console.log('this.hasIntegrity ', this.hasIntegrity);
+                    // if (this.hasIntegrity) {
+                    this.user = res.originalData;
+                    // }
+                });
         }
     }
 
@@ -36,12 +66,13 @@ export class ProfilePageComponent {
                     this.pfpUser = {
                         id: 1,
                         userName: 'test',
-                        isOnline: false,
-                        followCount: 1,
+                        isOnline: true,
+                        followCount: 0,
                         followers: [],
                         following: [],
-                        ImageName: '',
-                        Base64Image: ''
+                        imageName: imageFile.name,
+                        base64Image: image,
+                        balance: 0,
                     };
                 }
             };
@@ -52,12 +83,17 @@ export class ProfilePageComponent {
         if (this.pfpUser) {
             this.userService.uploadPfp(this.pfpUser).subscribe(
                 (reply: any) => {
-                    console.log(reply);
+                    console.log('reply: ', reply);
                 },
                 (err) => {
                     console.log(err);
                 }
             );
+            location.reload();
         }
+    }
+
+    ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
     }
 }

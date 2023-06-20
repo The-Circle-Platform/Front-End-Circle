@@ -5,12 +5,8 @@ import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
-import {
-    DecodedToken,
-    IRegister,
-    Register,
-    User,
-} from '../../Domain/Models/User';
+import { DecodedToken, IRegister, Register, User } from '../../Domain/Models/User';
+import { securityService } from "./security";
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +17,8 @@ export class AuthService {
     private readonly CURRENT_USER = 'Pop';
     private readonly PRIVATE_PART = 'Publiek';
     private readonly PUBLIC_PART = 'Secrete';
+    private readonly CURRENT_PRIVATE_KEY = 'privateKey';
+    private readonly CURRENT_PUBLIC_KEY = 'publicKey';
     private readonly headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });
@@ -29,7 +27,8 @@ export class AuthService {
     constructor(
         private configService: ConfigService,
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private securityService: securityService
     ) {
         this.siteEndpoint = `${
             this.configService.getConfig().apiEndpoint
@@ -61,9 +60,16 @@ export class AuthService {
 
     login(userName: string, password: string): Observable<string | undefined> {
         const credentials = {
+            // userName: this.securityService.encryptWithServerPublicKey(userName),
+            // password: this.securityService.encryptWithServerPublicKey(password),
             userName: userName,
             password: password,
         };
+        console.log(
+            `Username: ${credentials.userName} | Password: ${credentials.password}`
+        );
+        // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
+
         return this.http.post<string>(
             `${this.siteEndpoint}/login`,
             credentials,
@@ -83,25 +89,26 @@ export class AuthService {
             Username: userName,
         } as Register;
         const userData = { originalRegisterData };
+
+        const RegisterJsonString = JSON.stringify(userData);
+        const signature = this.securityService.sign(RegisterJsonString);
+
+        const RegisterRequestDTO = {
+            signature: signature,
+            originalRegisterData: userData,
+            SenderUserId: this.GetWebUser()?.id,
+        };
         let adminUrl = '';
         if (role) adminUrl = '-admin';
         return this.http
             .post<IRegister>(
                 `${this.siteEndpoint}/register${adminUrl}`,
-                userData,
+                RegisterRequestDTO,
                 {
                     headers: this.headers,
                 }
             )
             .pipe(
-                map((data: any) => {
-                    localStorage.setItem(
-                        this.CURRENT_TOKEN,
-                        JSON.stringify(data.results)
-                    );
-                    this.currentToken$.next(data);
-                    return data;
-                }),
                 catchError((error) => {
                     console.log('Error message:', error.error.message);
                     return of(undefined);
@@ -116,6 +123,10 @@ export class AuthService {
                 if (success) {
                     console.log('logout - removing local user info');
                     localStorage.removeItem(this.CURRENT_TOKEN);
+                    localStorage.removeItem(this.CURRENT_PRIVATE_KEY);
+                    localStorage.removeItem(this.CURRENT_PUBLIC_KEY);
+                    localStorage.removeItem(this.CURRENT_USER);
+
                     this.currentToken$.next(undefined);
                 } else {
                     console.log('navigate result:', success);
@@ -152,9 +163,9 @@ export class AuthService {
         localStorage.setItem(this.CURRENT_TOKEN, token);
     }
 
-    StoreKeyPair(pubKey: string, priv: string) {
-        localStorage.setItem(this.PRIVATE_PART, priv);
-        localStorage.setItem(this.PUBLIC_PART, pubKey);
+    StoreKeyPair(pubKey: string, priv:string){
+        localStorage.setItem(this.CURRENT_PRIVATE_KEY, priv);
+        localStorage.setItem(this.CURRENT_PUBLIC_KEY, pubKey);
     }
 
     StoreUser(user: User) {
@@ -173,11 +184,11 @@ export class AuthService {
         }
     }
 
-    GetPubKey() {
-        return localStorage.getItem(this.PUBLIC_PART);
+    GetPubKey(){
+        return localStorage.getItem(this.CURRENT_PUBLIC_KEY);
     }
 
-    GetPrivKey() {
-        return localStorage.getItem(this.PRIVATE_PART);
+    GetPrivKey(){
+        return localStorage.getItem(this.CURRENT_PRIVATE_KEY);
     }
 }

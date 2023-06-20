@@ -60,3 +60,8 @@
     padding-top: 5%;
     align-content: center;
 }
+
+.viewCountWrapper {
+    margin-left: auto;
+    margin-right: 0;
+}

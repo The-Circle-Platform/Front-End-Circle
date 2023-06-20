@@ -11,7 +11,6 @@ export class UserCardComponent implements OnInit {
     User!: User;
 
     ngOnInit(): void {
-        console.log(this.User);
         if (!this.User) {
             this.User = {
                 id: 0,
@@ -20,8 +19,9 @@ export class UserCardComponent implements OnInit {
                 followCount: 1,
                 followers: [],
                 following: [],
-                ImageName: '',
-                Base64Image: ''
+                imageName: '',
+                base64Image: '',
+                balance: 0,
             };
         }
     }

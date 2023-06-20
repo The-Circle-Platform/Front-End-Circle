@@ -7,6 +7,7 @@ export interface IUser extends IDomain {
 
 export interface DecodedToken {
     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name': string;
+    Id: number;
 }
 
 export interface User extends IUser {
@@ -14,8 +15,9 @@ export interface User extends IUser {
     followCount: number;
     followers: Array<User>
     following: Array<User>
-    ImageName: string;
-    Base64Image: string;
+    imageName: string;
+    base64Image: string;
+    balance: number;
 }
 
 export interface IRegister {
@@ -28,7 +30,7 @@ export interface Register {
 }
 
 export interface Pfp {
-    ImageName: string;
+    imageName: string;
     Base64Image: string;
 }
 
@@ -55,5 +57,16 @@ export interface UserAuthResponse {
     expiration: Date;
 }
 
-export type Id = string;
-export type ResourceId = { id: Id };
+export type id = string;
+export type ResourceId = { id: id };
+
+export class userDTO {
+    originalData: undefined | User;
+    originalList: User[] | undefined;
+    publicKey: string | undefined;
+    randomId: string | undefined;
+    signature: any;
+    senderUserId: number | undefined;
+    privKey: any;
+    pubKey: any;
+}

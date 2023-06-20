@@ -1,47 +1,48 @@
-<div class="container mt-3 ">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="inputUserName">Gebruikersnaam</label>
-            <input type="userName" class="form-control" placeholder="Voer hier uw Gebruikersnaam in.." formControlName="userName" id="inputUserName" [ngClass]="{
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <div *ngIf="!hasIntegrity">
+            <h1 style="color: red">WAARSCHUWING, DE DATA VAN DEZE REQUEST IS NIET INTEGER. HET KAN ZIJN DAT IEMAND DE DATA HEEFT VERANDERD</h1>
+        </div>
+        <label for="inputUserName">Gebruikersnaam</label>
+        <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName" [ngClass]="{
                 'is-invalid':
                     loginForm.get('userName')?.invalid &&
                     loginForm.get('userName')?.touched
             }" />
-            <span *ngIf="
+        <span *ngIf="
                 !loginForm.get('userName')?.valid &&
                 loginForm.get('userName')?.touched
             " class="invalid-feedback">
             <p id="userName-invalid">Voer een geldige gebruikersnaam in</p>
         </span>
-        </div>
-        <div class="form-group">
-            <label for="inputPassword">Wachtwoord</label>
-            <input type="password" class="form-control" placeholder="Voer hier uw wachtwoord in.." formControlName="password" id="inputPassword" [ngClass]="{
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Wachtwoord</label>
+        <input type="password" class="form-control" placeholder="Voer hier uw wachtwoord in.." formControlName="password" id="inputPassword" [ngClass]="{
                 'is-invalid':
                     loginForm.get('password')?.invalid &&
                     loginForm.get('password')?.touched
             }" />
-            <span *ngIf="
+        <span *ngIf="
                 !loginForm.get('password')?.valid &&
                 loginForm.get('password')?.touched
             " class="invalid-feedback">
             <p id="password-invalid">Voer een geldig wachtwoord in</p>
         </span>
-        </div>
+    </div>
 
-        <div class="form-group">
-            <button id="submitbutton" class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!loginForm.valid">
+    <div class="form-group">
+        <button id="submitbutton" class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!loginForm.valid">
             Aanmelden
         </button>
-        </div>
-        <div *ngIf="wrongPwOrUserName">
-            <p>
-                <FONT COLOR="red">Gebruikersnaam of wachtwoord is onjuist.</FONT>
-            </p>
-        </div>
+    </div>
+    <div *ngIf="wrongPwOrUserName">
         <p>
-            <a routerLink="/">Home</a> |
-            <a routerLink="/registration">Registreer</a>
+            <FONT COLOR="red">Gebruikersnaam of wachtwoord is onjuist.</FONT>
         </p>
-    </form>
-</div>
+    </div>
+    <p>
+        <a routerLink="/">Home</a> |
+        <a routerLink="/registration">Registreer</a>
+    </p>
+</form>

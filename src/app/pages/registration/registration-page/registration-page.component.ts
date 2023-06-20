@@ -34,6 +34,8 @@ export class RegistrationPageComponent {
         this.registerForm.value.email != '' &&
         this.registerForm.value.userName != ''
     ) {
+
+      
       this.authService
           .register(
               this.registerForm.value.email,

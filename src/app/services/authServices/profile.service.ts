@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { UserService } from '../userServices/user.service';
 import { securityService } from './security';
+import { UserService } from '../userServices/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LogLevel } from '../../Domain/Models/LogLevel';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {environment} from "../../../environments/environment";
+import {Observable} from "rxjs";
 import { ConfigService } from 'src/app/shared/moduleconfig/config.service';
 
 @Injectable({
@@ -42,6 +43,16 @@ export class LoggerService {
 
     critical(msg: string): void {
         this.logWith(this.logLevel.Critical, msg);
+    }
+
+    logToDB(endpoint: string, action: string): Observable<any>  {
+        this.logWith(this.logLevel.Trace, endpoint + " " + action)
+        this.getIPAddress();
+        const log = {
+            location: endpoint,
+            action: action
+        }
+        return this.http.post(environment.SERVER_API_URL + "api/Logging", log)
     }
 
     private logWith(level: any, msg: string): void {
