@@ -1,46 +1,78 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="listStreamers">Streamerlijst</a>
-        </li>
-        <li>
-          <a class="nav-link" routerLink="broadcast">Broadcast</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="profile">Profiel</a>
-        </li>
-        <li class="nav-item" *ngIf="loggedInUser$ | async as user; else loggedOut">
-          <a class="nav-link" (click)="logout()">Uitloggen</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"> </a>
-        </li>
-        <ng-template #loggedOut>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="login">Login</a>
-          </li>
-        </ng-template>
-      </ul>
-      <ul *ngIf="loggedInUser$ | async as user" class="navbar-nav">
-        <li class="nav-item">
-          <div ngbDropdown class="nav-link d-inline-block">
-            {{ username }}
-          </div>
-        </li>
-      </ul>
-      <form class="d-flex"> <input class="form-control me-2" type="search" placeholder="Zoek" aria-label="Search" />
-        <button class="btn btn-outline-success" type="submit">Zoek</button>
-      </form>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"
+                        >Home</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="listStreamers"
+                        >Streamerlijst</a
+                    >
+                </li>
+                <li>
+                    <a class="nav-link" routerLink="broadcast">Broadcast</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="profile">Profiel</a>
+                </li>
+                <li
+                    class="nav-item"
+                    *ngIf="loggedInUser$ | async as user; else loggedOut"
+                >
+                    <a class="nav-link" (click)="logout()">Uitloggen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"> </a>
+                </li>
+                <ng-template #loggedOut>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="login">Login</a>
+                    </li>
+                </ng-template>
+            </ul>
+
+            <div class="ImageSelector">
+                Afbeelding geselecteerd:<br />
+                <span *ngIf="pfpUser && pfpUser.base64Image">
+                    Afbeeldingsnaam: {{ pfpUser.imageName }}
+                </span>
+                <span *ngIf="!pfpUser || !pfpUser.base64Image">
+                    Geen afbeelding geselecteerd.
+                </span>
+            </div>
+            <ul *ngIf="loggedInUser$ | async as user" class="navbar-nav">
+                <li class="nav-item">
+                    <div ngbDropdown class="nav-link d-inline-block">
+                        {{ username }}
+                    </div>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Zoek"
+                    aria-label="Search"
+                />
+                <button class="btn btn-outline-success" type="submit">
+                    Zoek
+                </button>
+            </form>
+        </div>
     </div>
-  </div>
 </nav>
