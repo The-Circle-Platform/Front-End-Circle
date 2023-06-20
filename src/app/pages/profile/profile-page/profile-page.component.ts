@@ -38,8 +38,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             var test = localStorage.getItem("Pop");
             var test2 = JSON.parse(test!) as User;
             //var test = JSON.
-            console.log("henk")
-            console.log(test);
             this.subscription = this.userService
                 .Get(test2.id)
                 .subscribe((res) => {
@@ -64,10 +62,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             reader.readAsDataURL(event.target.files[0]);
             reader.onload = () => {
                 const image = reader.result as string;
+                console.log(image);
 
                 if (!this.pfpUser) {
                     this.pfpUser = {
-                        id: 3,
+                        id: 2,
                         userName: 'test',
                         isOnline: true,
                         followCount: 0,
@@ -85,12 +84,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             this.userService.uploadPfp(this.pfpUser).subscribe(
                 (reply: any) => {
                     console.log('reply: ', reply);
+                    location.reload();
                 },
                 (err) => {
                     console.log(err);
+                    //location.reload();
                 }
             );
-            location.reload();
+
         }
     }
 
