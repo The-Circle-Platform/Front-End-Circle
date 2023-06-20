@@ -12,8 +12,7 @@
                             <div class="d-flex text-black">
                                 <div class="flex-shrink-0">
                                     <div class="img-container">
-                                        <span class="helper"></span><img *ngIf="user?.base64Image" [src]="user?.base64Image" alt="profile picture" class="img-fluid user-img">
-                                        <span class="helper"></span><img *ngIf="!user?.base64Image" src="./assets/img/default-profile-image.png" alt="Generic placeholder image" class="img-fluid user-img">
+                                        <span class="helper"></span><img [src]="user?.base64Image || './assets/img/default-profile-image.png'" alt="profile picture" class="img-fluid user-img">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
