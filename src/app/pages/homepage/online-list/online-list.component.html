@@ -1,7 +1,7 @@
 <!--Bedenk mechanisme voor verversen -->
 <div class="container">
     <div>
-        <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('asc')">Ascending</button>
+        <button class="btn btn-primary mx-1 my-1" (click)="toggleSortOrder('asc')">Ascending</button>
         <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('desc')">Descending</button>
         <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('status')">Status</button>
     </div>
@@ -15,7 +15,7 @@
         <option value="status ">Status</option>
     </select> -->
     <div class="row ">
-        <div *ngFor="let user of list$ | async; " class="col-lg-4 ">
+        <div *ngFor="let user of list$ | async; " class="col-lg-3 user-card">
             <app-user-card [User]="user"></app-user-card>
         </div>
     </div>

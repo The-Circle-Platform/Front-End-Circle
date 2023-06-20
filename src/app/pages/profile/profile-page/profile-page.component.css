@@ -1,0 +1,23 @@
+
+.user-img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.img-container {
+    width: 200px;
+    height: 200px;
+    vertical-align: center;
+    text-align: center;
+    display: inline-block;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.image-uploader {
+    margin-bottom: 5px;
+}
