@@ -12,7 +12,6 @@ import { securityService } from '../../../services/authServices/security';
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
     pfpUser: User | undefined;
-
     private userName: String | undefined;
     public user: User | undefined;
     private subscription: Subscription | undefined;
@@ -35,8 +34,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                     'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
                 ];
 
+            // @ts-ignore
+            var test = localStorage.getItem("Pop");
+            var test2 = JSON.parse(test!) as User;
+            //var test = JSON.
+            console.log("henk")
+            console.log(test);
             this.subscription = this.userService
-                .Get(tokenUser.Id)
+                .Get(test2.id)
                 .subscribe((res) => {
                     console.log('res: ', res);
                     this.hasIntegrity = this.securityService.verify(
@@ -62,7 +67,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
                 if (!this.pfpUser) {
                     this.pfpUser = {
-                        id: 1,
+                        id: 3,
                         userName: 'test',
                         isOnline: true,
                         followCount: 0,

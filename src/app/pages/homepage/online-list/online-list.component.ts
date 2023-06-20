@@ -45,7 +45,6 @@ export class OnlineListComponent implements OnInit {
             console.log(e.originalList)
             this.users = e.originalList as User[];
             // console.log(this.users)
-            this.users = this.SortList(this.users);
             // console.log("VERIFYING REQUEST")
             // console.log(e);
             this.hasIntigrety = this.securityService.verify(
@@ -57,6 +56,7 @@ export class OnlineListComponent implements OnInit {
             } else {
                 console.log('Data is not the same as was send by server');
             }
+            this.users = this.SortList(this.users);
             //Will assign new value to behavioursubject.
             /*value = !value;
 =======
