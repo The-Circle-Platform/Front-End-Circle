@@ -74,7 +74,7 @@ export class BroadcastPageComponent implements OnInit {
             this.chunks = [];
             this.mediaRecorder = new MediaRecorder(this.stream);
             this.recording = true;
-            this.mediaRecorder.start(3000);
+            this.mediaRecorder.start(1000);
             this.mediaRecorder.addEventListener('dataavailable', async (event) => {
                 if (event.data.size > 0) {
                     this.chunks.push(event.data);

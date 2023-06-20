@@ -30,7 +30,11 @@ export class VideoStreamingService {
                 reader.readAsDataURL(blob);
             });
         }
+
+
+
         const data = new UserModel('thomas',  base64String );
+
         await this.hubConnection.invoke('Upload', data);
     }
 
