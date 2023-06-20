@@ -108,11 +108,8 @@ export class ChatStreamComponent implements OnInit {
             (updatedMessageList: any) => {
                 console.log('Received new chatmessages');
                 //Verify received packages.
-                // Turn into string
-                const stringJson = JSON.stringify(updatedMessageList.originalList);
-
                 //Verify signature
-                const isValid = this.securityService.verify(stringJson.toLowerCase(), updatedMessageList.signature);
+                const isValid = this.securityService.verify(updatedMessageList.originalList, updatedMessageList.signature);
                 
                 if(isValid){
                     this.ListOfChats = updatedMessageList.originalList;
