@@ -9,6 +9,8 @@ import { WebcamImage, WebcamInitError, WebcamUtil } from "ngx-webcam";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { VideoStreamingService } from "./VideoStreamingService";
 import {VidStream} from "../../../services/vidStream/VidStream.service";
+import { AuthService } from "src/app/services/authServices/auth.service";
+import { securityService } from "src/app/services/authServices/security";
 
 
 @Component({
@@ -17,7 +19,10 @@ import {VidStream} from "../../../services/vidStream/VidStream.service";
   styleUrls: ["./broadcast-page.component.css"],
 })
 export class BroadcastPageComponent implements OnInit, OnDestroy{
-  constructor(private _VideoStreamingService: VideoStreamingService, private _Vidstream: VidStream) {}
+  constructor(
+    private _VideoStreamingService: VideoStreamingService, 
+    private _Vidstream: VidStream, private authService: AuthService,
+    private securityService: securityService) {}
   
   NewStream: any | undefined;
   HostId: number | undefined;
@@ -36,6 +41,8 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
   async ngOnInit(): Promise<void> {
     const videoElement = this.videoPlayer.nativeElement;
     try {
+      this.HostId = this.authService.GetWebUser()?.id;
+
       this.stream = await navigator.mediaDevices.getUserMedia({
         video: { width: 800, height: 550 },
         audio: this.recordingCamInit,
@@ -54,6 +61,13 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
     this._VideoStreamingService.stopVideoStreaming();
   }
 
+  testFunction(){
+    this._Vidstream.SendNewStream().subscribe((v)=>{
+      console.warn("Test functie");
+      console.log(v);
+    })
+  }
+
   cameraOn() {
     const videoElement = this.videoPlayer.nativeElement;
     videoElement.play();
@@ -70,28 +84,36 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
       this.chunks = [];
       this.mediaRecorder = new MediaRecorder(this.stream);
       this.recording = true;
-      this.mediaRecorder.start(1000);
-      this.mediaRecorder.addEventListener("dataavailable", async (event) => {
-        if (event.data.size > 0) {
-          this.chunks.push(event.data);
-          console.log("data1", this.chunks);
+
+      this._Vidstream.SendNewStream().subscribe(async (v:any) => {
+        //Checks signature
+        const isValid = this.securityService.verify(v.originalData, v.signature);
+        console.log(isValid);
+        if(isValid){
+          //When valid, it will start the stream.
+          console.log("Stream is geldig");
+          const StreamId = v.originalData.streamId;
+          this.NewStream = v.originalData;
+          this.mediaRecorder.start(1000);
+          this.mediaRecorder.addEventListener("dataavailable", async (event) => {
+          if (event.data.size > 0) {
+            this.chunks.push(event.data);
+            console.log("data1", this.chunks);
+          }
+          if (this.chunks.length) {
+              console.log("sending data");
+              console.log(this.chunks);
+              console.log(v)
+              
+              //Sends chunks to signalR hub.
+              await this._VideoStreamingService.startVideoStreaming(this.chunks, StreamId);
+            // this.chunks = []; // Clear the recorded chunks
+          } else {
+            console.log("no chunks available.");
+          }
+        });
         }
-        if (this.chunks.length) {
-          console.log("sending data");
-          console.log(this.chunks);
-
-          this._Vidstream.SendNewStream().subscribe(async (v:any) => {
-            console.log(v)
-            const StreamId = v.originalData.streamId;
-            await this._VideoStreamingService.startVideoStreaming(this.chunks, StreamId);
-          })
-
-
-          // this.chunks = []; // Clear the recorded chunks
-        } else {
-          console.log("no chunks available.");
-        }
-      });
+      })
     } catch (error) {
       console.error("Error accessing webcam:", error);
     }
@@ -103,6 +125,12 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
       this.recording = false;
       this.recordingCamInit = false;
     }
+
+    this._Vidstream.TurnOffStream(this.HostId!, this.NewStream.id).subscribe((v: any)=>{
+      if(this.securityService.verify(v.originalData, v.signature)){
+        this.NewStream = undefined;
+      }
+    })
     this.mediaRecorder.addEventListener("stop", async () => {
       // this.videoData = await this._VideoStreamingService.startVideoStreaming(this.finalChunks);
       // this.cdRef.detectChanges();

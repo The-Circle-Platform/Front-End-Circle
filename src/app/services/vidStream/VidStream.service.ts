@@ -26,19 +26,20 @@ export class VidStream{
 
     SendNewStream(){
 
-        const newStream = new OriginalData();
-        newStream.StartStream = new Date();
-        newStream.Title = "joepie"
-        newStream.TransparantUserId = this.authService.GetWebUser()?.id
-        newStream.TransparantUserName = "DummyData"
-        newStream.EndStream = undefined
+        const sendStream = {
+            id: 0,
+            title: "Een stream",
+            startStream: new Date(),
+            endStream: null,
+            transparantUserName: this.authService.GetWebUser()?.userName,
+            transparantUserId: this.authService.GetWebUser()?.id
+        }
 
+        const sig = this.signatureSerivce.sign(JSON.stringify(sendStream).toLowerCase());
 
-        const sig = this.signatureSerivce.sign(JSON.stringify(newStream, null, 0).toLowerCase());
-
-        const dto: Istream = {
-            OriginalData: newStream,
-            SenderUserId: newStream.TransparantUserId!,
+        const dto  = {
+            OriginalData: sendStream,
+            SenderUserId: sendStream.transparantUserId!,
             Signature: sig
         }
 
@@ -46,6 +47,9 @@ export class VidStream{
     }
 
 
+    TurnOffStream(HostId: number, streamId: number){
+        return this.http.put(`${this.endpoint}/${HostId}/CurrentStream/${streamId}`, {});
+    }
 
 
 

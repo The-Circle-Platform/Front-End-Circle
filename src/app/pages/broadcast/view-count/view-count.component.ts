@@ -33,6 +33,7 @@ export class ViewCountComponent implements OnInit{
         .build();
 
     this._hubConnection.on("UpdateViewerCount" + this.StreamId, (message) => {
+      console.log("Nummer count")
       console.log(message);
       // Verificatie 
       const signature = message.signature;
@@ -41,7 +42,7 @@ export class ViewCountComponent implements OnInit{
       const isValid = this.securityService.verify(updatedCount, signature);
 
       
-        this.numberList = message.originalCount;
+      this.numberList = message.originalCount;
       
     });
 

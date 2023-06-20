@@ -26,8 +26,10 @@ export class VideoStreamingService {
 
     public async startVideoStreaming(chunks: Blob[], streamId: number) {
         await this.getOrCreateConnection();
+        // eslint-disable-next-line prefer-const
         let Astring: string = await blobToBase64(chunks[0]);
 
+        // eslint-disable-next-line prefer-const
         let base64String = Astring.substring(Astring.indexOf(',') + 1);
         console.log(base64String)
 
@@ -39,23 +41,29 @@ export class VideoStreamingService {
             });
         }
 
-        const data = new StreamChunkInOutDTO()
-        data.chunk = base64String;
-        data.chunksize = base64String.length;
-        data.streamId = streamId;
-        data.timestamp = new Date();
+        // const data = new StreamChunkInOutDTO()
+        // data.chunk = base64String;
+        // data.chunksize = base64String.length;
+        // data.streamId = streamId;
+        // data.timestamp = new Date();
 
-        const json = JSON.stringify(data);
-        const sig = this.secService.sign(json.toLowerCase());
-
-
-
-        const newData:StreamChunkDTO = {
-            SenderUserId: this.authService.GetWebUser()?.id!,
-            Signature: sig,
-            OriginalData: data
+        const chunkData = {
+            id:  0,
+            streamId: streamId,
+            timestamp: new Date(),
+            chunksize: base64String.length,
+            chunk: base64String
         };
 
+        const json = JSON.stringify(chunkData, null, 0);
+        const sig = this.secService.sign(json.toLowerCase());
+
+        const newData: StreamChunkDTO = {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+            SenderUserId: this.authService.GetWebUser()?.id!,
+            Signature: sig,
+            OriginalData: chunkData
+        };
 
         await this.hubConnection.invoke('Upload', newData);
     }

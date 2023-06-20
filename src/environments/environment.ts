@@ -6,8 +6,8 @@
 export const environment = {
   production: false,
 
-  SERVER_DOCS_URL: 'https://localhost:7058/',
-  SERVER_API_URL: 'https://localhost:7058/',
+  SERVER_DOCS_URL: 'http://localhost:5291/',
+  SERVER_API_URL: 'http://localhost:5291/',
 
 
   SERVER_PUBLIC_KEY: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCXn1KW/Kxp3+1olLQuH7p71io4C0CKF61GySLQ29kOQ6uDQGmDLYof9oquHgAQp/ZHm/jVnthdmXG8iO4i8I/lIi1aQn34I9wn6HmBMRNUai59UuQlyPZDCTWk7EFz0gPwZ46aV/uWdMwCPk2Xn+OAejcESLBP3WG9HbTHo0/lQIDAQAB',

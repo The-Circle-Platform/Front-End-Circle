@@ -9,7 +9,7 @@ import { VidStream } from 'src/app/services/vidStream/VidStream.service';
   styleUrls: ['./stream-page.component.css']
 })
 export class StreamPageComponent implements OnInit {
-  NewStream: any;
+  NewStream: any | undefined;
   HostId: number;
   StreamId: number;
   constructor(private router: ActivatedRoute, private VidService: VidStream, private secureService : securityService){

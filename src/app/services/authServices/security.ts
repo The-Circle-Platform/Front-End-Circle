@@ -56,7 +56,7 @@ export class securityService {
 
 
 
-        console.log(localStorage.getItem("privKey"));
+        //console.log(localStorage.getItem("privKey"));
         // @ts-ignore
         const signature = this.userCrypto.sign(plaintext, CryptoJS.SHA256, "sha256");
         console.log(" Signature is =>")

@@ -13,8 +13,12 @@ import {securityService} from "../../../services/authServices/security";
 export class StreamingPlayerComponent implements OnInit, OnDestroy {
     public _hubConnection: signalR.HubConnection | undefined;
     public video: any = "nothing"
+    
     @Input()
     HostId?: number
+
+    @Input()
+    StreamId?: number
 
     constructor(private sanitizer: DomSanitizer, private securityService: securityService) { }
 
@@ -42,12 +46,12 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
 
     playVideo() {
         if (this._hubConnection instanceof HubConnection) {
-            this._hubConnection.on(`Stream-${this.HostId}}`, async (data: StreamChunkDTO) => {
+            this._hubConnection.on(`Stream-${this.StreamId}}`, async (data: any) => {
 
-                if (this.securityService.verify(data.OriginalData, data.Signature)){
-                    console.log(data.OriginalData.chunk);
+                if (this.securityService.verify(data.originalData, data.signature)){
+                    console.log(data.originalData.chunk);
                     try {
-                        await base64ToBlob(data.OriginalData.chunk).then((blob) => {
+                        await base64ToBlob(data.originalData.chunk).then((blob) => {
                             const videoURL = URL.createObjectURL(blob);
                             this.videoPlayer.nativeElement.src = videoURL;
                             this.videoPlayer.nativeElement.play();
