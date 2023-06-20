@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { securityService } from 'src/app/services/authServices/security';
+import { VidStream } from 'src/app/services/vidStream/VidStream.service';
 
 @Component({
   selector: 'app-stream-page',
@@ -9,9 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 export class StreamPageComponent implements OnInit {
   NewStream: any;
   HostId: number;
-  
-  constructor(private router: ActivatedRoute){
+  StreamId: number;
+  constructor(private router: ActivatedRoute, private VidService: VidStream, private secureService : securityService){
     this.HostId = 0;
+    this.NewStream = {id: 1};
+    this.StreamId = 0;
   }
   ngOnInit(): void {
     console.log("Hello page algemeen")
@@ -35,10 +39,17 @@ export class StreamPageComponent implements OnInit {
 
   GetLatestStream(HostId: number){
     console.log("Get latest stream");
+    this.VidService.GetStreamOfHost(HostId).subscribe(ol =>{
+        const sign = ol.signature;
 
-    //Perform latest https request to server
+        const IsValid = this.secureService.verify(sign.originalData, sign);
 
-    //If it succeeds, connect to the livestream endpoints and receive videostream.
+        if(IsValid){
+          this.NewStream = sign.originalData;
+        } else{
+          console.warn("No stream is running");
+        }
+    });
   }
   
 }

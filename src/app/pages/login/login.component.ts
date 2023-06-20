@@ -26,6 +26,7 @@ export class LoginComponent {
     ) {}
 
     ngOnInit(): void {
+
         this.subs = this.authService
             .getUserFromLocalStorage()
             .subscribe((user: string | undefined) => {

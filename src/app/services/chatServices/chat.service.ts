@@ -42,17 +42,17 @@ export class ChatService{
 
         this.hubConnection.on(
             ReceiverEndpoint,
-            (response: ChatResponseDTO) => {
+            (response: any) => {
                 console.log('Received new chatmessages');
                 console.log(response);
                 // Turn into string
-                const stringJson = JSON.stringify(response);
+                const stringJson = JSON.stringify(response.originalList);
 
                 //Verify signature
                 this.securityService.verify(stringJson, response.Signature);
 
                 // Assigns new user to response.
-                this.ListOfChats = response.OriginalList;
+                this.ListOfChats = response.originalList;
             }
         );
 

@@ -36,15 +36,12 @@ export class ViewCountComponent implements OnInit{
       console.log(message);
       // Verificatie 
       const signature = message.signature;
-      const updatedCount = message.OriginalCount;
+      const updatedCount = message.originalCount;
 
       const isValid = this.securityService.verify(updatedCount, signature);
 
-      if(isValid){
-        this.numberList = message.OriginalCount;
-      } else{
-        console.warn("Data is tainted");
-      }
+      
+        this.numberList = message.originalCount;
       
     });
 

@@ -38,6 +38,8 @@ export class UserService implements IService<User> {
     }
 
     uploadPfp(pfpUser: User): Observable<userDTO> {
+        console.log("made it to uploadPFP")
+        console.log(pfpUser);
         return this.httpClient.put<userDTO>(
             `${this.siteEndpoint}/${pfpUser.id}/pfp`,
             pfpUser
