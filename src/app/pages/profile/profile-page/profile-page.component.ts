@@ -47,9 +47,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                         res.signature
                     );
                     console.log('this.hasIntegrity ', this.hasIntegrity);
-                    // if (this.hasIntegrity) {
+                    if (this.hasIntegrity) {
                     this.user = res.originalData;
-                    // }
+                    }
                 });
         }
     }
@@ -64,15 +64,15 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 const image = reader.result as string;
                 console.log(image);
 
-                if (!this.pfpUser) {
+                if (!this.pfpUser && this.user) {
                     this.pfpUser = {
-                        id: 2,
-                        userName: 'test',
-                        isOnline: true,
-                        followCount: 0,
+                        id: this.user?.id,
+                        userName: this.user?.userName,
+                        isOnline: this.user?.isOnline,
+                        followCount: this.user?.followCount,
                         imageName: imageFile.name,
                         base64Image: image,
-                        balance: 0,
+                        balance: this.user?.balance,
                     };
                 }
             };
@@ -88,7 +88,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 },
                 (err) => {
                     console.log(err);
-                    //location.reload();
+                    location.reload();
                 }
             );
 

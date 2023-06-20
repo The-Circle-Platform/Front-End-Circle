@@ -5,7 +5,8 @@
             <h3>{{User.userName}}</h3>
         </div>
     </div>
-    <img src="https://cdnb.artstation.com/p/assets/images/images/032/092/715/large/max-white-guy.jpg?1605462631" class="card-img-top rounded-0" alt="...">
+    <img [src]="User?.base64Image" alt="Generic placeholder image" class="img-fluid"
+         style="width: 180px; border-radius: 10px;">
     <div class="card-body">
         <span *ngIf=User.isOnline>
             <p>Status: Online <span class="online">●</span></p>
