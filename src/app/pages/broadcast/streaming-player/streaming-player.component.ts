@@ -1,11 +1,9 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, Input} from '@angular/core';
 import { HubConnection } from "@microsoft/signalr";
-import { UserModel } from "../broadcast-page/VideoStreamingService";
+import {StreamChunkDTO} from "../broadcast-page/VideoStreamingService";
 import * as signalR from '@microsoft/signalr';
-import { DomSanitizer } from '@angular/platform-browser';
-
-
-
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import {securityService} from "../../../services/authServices/security";
 
 @Component({
     selector: 'app-streaming-player',
@@ -14,12 +12,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class StreamingPlayerComponent implements OnInit, OnDestroy {
     public _hubConnection: signalR.HubConnection | undefined;
-    public mediaSource:any;
-    public url:any;
-    public sourceBuffer:any;
-    public socket:any;
+    public video: any = "nothing"
+    @Input()
+    HostId?: number
 
-    constructor(private sanitizer: DomSanitizer) { }
+    constructor(private sanitizer: DomSanitizer, private securityService: securityService) { }
 
     ngOnInit() {
         this._hubConnection = new signalR.HubConnectionBuilder()
@@ -32,10 +29,8 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
             console.error(err.toString());
         });
 
-        this.mediaSource = new MediaSource();
-        this.url = URL.createObjectURL(this.mediaSource);
-        this.sourceBuffer = this.mediaSource.addSourceBuffer('video/x-matroska;codecs=avc1');
-        this.socket = new WebSocket('ws://localhost:8090');
+
+
     }
 
     ngOnDestroy(): void {
@@ -47,36 +42,33 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
 
     playVideo() {
         if (this._hubConnection instanceof HubConnection) {
-            this._hubConnection.on('test', async (data: UserModel) => {
-                console.log(data.stream);
-                try {
-                    await base64ToBlob(data.stream).then((blob) => {
-                        this.videoPlayer.nativeElement.src = this.url;
-                        this.mediaSource.addEventListener('sourceopen', () => {
+            this._hubConnection.on(`Stream-${this.HostId}}`, async (data: StreamChunkDTO) => {
 
-
-                            this.sourceBuffer.appendBuffer(blob)
-                            this.socket.addEventListener('livestream', (event : any) => {
-                                console.log('event.data: ', event.data)
-                                this.sourceBuffer.appendBuffer(event.data);
-                            });
+                if (this.securityService.verify(data.OriginalData, data.Signature)){
+                    console.log(data.OriginalData.chunk);
+                    try {
+                        await base64ToBlob(data.OriginalData.chunk).then((blob) => {
+                            const videoURL = URL.createObjectURL(blob);
+                            this.videoPlayer.nativeElement.src = videoURL;
+                            this.videoPlayer.nativeElement.play();
+                        }).catch((error) => {
+                            // Handle any errors
+                            console.error(error);
                         });
-                    }).catch((error) => {
+                    } catch (error) {
                         // Handle any errors
                         console.error(error);
-                    });
-                } catch (error) {
-                    // Handle any errors
-                    console.error(error);
+                    }
                 }
             });
         }
     }
 }
+
+
 async function base64ToBlob(base64String: string): Promise<Blob> {
     //video/x-matroska;codecs=avc1 misschien data: dit ipv applicaton blah.
     const response = await fetch(`data:application/octet-stream;base64,${base64String}`);
     const blob = await response.blob();
     return blob;
 }
-

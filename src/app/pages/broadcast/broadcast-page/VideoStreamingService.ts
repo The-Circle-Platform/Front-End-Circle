@@ -2,7 +2,10 @@ import {Injectable} from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import {HubConnectionState} from '@microsoft/signalr';
 import {Subject} from 'rxjs';
-
+import { IContent } from "src/app/Domain/Interfaces/IContent"
+import {AuthService} from "../../../services/authServices/auth.service";
+import {securityService} from "../../../services/authServices/security";
+import {OriginalData} from "../../../services/vidStream/VidStream.service";
 
 @Injectable({
     providedIn: 'root'
@@ -13,11 +16,16 @@ export class VideoStreamingService {
     private Buffer: any;
     private isConnected = false;
 
+    constructor(private authService: AuthService, private secService: securityService){
+        this.authService = authService;
+
+    }
 
 
-    public async startVideoStreaming(chunks: Blob[]) {
+
+
+    public async startVideoStreaming(chunks: Blob[], streamId: number) {
         await this.getOrCreateConnection();
-
         let Astring: string = await blobToBase64(chunks[0]);
 
         let base64String = Astring.substring(Astring.indexOf(',') + 1);
@@ -31,11 +39,25 @@ export class VideoStreamingService {
             });
         }
 
+        const data = new StreamChunkInOutDTO()
+        data.chunk = base64String;
+        data.chunksize = base64String.length;
+        data.streamId = streamId;
+        data.timestamp = new Date();
+
+        const json = JSON.stringify(data);
+        const sig = this.secService.sign(json.toLowerCase());
 
 
-        const data = new UserModel('thomas',  base64String );
 
-        await this.hubConnection.invoke('Upload', data);
+        const newData:StreamChunkDTO = {
+            SenderUserId: this.authService.GetWebUser()?.id!,
+            Signature: sig,
+            OriginalData: data
+        };
+
+
+        await this.hubConnection.invoke('Upload', newData);
     }
 
 
@@ -67,39 +89,16 @@ export class VideoStreamingService {
             this.hubConnection.stop();
         }
     }
-
-    base64ToBlob(base64String: string, mimeType: string): Blob {
-        const byteArrays = [];
-        console.log(base64String)
-
-        for (let offset = 0; offset < base64String.length; offset += 512) {
-            const slice = base64String.slice(offset, offset + 512);
-            const byteNumbers = new Array(slice.length);
-
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-        }
-        return new Blob(byteArrays, { type: mimeType });
-    }
 }
 
-async function base64ToBlob(base64String: string): Promise<Blob> {
-    //video/x-matroska;codecs=avc1 misschien data: dit ipv applicaton blah.
-    const response = await fetch(`data:application/octet-stream;base64,${base64String}`);
-    const blob = await response.blob();
-    return blob;
+export class StreamChunkInOutDTO {
+    id: number = 0;
+    streamId: number = 0
+    timestamp: any;
+    chunksize:number = 0;
+    chunk:string = "";
 }
 
-
-export class UserModel {
-    name: string;
-    stream: string;
-
-    constructor(name: string, stream: string) {
-        this.name = name;
-        this.stream = stream;
-    }
+export interface StreamChunkDTO extends IContent{
+    OriginalData: StreamChunkInOutDTO
 }

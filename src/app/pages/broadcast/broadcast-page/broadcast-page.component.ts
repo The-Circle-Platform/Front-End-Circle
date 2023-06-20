@@ -8,6 +8,8 @@ import {
 import { WebcamImage, WebcamInitError, WebcamUtil } from "ngx-webcam";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { VideoStreamingService } from "./VideoStreamingService";
+import {VidStream} from "../../../services/vidStream/VidStream.service";
+
 
 @Component({
   selector: "app-broadcast-page",
@@ -15,7 +17,7 @@ import { VideoStreamingService } from "./VideoStreamingService";
   styleUrls: ["./broadcast-page.component.css"],
 })
 export class BroadcastPageComponent implements OnInit, OnDestroy{
-  constructor(private _VideoStreamingService: VideoStreamingService) {}
+  constructor(private _VideoStreamingService: VideoStreamingService, private _Vidstream: VidStream) {}
   
   NewStream: any | undefined;
   HostId: number | undefined;
@@ -77,9 +79,15 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
         if (this.chunks.length) {
           console.log("sending data");
           console.log(this.chunks);
-          await this._VideoStreamingService.startVideoStreaming(this.chunks);
 
-          this.chunks = []; // Clear the recorded chunks
+          this._Vidstream.SendNewStream().subscribe(async (v:any) => {
+            console.log(v)
+            const StreamId = v.originalData.streamId;
+            await this._VideoStreamingService.startVideoStreaming(this.chunks, StreamId);
+          })
+
+
+          // this.chunks = []; // Clear the recorded chunks
         } else {
           console.log("no chunks available.");
         }
