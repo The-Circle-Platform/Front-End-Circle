@@ -19,7 +19,9 @@ export class UserCardComponent implements OnInit {
                 isOnline: false,
                 followCount: 1,
                 followers: [],
-                following: []
+                following: [],
+                ImageName: '',
+                Base64Image: ''
             };
         }
     }

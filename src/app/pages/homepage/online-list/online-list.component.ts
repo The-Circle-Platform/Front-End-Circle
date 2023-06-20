@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { User } from '../../../Domain/Models/User';
@@ -56,19 +55,17 @@ export class OnlineListComponent implements OnInit {
         this.list$.next(newUserList);
     }
 
-    DummyData(): User[] {
-        return [
-            { id: 66, isOnline: true, userName: 'TestDave', followCount: 13, followers: [], following: [] },
-            {
-                id: 67,
-                isOnline: false,
-                userName: 'TestLinda',
-                followCount: 138,
-                followers: [],
-                following: []
-            },
-        ];
-    }
+    // DummyData(): User[] {
+    //     return [
+    //         { id: 66, isOnline: true, userName: 'TestDave', followCount: 13 },
+    //         {
+    //             id: 67,
+    //             isOnline: false,
+    //             userName: 'TestLinda',
+    //             followCount: 138,
+    //         },
+    //     ];
+    // }
 
     SortList(value: User[]): User[] {
         if (this.currentSortOrder == 'asc') {

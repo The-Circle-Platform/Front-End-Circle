@@ -5,7 +5,12 @@ import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
-import { DecodedToken, IRegister, User } from '../../Domain/Models/User';
+import {
+    DecodedToken,
+    IRegister,
+    Register,
+    User,
+} from '../../Domain/Models/User';
 
 @Injectable({
     providedIn: 'root',
@@ -13,9 +18,9 @@ import { DecodedToken, IRegister, User } from '../../Domain/Models/User';
 export class AuthService {
     public currentToken$ = new BehaviorSubject<string | undefined>(undefined);
     private readonly CURRENT_TOKEN = 'token';
-    private readonly CURRENT_USER = "Pop";
-    private readonly PRIVATE_PART = "Publiek";
-    private readonly PUBLIC_PART = "Secrete";
+    private readonly CURRENT_USER = 'Pop';
+    private readonly PRIVATE_PART = 'Publiek';
+    private readonly PUBLIC_PART = 'Secrete';
     private readonly headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });
@@ -73,10 +78,11 @@ export class AuthService {
         userName: string,
         role: string
     ): Observable<IRegister | undefined> {
-        const userData = {
-            email: email,
-            userName: userName,
-        };
+        const originalRegisterData = {
+            Email: email,
+            Username: userName,
+        } as Register;
+        const userData = { originalRegisterData };
         let adminUrl = '';
         if (role) adminUrl = '-admin';
         return this.http
@@ -142,36 +148,36 @@ export class AuthService {
         ) as DecodedToken;
     }
 
-    StoreToken(token: string){
+    StoreToken(token: string) {
         localStorage.setItem(this.CURRENT_TOKEN, token);
     }
 
-    StoreKeyPair(pubKey: string, priv:string){
+    StoreKeyPair(pubKey: string, priv: string) {
         localStorage.setItem(this.PRIVATE_PART, priv);
         localStorage.setItem(this.PUBLIC_PART, pubKey);
     }
 
-    StoreUser(user: User){
+    StoreUser(user: User) {
         const jsonUser: string = JSON.stringify(user);
         localStorage.setItem(this.CURRENT_USER, jsonUser);
     }
 
-    GetWebUser():User | null{
+    GetWebUser(): User | null {
         const userJson = localStorage.getItem(this.CURRENT_USER);
 
-        if(userJson){
-            const User:User = JSON.parse(userJson);
+        if (userJson) {
+            const User: User = JSON.parse(userJson);
             return User;
-        } else{
+        } else {
             return null;
         }
     }
 
-    GetPubKey(){
+    GetPubKey() {
         return localStorage.getItem(this.PUBLIC_PART);
     }
 
-    GetPrivKey(){
+    GetPrivKey() {
         return localStorage.getItem(this.PRIVATE_PART);
     }
 }

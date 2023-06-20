@@ -14,11 +14,17 @@ export interface User extends IUser {
     followCount: number;
     followers: Array<User>
     following: Array<User>
+    ImageName: string;
+    Base64Image: string;
 }
 
 export interface IRegister {
-    emailAddress: string;
-    username: string;
+    OriginalRegisterData: Register;
+}
+
+export interface Register {
+    Email: string;
+    Username: string;
 }
 
 export interface Pfp {
@@ -30,23 +36,23 @@ export interface PfpUser {
     Pfp: Pfp;
 }
 
-export interface UserResponseList extends IContent{
-    OriginalList: User[]
+export interface UserResponseList extends IContent {
+    OriginalList: User[];
 }
 
-export interface UserResponse extends IContent{
-    OriginalData: User
+export interface UserResponse extends IContent {
+    OriginalData: User;
 }
-export interface LoginResponse extends IOutResponsePayload{
-    OriginalLoad: UserAuthResponse
+export interface LoginResponse extends IOutResponsePayload {
+    OriginalLoad: UserAuthResponse;
 }
 
-export interface UserAuthResponse{
-    WebsiteUser: User
-    PrivKey : string
-    PubKey : string
-    token : string,
-    expiration: Date
+export interface UserAuthResponse {
+    WebsiteUser: User;
+    PrivKey: string;
+    PubKey: string;
+    token: string;
+    expiration: Date;
 }
 
 export type Id = string;

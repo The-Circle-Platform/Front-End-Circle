@@ -13,13 +13,18 @@ export class StreamPageComponent implements OnInit {
   IsFollowing: boolean = false;
   streamerId!: number;
   followerId!: number;
+  NewStream: any;
+  HostId: number;
+
 
   constructor(
     private route: ActivatedRoute,
     private loggerService: LoggerService,
     private userService: UserService,
     private authService: AuthService
-  ) {}
+  ) {
+    this.HostId = 0;
+  }
 
   ngOnInit(): void {
     this.streamerId = this.route.snapshot.params["id"];
