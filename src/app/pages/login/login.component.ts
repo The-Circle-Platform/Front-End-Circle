@@ -38,7 +38,7 @@ export class LoginComponent {
 
         this.loginForm = this.fb.group({
             userName: ['', Validators.required],
-            password: ['', Validators.required],
+            inputPrivateKey: ['', Validators.required],
         }) as FormGroup;
     }
 
@@ -46,17 +46,17 @@ export class LoginComponent {
         console.log(this.loginForm.value);
         if (
             this.loginForm.value.userName != '' &&
-            this.loginForm.value.password != ''
+            this.loginForm.value.inputPrivateKey != ''
         ) {
-            var encryptedPassword = this.securityService.encryptWithServerPublicKey(this.loginForm.value.password);
+
             this.authService
                 .login(
                     this.loginForm.value.userName,
-                    encryptedPassword
+                    this.loginForm.value.inputPrivateKey
                 )
                 .subscribe(
                     (reply: any) => {
-                        location.reload();
+                        //location.reload();
                         console.log(reply);
                         this.authService.StoreToken(reply.originalLoad.token);
                         this.authService.StoreUser(reply.originalLoad.websiteUser);
@@ -66,17 +66,26 @@ export class LoginComponent {
 
                         console.log(this.hasIntegrity)
                         if(this.hasIntegrity) {
-                            location.reload();
-                            localStorage.setItem('token', reply.originalLoad.token);
-                            localStorage.setItem('privateKey', reply.originalLoad.privateKey);
-                            localStorage.setItem('publicKey', reply.originalLoad.publicKey);
-                            this.router.navigate(['/']);
+                            if (reply.isVerified) {
+                                console.log("henk")
+                                //location.reload();
+                                // localStorage.setItem('token', reply.originalLoad.token);
+                                // localStorage.setItem('privateKey', reply.originalLoad.privateKey);
+                                // localStorage.setItem('publicKey', reply.originalLoad.publicKey);
+                                //this.router.navigate(['/']);
+                            } else {
+                                localStorage.removeItem("privKey");
+                                this.wrongPwOrUserName = true;
+                            }
+
+
                         }
 
 
                     },
                     (err) => {
                         console.log(err);
+                        localStorage.removeItem("privKey");
                         this.wrongPwOrUserName = true;
                     }
                 );

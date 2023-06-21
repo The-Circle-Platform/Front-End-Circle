@@ -49,17 +49,14 @@ export class securityService {
     }
 
     sign(plaintext: string): string | false {
-        console.log('jeojoe',plaintext)
+
+        console.log(plaintext)
         this.userCrypto.setPrivateKey(localStorage.getItem("privKey")!);
         this.userCrypto.setKey(localStorage.getItem("privKey")!);
         this.userCrypto.setPublicKey(localStorage.getItem("privKey")!);
-
-
-
-        //console.log(localStorage.getItem("privKey"));
+        console.log(localStorage.getItem("privKey"));
         // @ts-ignore
         const signature = this.userCrypto.sign(plaintext, CryptoJS.SHA256, "sha256");
-        console.log(" Signature is =>")
         console.log(signature)
         return signature;
     }
@@ -69,8 +66,8 @@ export class securityService {
 
         this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
 
-        console.log("signature: ", signature);
-        console.log("message: ", messageJson);
+        console.log(signature);
+        console.log(messageJson);
 
         const verified = this.serverCrypto.verify(
             messageJson,

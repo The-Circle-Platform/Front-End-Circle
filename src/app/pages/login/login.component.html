@@ -18,17 +18,17 @@
         </span>
     </div>
     <div class="form-group">
-        <label for="inputPassword">Wachtwoord</label>
-        <input type="password" class="form-control" formControlName="password" id="inputPassword" [ngClass]="{
+        <label for="inputPrivateKey">Privé sleutel</label>
+        <textarea type="text" class="form-control" formControlName="inputPrivateKey" id="inputPrivateKey" [ngClass]="{
                 'is-invalid':
-                    loginForm.get('password')?.invalid &&
-                    loginForm.get('password')?.touched
-            }" />
+                    loginForm.get('inputPrivateKey')?.invalid &&
+                    loginForm.get('inputPrivateKey')?.touched
+            }"></textarea>
         <span *ngIf="
-                !loginForm.get('password')?.valid &&
-                loginForm.get('password')?.touched
+                !loginForm.get('inputPrivateKey')?.valid &&
+                loginForm.get('inputPrivateKey')?.touched
             " class="invalid-feedback">
-            <p id="password-invalid">Voer een geldig wachtwoord in</p>
+            <p id="password-invalid">Voer private key in</p>
         </span>
     </div>
 

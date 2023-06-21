@@ -58,18 +58,34 @@ export class AuthService {
         return token ? jwt_decode(token) : null;
     }
 
-    login(userName: string, password: string): Observable<string | undefined> {
-        const credentials = {
-            // userName: this.securityService.encryptWithServerPublicKey(userName),
-            // password: this.securityService.encryptWithServerPublicKey(password),
-            userName: userName,
-            password: password,
-        };
-        console.log(
-            `Username: ${credentials.userName} | Password: ${credentials.password}`
-        );
-        // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
+    login(userName: string, privateKey: string): Observable<string | undefined> {
+        // const credentials = {
+        //     // userName: this.securityService.encryptWithServerPublicKey(userName),
+        //     // password: this.securityService.encryptWithServerPublicKey(password),
+        //     userName: userName,
+        //     password: password,
+        // };
+        // console.log(
+        //     `Username: ${credentials.userName} | Password: ${credentials.password}`
+        // );
+        // // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
+        //
 
+        localStorage.setItem("privKey", privateKey);
+        var timesTamp = Date.now();
+        var request = {
+            userName: userName,
+            timeStamp: timesTamp
+        }
+        var json = JSON.stringify(request);
+
+        var userNameSignature = this.securityService.sign(json.toLowerCase());
+        var credentials = {
+            request: request,
+            signature: userNameSignature,
+        };
+
+        console.log(credentials);
         return this.http.post<string>(
             `${this.siteEndpoint}/login`,
             credentials,
