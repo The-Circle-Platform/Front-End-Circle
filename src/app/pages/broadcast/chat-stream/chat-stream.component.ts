@@ -4,6 +4,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import {
     ChatMessage,
     ChatMessageDTO,
+    ChatRequestDTO,
 } from '../../../Domain/Models/ChatMessage';
 import { User } from '../../../Domain/Models/User';
 import { ChatService } from '../../../services/chatServices/chat.service';
@@ -107,11 +108,8 @@ export class ChatStreamComponent implements OnInit {
             (updatedMessageList: any) => {
                 console.log('Received new chatmessages');
                 //Verify received packages.
-                // Turn into string
-                const stringJson = JSON.stringify(updatedMessageList.originalList);
-
                 //Verify signature
-                const isValid = this.securityService.verify(stringJson, updatedMessageList.signature);
+                const isValid = this.securityService.verify(updatedMessageList.originalList, updatedMessageList.signature);
                 
                 if(isValid){
                     this.ListOfChats = updatedMessageList.originalList;
@@ -119,7 +117,6 @@ export class ChatStreamComponent implements OnInit {
                     this.warning = 'Data integriteit is aangetast, probeer later nog eens.';
                 }
                 
-
                 this.IsBusy = false;
             }
         );
@@ -144,8 +141,16 @@ export class ChatStreamComponent implements OnInit {
     
 
     private SendToServer(chatMessage: ChatMessageDTO) {
+        //Create signature
+        const txt = JSON.stringify(chatMessage);
+        const signature = this.securityService.sign(txt);
+        const payload: ChatRequestDTO = {
+            Signature: signature,
+            SenderUserId: chatMessage.WebUserId,
+            OriginalData: chatMessage,
+        };
         this.hubConnection
-            ?.send('SendMessage', chatMessage)
+            ?.send('SendMessage', payload)
             .then(() => {
                 console.log('Gelukt');
             })

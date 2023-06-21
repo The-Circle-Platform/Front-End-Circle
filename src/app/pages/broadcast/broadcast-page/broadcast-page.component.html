@@ -2,7 +2,10 @@
     <div class="row">
         <div class="col">
             <!-- TODO add host id when stream function is done -->
-            <app-view-count [HostId]="HostId" [isStreamer]="true" [StreamId]="NewStream.id"></app-view-count>
+            <div *ngIf="NewStream != undefined">
+                <app-view-count [HostId]="HostId" [isStreamer]="true" [StreamId]="NewStream.id"></app-view-count>
+            </div>
+            
         </div>
         <div class="col">
             <div class="vidBox">
@@ -20,7 +23,7 @@
         </div>
         <div class="row">
             <div class="col">
-                
+                <app-chat-stream [HostUserId]="HostId"></app-chat-stream>
             </div>
         </div>
 </div>

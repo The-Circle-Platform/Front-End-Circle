@@ -1,7 +1,8 @@
+
+<!-- streaming-player.component.html -->
 <div>
-    <video width="1020" height="540" controls>
-        <source src="movie.mp4" type="video/mp4">
-        <source src="movie.ogg" type="video/ogg">
-        Your browser does not support the video tag.
+    <button (click)="playVideo()">Play Video</button>
+    <hr>
+    <video #videoPlayer width="840" height="440" controls >
     </video>
 </div>
