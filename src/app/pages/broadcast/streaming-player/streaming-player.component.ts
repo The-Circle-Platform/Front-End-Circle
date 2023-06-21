@@ -4,6 +4,7 @@ import {StreamChunkDTO} from "../broadcast-page/VideoStreamingService";
 import * as signalR from '@microsoft/signalr';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {securityService} from "../../../services/authServices/security";
+import { ConfigService } from 'src/app/shared/moduleconfig/config.service';
 
 @Component({
     selector: 'app-streaming-player',
@@ -20,11 +21,11 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
     @Input()
     StreamId?: number
 
-    constructor(private sanitizer: DomSanitizer, private securityService: securityService) { }
+    constructor(private sanitizer: DomSanitizer, private securityService: securityService, private configService: ConfigService) { }
 
     ngOnInit() {
         this._hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl('https://localhost:7058/hubs/Livestream')
+            .withUrl(this.configService.getApiEndpoint() + 'hubs/Livestream')
             .build();
 
         this._hubConnection.start().then(() => {
