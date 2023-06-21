@@ -1,1 +1,27 @@
-<p>admin-page works!</p>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div>
+        <label for="userName">
+            Gebruikersnaam
+        </label>
+        <input id="userName" type="text" formControlName="userName" class="form-control">
+    </div>
+
+    <div>
+        <label for="email">
+            email
+        </label>
+        <input id="email" type="email" formControlName="email" class="form-control">
+    </div>
+
+    <div>
+        <label for="isAdmin" class="form-check-label">
+            Is admin
+        </label>
+        <input id="isAdmin" type="checkbox" formControlName="isAdmin" class="form-check-input">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Gebruiker toevoegen</button>
+
+</form>
+

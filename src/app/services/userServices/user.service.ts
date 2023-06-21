@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { IService } from '../../Domain/Interfaces/IService';
 import { User, userDTO } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
+import {securityService} from "../authServices/security";
+import {environment} from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class UserService implements IService<User> {
@@ -11,7 +13,8 @@ export class UserService implements IService<User> {
 
     constructor(
         private configService: ConfigService,
-        public httpClient: HttpClient
+        public httpClient: HttpClient,
+        private securityService: securityService
     ) {
         this.siteEndpoint = `${
             this.configService.getConfig().apiEndpoint
@@ -26,8 +29,25 @@ export class UserService implements IService<User> {
         return this.httpClient.get<userDTO>(this.siteEndpoint);
     }
 
-    Create(entity: User): Observable<any> {
-        return this.httpClient.post(this.siteEndpoint, entity);
+    Create(user: any): Observable<any> {
+        var json = JSON.stringify(user, null, 0).toLowerCase();
+        const signature = this.securityService.sign(json);
+        var request = {
+            originalRegisterData: user,
+            signature: signature
+        }
+        return this.httpClient.post(environment.SERVER_API_URL + "api/auth/register", request);
+    }
+
+    CreateAdmin(admin: any): Observable<any> {
+        var json = JSON.stringify(admin, null, 0).toLowerCase();
+        const signature = this.securityService.sign(json);
+        var request = {
+            originalRegisterData: admin,
+            signature: signature
+        }
+        return this.httpClient.post(environment.SERVER_API_URL + "api/auth/register-admin", request);
+
     }
 
     Update(entity: User): Observable<userDTO> {
@@ -40,9 +60,19 @@ export class UserService implements IService<User> {
     uploadPfp(pfpUser: User): Observable<userDTO> {
         console.log("made it to uploadPFP")
         console.log(pfpUser);
+        pfpUser.timeStamp = Date.now();
+        console.log(pfpUser);
+
+
+        var json = JSON.stringify(pfpUser, null, 0).toLowerCase();
+        var signature = this.securityService.sign(json);
+        var test = {
+            request: pfpUser,
+            signature: signature
+        }
         return this.httpClient.put<userDTO>(
             `${this.siteEndpoint}/${pfpUser.id}/pfp`,
-            pfpUser
+            test
         );
     }
 }

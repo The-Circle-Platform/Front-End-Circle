@@ -23,23 +23,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        const jwt = localStorage.getItem('token');
-        if (jwt) {
-            const tokenUser = this.authService.decodeJwtToken(
-                jwt
-            ) as DecodedToken;
-            console.log('tokenUser: ', tokenUser);
-            this.userName =
-                tokenUser[
-                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-                ];
+
 
             // @ts-ignore
             var test = localStorage.getItem("Pop");
-            var test2 = JSON.parse(test!) as User;
+            this.user = JSON.parse(test!) as User;
             //var test = JSON.
             this.subscription = this.userService
-                .Get(test2.id)
+                .Get(this.user.id)
                 .subscribe((res) => {
                     console.log('res: ', res);
                     this.hasIntegrity = this.securityService.verify(
@@ -51,7 +42,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                     this.user = res.originalData;
                     }
                 });
-        }
+
     }
 
     onSelectFile(event: any) {
@@ -64,15 +55,18 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 const image = reader.result as string;
                 console.log(image);
 
+                console.log(this.user)
                 if (!this.pfpUser && this.user) {
+                    console.log("kak2")
                     this.pfpUser = {
                         id: this.user?.id,
                         userName: this.user?.userName,
                         isOnline: this.user?.isOnline,
                         followCount: this.user?.followCount,
+                        balance: this.user?.balance,
                         imageName: imageFile.name,
                         base64Image: image,
-                        balance: this.user?.balance,
+                        timeStamp: null
                     };
                 }
             };

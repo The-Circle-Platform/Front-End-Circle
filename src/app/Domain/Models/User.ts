@@ -13,9 +13,11 @@ export interface DecodedToken {
 export interface User extends IUser {
     isOnline: boolean;
     followCount: number;
+    balance: number;
     imageName: string;
     base64Image: string;
-    balance: number;
+    timeStamp: number | null;
+
 }
 
 export interface IRegister {

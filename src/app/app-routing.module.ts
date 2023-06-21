@@ -8,6 +8,7 @@ import { StreamPageComponent } from "./pages/broadcast/stream-page/stream-page.c
 import { LoginComponent } from "./pages/login/login.component";
 import { RegistrationPageComponent } from "./pages/registration/registration-page/registration-page.component";
 import {ViewerCountComponent} from "./pages/broadcast/viewer-count/viewer-count.component";
+import {AdminPageComponent} from "./pages/admin/admin-page/admin-page.component";
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "homepage" },
@@ -25,7 +26,8 @@ const routes: Routes = [
     //temp path for development of view
   {path: "viewerCount",
   pathMatch: "full",
-  component: ViewerCountComponent}
+  component: ViewerCountComponent},
+  {path: "admin", pathMatch: "full", component: AdminPageComponent}
 ];
 
 @NgModule({

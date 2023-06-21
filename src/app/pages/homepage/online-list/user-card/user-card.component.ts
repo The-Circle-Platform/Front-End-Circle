@@ -20,6 +20,7 @@ export class UserCardComponent implements OnInit {
                 imageName: '',
                 base64Image: '',
                 balance: 0,
+                timeStamp: null
             };
         }
 

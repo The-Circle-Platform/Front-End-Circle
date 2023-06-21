@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { userService } from '../userServices/user.service';
+import { UserService } from '../userServices/user.service';
 import { securityService } from './security';
 
 @Injectable({ providedIn: 'root' })
@@ -7,7 +7,7 @@ export class ProfileService {
     tokenKey: string;
 
     constructor(
-        private userService: userService,
+        private userService: UserService,
         private secureService: securityService
     ) {
         this.tokenKey = 'local';
