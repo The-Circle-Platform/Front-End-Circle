@@ -1,12 +1,13 @@
-<div class="card shadow-sm my-2">
+<a class="card shadow-sm my-2" routerLink="/user/{{User.id}}/stream/current">
 
     <div class="card-header rounded-0">
         <div class="card-title">
             <h3>{{User.userName}}</h3>
         </div>
     </div>
-    <img [src]="User?.base64Image" alt="Generic placeholder image" class="img-fluid"
-         style="width: 180px; border-radius: 10px;">
+    <div class="img-container">
+        <span class="helper"></span><img [src]="User?.base64Image || './assets/img/default-profile-image.png'" alt="profile picture" class="img-fluid user-img">
+    </div>
     <div class="card-body">
         <span *ngIf=User.isOnline>
             <p>Status: Online <span class="online">●</span></p>
@@ -15,6 +16,6 @@
             <p>Status: Offline<span class="offline">●</span> </p>
         </span>
         <!-- May be edited to specific stream -->
-       <a class="btn btn-primary" routerLink="/user/{{User.id}}/stream/current">Bekijk stream van {{User.id}}</a>
+       <a class="btn btn-primary" >Bekijk stream van {{User.id}}</a>
  </div>
-</div>
+</a>
