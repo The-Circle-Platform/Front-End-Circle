@@ -22,8 +22,6 @@ export class OnlineListComponent implements OnInit {
 
     constructor(
         public userService: UserService,
-        private http: HttpClient,
-        private logger: LoggerService,
         public securityService: securityService
     ) {
         this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
@@ -36,17 +34,9 @@ export class OnlineListComponent implements OnInit {
 
     RefreshList() {
         console.log('Ophalen streamers US-3');
-        //Subscribes to interval.
-        //interval(200000000000).subscribe(() => {
-        //Next step is to request users to api.
-
-
         const ss = this.userService.GetAll().subscribe((e) => {
             console.log(e.originalList)
             this.users = e.originalList as User[];
-            // console.log(this.users)
-            // console.log("VERIFYING REQUEST")
-            // console.log(e);
             this.hasIntigrety = this.securityService.verify(
                 e.originalList,
                 e.signature!
@@ -57,34 +47,11 @@ export class OnlineListComponent implements OnInit {
                 console.log('Data is not the same as was send by server');
             }
             this.users = this.SortList(this.users);
-            //Will assign new value to behavioursubject.
-            /*value = !value;
-=======
-                    // console.log(e.originalList)
-                    this.users = e.originalList as User[];
-                    // console.log(this.users)
-                    this.users = this.SortList(this.users);
-                    // console.log("VERIFYING REQUEST")
-                    // console.log(e);
-                     this.hasIntigrety = this.securityService.verify(e.originalList, e.signature!)
-                    if(this.hasIntigrety) {
-                        console.log("Data has not changed");
-                    }
-                    else {
-                        console.log("Data is not the same as was send by server");
-
-                    }
-                    //Will assign new value to behavioursubject.
-                    /*value = !value;
->>>>>>> feature/encryption
-          e[0].isOnline = value;*/
             console.log(e.originalList!);
             this.Refresh(e.originalList!);
 
-                //Will unsubscribe, so that this observable can be reused multiple times.
                 ss.unsubscribe();
             });
-        //});
     }
 
     Refresh(newUserList: User[]) {
