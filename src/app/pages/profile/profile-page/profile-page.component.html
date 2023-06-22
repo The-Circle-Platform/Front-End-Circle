@@ -12,12 +12,13 @@
                             <div class="d-flex text-black">
                                 <div class="flex-shrink-0">
                                     <div class="img-container">
-                                        <span class="helper"></span><img [src]="user?.base64Image || './assets/img/default-profile-image.png'" alt="profile picture" class="img-fluid user-img">
+                                        <span class="helper"></span><img
+                                            [src]="user?.base64Image || './assets/img/default-profile-image.png'"
+                                            alt="profile picture" class="img-fluid user-img">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h5 class="mb-1">{{user?.userName}}</h5>
-<!--                                    <p class="mb-2 pb-1" style="color: #2b2a2a;">{{user?.userName}}</p>-->
                                     <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
                                         style="background-color: #efefef;">
                                         <div>
@@ -31,8 +32,9 @@
                                             <p>
                                                 <label for="Profielfoto">Profielfoto</label>
                                             </p>
-                                            <input placeholder="Upload je profielfoto." type="file" id="file" class="image-uploader"
-                                                (change)="onSelectFile($event)" name="Profielfoto" />
+                                            <input placeholder="Upload je profielfoto." type="file" id="file"
+                                                class="image-uploader" (change)="onSelectFile($event)"
+                                                name="Profielfoto" />
 
                                             <div class="form-group">
                                                 <button class="btn btn-lg btn-primary btn-block" type="submit">

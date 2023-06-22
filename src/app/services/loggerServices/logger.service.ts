@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LogLevel } from '../../Domain/Models/LogLevel';
 import { HttpClient } from '@angular/common/http';
-import {environment} from "../../../environments/environment";
-import {Observable} from "rxjs";
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -11,7 +11,7 @@ export class LoggerService {
     logLevel: LogLevel = new LogLevel();
     ipAddress = '';
 
-    constructor(private http:HttpClient) {}
+    constructor(private http: HttpClient) {}
 
     trace(msg: string): void {
         this.logWith(this.logLevel.Trace, msg);
@@ -37,14 +37,14 @@ export class LoggerService {
         this.logWith(this.logLevel.Critical, msg);
     }
 
-    logToDB(endpoint: string, action: string): Observable<any>  {
-        this.logWith(this.logLevel.Trace, endpoint + " " + action)
+    logToDB(endpoint: string, action: string): Observable<any> {
+        this.logWith(this.logLevel.Trace, endpoint + ' ' + action);
         this.getIPAddress();
-        var log = {
+        const log = {
             location: endpoint,
-            action: action
-        }
-        return this.http.post(environment.SERVER_API_URL + "api/Logging", log)
+            action: action,
+        };
+        return this.http.post(environment.SERVER_API_URL + 'api/Logging', log);
     }
 
     private logWith(level: any, msg: string): void {
@@ -55,7 +55,10 @@ export class LoggerService {
                 case this.logLevel.None:
                     return console.log(msg);
                 case this.logLevel.Trace:
-                    return console.trace(`%c IP: ${this.ipAddress} |  ${msg}`, 'color: #6495ED');
+                    return console.trace(
+                        `%c IP: ${this.ipAddress} |  ${msg}`,
+                        'color: #6495ED'
+                    );
                 case this.logLevel.Debug:
                     return console.debug('%c' + msg, 'color: #6495ED');
                 case this.logLevel.Information:
@@ -72,11 +75,12 @@ export class LoggerService {
         }
     }
 
-    getIPAddress()
-    {
-        this.http.get("http://api.ipify.org/?format=json").subscribe((res:any)=>{
-            this.ipAddress = res;
-            console.log(res)
-        });
+    getIPAddress() {
+        this.http
+            .get('http://api.ipify.org/?format=json')
+            .subscribe((res: any) => {
+                this.ipAddress = res;
+                console.log(res);
+            });
     }
 }
