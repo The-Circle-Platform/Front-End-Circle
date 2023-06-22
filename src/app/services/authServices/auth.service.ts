@@ -5,8 +5,13 @@ import { Router } from '@angular/router';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
-import { DecodedToken, IRegister, Register, User } from '../../Domain/Models/User';
-import { securityService } from "./security";
+import {
+    DecodedToken,
+    IRegister,
+    Register,
+    User,
+} from '../../Domain/Models/User';
+import { securityService } from './security';
 
 @Injectable({
     providedIn: 'root',
@@ -88,14 +93,13 @@ export class AuthService {
             Email: email,
             Username: userName,
         } as Register;
-        const userData = { originalRegisterData };
 
-        const RegisterJsonString = JSON.stringify(userData);
+        const RegisterJsonString = JSON.stringify(originalRegisterData);
         const signature = this.securityService.sign(RegisterJsonString);
 
         const RegisterRequestDTO = {
             signature: signature,
-            originalRegisterData: userData,
+            originalRegisterData: originalRegisterData,
             SenderUserId: this.GetWebUser()?.id,
         };
         let adminUrl = '';
@@ -163,7 +167,7 @@ export class AuthService {
         localStorage.setItem(this.CURRENT_TOKEN, token);
     }
 
-    StoreKeyPair(pubKey: string, priv:string){
+    StoreKeyPair(pubKey: string, priv: string) {
         localStorage.setItem(this.CURRENT_PRIVATE_KEY, priv);
         localStorage.setItem(this.CURRENT_PUBLIC_KEY, pubKey);
     }
@@ -184,11 +188,11 @@ export class AuthService {
         }
     }
 
-    GetPubKey(){
+    GetPubKey() {
         return localStorage.getItem(this.CURRENT_PUBLIC_KEY);
     }
 
-    GetPrivKey(){
+    GetPrivKey() {
         return localStorage.getItem(this.CURRENT_PRIVATE_KEY);
     }
 }
