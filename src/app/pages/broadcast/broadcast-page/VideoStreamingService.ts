@@ -81,7 +81,7 @@ export class VideoStreamingService {
                 this.isConnected = true;
             else this.isConnected = false;
         }
-        console.log('Connection state: ' + this.hubConnection.state);
+        console.log('Connection state: ', this.hubConnection.state);
         return this.hubConnection;
     }
 

@@ -55,7 +55,7 @@ export class LoginComponent {
                 .subscribe(
                     (reply: any) => {
                         //location.reload();
-                        console.log('reply: ' + reply);
+                        console.log('reply: ', reply);
                         this.authService.StoreToken(reply.originalLoad.token);
                         this.authService.StoreUser(
                             reply.originalLoad.websiteUser
@@ -81,7 +81,7 @@ export class LoginComponent {
                         }
                     },
                     (err) => {
-                        console.log('Login error: ' + err);
+                        console.log('Login error: ', err);
                         localStorage.removeItem('privKey');
                         this.wrongPwOrUserName = true;
                     }

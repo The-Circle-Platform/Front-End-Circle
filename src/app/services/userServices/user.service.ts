@@ -64,7 +64,7 @@ export class UserService implements IService<User> {
 
     uploadPfp(pfpUser: User): Observable<userDTO> {
         pfpUser.timeStamp = Date.now();
-        console.log('PfpUser: ' + pfpUser);
+        console.log('PfpUser: ', pfpUser);
 
         const json = JSON.stringify(pfpUser, null, 0).toLowerCase();
         const signature = this.securityService.sign(json);

@@ -70,7 +70,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                     location.reload();
                 },
                 (err) => {
-                    console.log('Upload pfp error: ' + err);
+                    console.log('Upload pfp error: ', err);
                     location.reload();
                 }
             );

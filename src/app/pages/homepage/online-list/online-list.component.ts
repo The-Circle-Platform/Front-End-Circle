@@ -44,7 +44,7 @@ export class OnlineListComponent implements OnInit {
                 console.log('Data is not the same as was send by server');
             }
             this.users = this.SortList(this.users);
-            console.log('OriginalList: ' + e.originalList!);
+            console.log('OriginalList: ', e.originalList!);
             this.Refresh(e.originalList!);
 
             ss.unsubscribe();
