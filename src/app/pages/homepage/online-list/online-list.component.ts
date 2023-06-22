@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { User, userDTO } from 'src/app/Domain/Models/User';
-import { LoggerService } from 'src/app/services/loggerServices/logger.service';
-import { UserService } from 'src/app/services/userServices/user.service';
-import { securityService } from 'src/app/services/authServices/security';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../../../Domain/Models/User';
+import { SecurityService } from '../../../services/authServices/security';
+import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
     selector: 'app-online-list',
@@ -22,7 +20,7 @@ export class OnlineListComponent implements OnInit {
 
     constructor(
         public userService: UserService,
-        public securityService: securityService
+        public securityService: SecurityService
     ) {
         this.list$ = new BehaviorSubject<User[] | undefined>(undefined);
         this.refresher = new Observable<any>();
@@ -35,7 +33,7 @@ export class OnlineListComponent implements OnInit {
     RefreshList() {
         console.log('Ophalen streamers US-3');
         const ss = this.userService.GetAll().subscribe((e) => {
-            console.log(e.originalList)
+            console.log(e.originalList);
             this.users = e.originalList as User[];
             this.hasIntigrety = this.securityService.verify(
                 e.originalList,
@@ -50,8 +48,8 @@ export class OnlineListComponent implements OnInit {
             console.log(e.originalList!);
             this.Refresh(e.originalList!);
 
-                ss.unsubscribe();
-            });
+            ss.unsubscribe();
+        });
     }
 
     Refresh(newUserList: User[]) {

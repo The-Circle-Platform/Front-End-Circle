@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/authServices/auth.service';
-import {securityService} from "../../services/authServices/security";
-import {userDTO} from "../../Domain/Models/User";
+import { SecurityService } from '../../services/authServices/security';
+import { userDTO } from '../../Domain/Models/User';
 
 @Component({
     selector: 'app-login',
@@ -22,11 +22,10 @@ export class LoginComponent {
         private fb: FormBuilder,
         public authService: AuthService,
         private router: Router,
-        private securityService: securityService
+        private securityService: SecurityService
     ) {}
 
     ngOnInit(): void {
-
         this.subs = this.authService
             .getUserFromLocalStorage()
             .subscribe((user: string | undefined) => {
@@ -48,7 +47,6 @@ export class LoginComponent {
             this.loginForm.value.userName != '' &&
             this.loginForm.value.inputPrivateKey != ''
         ) {
-
             this.authService
                 .login(
                     this.loginForm.value.userName,
@@ -59,33 +57,34 @@ export class LoginComponent {
                         //location.reload();
                         console.log(reply);
                         this.authService.StoreToken(reply.originalLoad.token);
-                        this.authService.StoreUser(reply.originalLoad.websiteUser);
+                        this.authService.StoreUser(
+                            reply.originalLoad.websiteUser
+                        );
 
                         this.router.navigate(['/']);
-                         this.hasIntegrity = this.securityService.verify(reply.originalLoad.websiteUser, reply.signature);
+                        this.hasIntegrity = this.securityService.verify(
+                            reply.originalLoad.websiteUser,
+                            reply.signature
+                        );
 
-                        console.log(this.hasIntegrity)
-                        if(this.hasIntegrity) {
+                        console.log(this.hasIntegrity);
+                        if (this.hasIntegrity) {
                             if (reply.isVerified) {
-                                console.log("henk")
+                                console.log('henk');
                                 //location.reload();
                                 // localStorage.setItem('token', reply.originalLoad.token);
                                 // localStorage.setItem('privateKey', reply.originalLoad.privateKey);
                                 // localStorage.setItem('publicKey', reply.originalLoad.publicKey);
                                 //this.router.navigate(['/']);
                             } else {
-                                localStorage.removeItem("privKey");
+                                localStorage.removeItem('privKey');
                                 this.wrongPwOrUserName = true;
                             }
-
-
                         }
-
-
                     },
                     (err) => {
                         console.log(err);
-                        localStorage.removeItem("privKey");
+                        localStorage.removeItem('privKey');
                         this.wrongPwOrUserName = true;
                     }
                 );

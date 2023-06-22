@@ -17,7 +17,6 @@ export interface User extends IUser {
     imageName: string;
     base64Image: string;
     timeStamp: number | null;
-
 }
 
 export interface IRegister {

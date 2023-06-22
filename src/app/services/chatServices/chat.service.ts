@@ -1,15 +1,19 @@
-import { Injectable } from "@angular/core";
-import { ConfigService } from '../../shared/moduleconfig/config.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { Subscription } from 'rxjs';
+import {
+    ChatMessage,
+    ChatMessageDTO,
+    ChatRequestDTO
+} from '../../Domain/Models/ChatMessage';
 import { User } from '../../Domain/Models/User';
-import { ChatMessage, ChatRequestDTO, ChatResponseDTO, ChatMessageDTO } from '../../Domain/Models/ChatMessage';
-import { LoggerService } from "../loggerServices/logger.service";
-import { Subscription } from "rxjs";
-import { securityService } from "../authServices/security";
+import { ConfigService } from '../../shared/moduleconfig/config.service';
+import { SecurityService } from '../authServices/security';
+import { LoggerService } from '../loggerServices/logger.service';
 
-@Injectable({providedIn: 'root'})
-export class ChatService{
+@Injectable({ providedIn: 'root' })
+export class ChatService {
     ListOfChats: ChatMessage[];
     private readonly CURRENT_TOKEN = 'token';
     private readonly headers = new HttpHeaders({
@@ -19,17 +23,17 @@ export class ChatService{
     public currentUser: User | undefined = undefined;
     public hubEndpoint: string;
     subscription: Subscription | undefined;
-    
+
     constructor(
-        public con: ConfigService, 
-        private logger: LoggerService, 
-        private securityService: securityService)
-    {
+        public con: ConfigService,
+        private logger: LoggerService,
+        private securityService: SecurityService
+    ) {
         this.ListOfChats = [];
-        this.hubEndpoint = `${con.getApiEndpoint()}hubs/ChatHub`
+        this.hubEndpoint = `${con.getApiEndpoint()}hubs/ChatHub`;
     }
-    
-    public SetUpConnections(HostId: number){
+
+    public SetUpConnections(HostId: number) {
         console.log('Begin connectie chat');
 
         //Setup url
@@ -40,21 +44,18 @@ export class ChatService{
         //Setup receiver methode
         const ReceiverEndpoint = `ReceiveChat-${HostId}`;
 
-        this.hubConnection.on(
-            ReceiverEndpoint,
-            (response: any) => {
-                console.log('Received new chatmessages');
-                console.log(response);
-                // Turn into string
-                const stringJson = JSON.stringify(response.originalList);
+        this.hubConnection.on(ReceiverEndpoint, (response: any) => {
+            console.log('Received new chatmessages');
+            console.log(response);
+            // Turn into string
+            const stringJson = JSON.stringify(response.originalList);
 
-                //Verify signature
-                this.securityService.verify(stringJson, response.Signature);
+            //Verify signature
+            this.securityService.verify(stringJson, response.Signature);
 
-                // Assigns new user to response.
-                this.ListOfChats = response.originalList;
-            }
-        );
+            // Assigns new user to response.
+            this.ListOfChats = response.originalList;
+        });
 
         //Start connection
         this.hubConnection
@@ -64,11 +65,13 @@ export class ChatService{
                 console.log('Get current chatmessages');
                 this.hubConnection
                     ?.send('RetrieveCurrentChat', HostId)
-                    .then(()=>{
-                        this.subscription = this.logger.logToDB("/hubs/ChatHub/", "RetrieveCurrentChat").subscribe((res => {
-                            console.log(res);
-                            this.subscription?.unsubscribe();
-                          }));
+                    .then(() => {
+                        this.subscription = this.logger
+                            .logToDB('/hubs/ChatHub/', 'RetrieveCurrentChat')
+                            .subscribe((res) => {
+                                console.log(res);
+                                this.subscription?.unsubscribe();
+                            });
                     });
             })
             .catch((err) =>
@@ -95,7 +98,6 @@ export class ChatService{
                 //     console.log(res);
                 //     this.subscription?.unsubscribe();
                 // }));
-
             })
             .catch((err) => {
                 console.log('Niet gelukt');

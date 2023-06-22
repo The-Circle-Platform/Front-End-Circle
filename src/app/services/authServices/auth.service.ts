@@ -1,12 +1,17 @@
-import jwt_decode from 'jwt-decode';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Router } from '@angular/router';
-import { map, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
+import {
+    DecodedToken,
+    IRegister,
+    Register,
+    User
+} from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
-import { DecodedToken, IRegister, Register, User } from '../../Domain/Models/User';
-import { securityService } from "./security";
+import { SecurityService } from './security';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +33,7 @@ export class AuthService {
         private configService: ConfigService,
         private http: HttpClient,
         private router: Router,
-        private securityService: securityService
+        private securityService: SecurityService
     ) {
         this.siteEndpoint = `${
             this.configService.getConfig().apiEndpoint
@@ -58,7 +63,10 @@ export class AuthService {
         return token ? jwt_decode(token) : null;
     }
 
-    login(userName: string, privateKey: string): Observable<string | undefined> {
+    login(
+        userName: string,
+        privateKey: string
+    ): Observable<string | undefined> {
         // const credentials = {
         //     // userName: this.securityService.encryptWithServerPublicKey(userName),
         //     // password: this.securityService.encryptWithServerPublicKey(password),
@@ -71,16 +79,16 @@ export class AuthService {
         // // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
         //
 
-        localStorage.setItem("privKey", privateKey);
-        var timesTamp = Date.now();
-        var request = {
+        localStorage.setItem('privKey', privateKey);
+        const timesTamp = Date.now();
+        const request = {
             userName: userName,
-            timeStamp: timesTamp
-        }
-        var json = JSON.stringify(request);
+            timeStamp: timesTamp,
+        };
+        const json = JSON.stringify(request);
 
-        var userNameSignature = this.securityService.sign(json.toLowerCase());
-        var credentials = {
+        const userNameSignature = this.securityService.sign(json.toLowerCase());
+        const credentials = {
             request: request,
             signature: userNameSignature,
         };
@@ -179,7 +187,7 @@ export class AuthService {
         localStorage.setItem(this.CURRENT_TOKEN, token);
     }
 
-    StoreKeyPair(pubKey: string, priv:string){
+    StoreKeyPair(pubKey: string, priv: string) {
         localStorage.setItem(this.CURRENT_PRIVATE_KEY, priv);
         localStorage.setItem(this.CURRENT_PUBLIC_KEY, pubKey);
     }
@@ -200,11 +208,11 @@ export class AuthService {
         }
     }
 
-    GetPubKey(){
+    GetPubKey() {
         return localStorage.getItem(this.CURRENT_PUBLIC_KEY);
     }
 
-    GetPrivKey(){
+    GetPrivKey() {
         return localStorage.getItem(this.CURRENT_PRIVATE_KEY);
     }
 }
