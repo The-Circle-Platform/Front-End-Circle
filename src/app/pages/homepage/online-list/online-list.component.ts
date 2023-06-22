@@ -31,7 +31,6 @@ export class OnlineListComponent implements OnInit {
     }
 
     RefreshList() {
-        console.log('Ophalen streamers US-3');
         const ss = this.userService.GetAll().subscribe((e) => {
             console.log(e.originalList);
             this.users = e.originalList as User[];
@@ -45,7 +44,7 @@ export class OnlineListComponent implements OnInit {
                 console.log('Data is not the same as was send by server');
             }
             this.users = this.SortList(this.users);
-            console.log(e.originalList!);
+            console.log('OriginalList: ' + e.originalList!);
             this.Refresh(e.originalList!);
 
             ss.unsubscribe();

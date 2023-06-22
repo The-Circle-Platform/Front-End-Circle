@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import {
     ChatMessage,
     ChatMessageDTO,
-    ChatRequestDTO
+    ChatRequestDTO,
 } from '../../Domain/Models/ChatMessage';
 import { User } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
@@ -34,7 +34,7 @@ export class ChatService {
     }
 
     public SetUpConnections(HostId: number) {
-        console.log('Begin connectie chat');
+        console.log('Start connection chat');
 
         //Setup url
         this.hubConnection = new HubConnectionBuilder()
@@ -46,7 +46,7 @@ export class ChatService {
 
         this.hubConnection.on(ReceiverEndpoint, (response: any) => {
             console.log('Received new chatmessages');
-            console.log(response);
+            console.log('Response: ' + response);
             // Turn into string
             const stringJson = JSON.stringify(response.originalList);
 
@@ -69,7 +69,7 @@ export class ChatService {
                         this.subscription = this.logger
                             .logToDB('/hubs/ChatHub/', 'RetrieveCurrentChat')
                             .subscribe((res) => {
-                                console.log(res);
+                                console.log('Res: ' + res);
                                 this.subscription?.unsubscribe();
                             });
                     });
@@ -77,30 +77,5 @@ export class ChatService {
             .catch((err) =>
                 console.log(`Error with signalR connection ${err}`)
             );
-    }
-
-    public SendToServer(chatMessage: ChatMessageDTO) {
-        //Create signature
-        const txt = JSON.stringify(chatMessage);
-        const signature = this.securityService.sign(txt);
-        const payload: ChatRequestDTO = {
-            Signature: signature,
-            SenderUserId: chatMessage.WebUserId,
-            OriginalData: chatMessage,
-        };
-
-        // Sends payload to server.
-        this.hubConnection
-            ?.send('SendMessage', payload)
-            .then(() => {
-                console.log('Gelukt');
-                // this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
-                //     console.log(res);
-                //     this.subscription?.unsubscribe();
-                // }));
-            })
-            .catch((err) => {
-                console.log('Niet gelukt');
-            });
     }
 }

@@ -39,8 +39,7 @@ export class ViewCountComponent implements OnInit {
         this._hubConnection.on(
             'UpdateViewerCount' + this.StreamId,
             (message) => {
-                console.log('Nummer count');
-                console.log(message);
+                console.log('Nummer count: ', message);
                 // Verificatie
                 const signature = message.signature;
                 const updatedCount = message.originalCount;
@@ -67,7 +66,7 @@ export class ViewCountComponent implements OnInit {
             })
             .catch((err) =>
                 console.log(
-                    'error while establishing signalr connection: ' + err
+                    'Error while establishing signalr connection: ' + err
                 )
             );
     }

@@ -27,7 +27,6 @@ export class VideoStreamingService {
 
         const Astring: string = await blobToBase64(chunks[0]);
         const base64String = Astring.substring(Astring.indexOf(',') + 1);
-        console.log(base64String);
 
         function blobToBase64(blob: Blob): Promise<string> {
             return new Promise((resolve, data) => {
@@ -82,7 +81,7 @@ export class VideoStreamingService {
                 this.isConnected = true;
             else this.isConnected = false;
         }
-        console.log('connection state: ' + this.hubConnection.state);
+        console.log('Connection state: ' + this.hubConnection.state);
         return this.hubConnection;
     }
 

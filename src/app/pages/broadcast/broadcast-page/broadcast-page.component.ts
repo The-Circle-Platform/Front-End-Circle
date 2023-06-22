@@ -46,7 +46,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
             });
             videoElement.srcObject = this.stream;
 
-            console.log('1234');
+            console.log('videoElement.play() called');
             videoElement.play();
         } catch (error) {
             console.error('Error accessing webcam:', error);
@@ -60,8 +60,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
 
     testFunction() {
         this._Vidstream.SendNewStream().subscribe((v) => {
-            console.warn('Test functie');
-            console.log(v);
+            console.log('SendNewStream data: ', v);
         });
     }
 
@@ -88,10 +87,9 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
                     v.originalData,
                     v.signature
                 );
-                console.log(isValid);
+                console.log('Signature check: ' + isValid);
                 if (isValid) {
                     //When valid, it will start the stream.
-                    console.log('Stream is geldig');
                     const StreamId = v.originalData.streamId;
                     this.NewStream = v.originalData;
                     this.mediaRecorder.start(1000);
@@ -100,12 +98,11 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
                         async (event) => {
                             if (event.data.size > 0) {
                                 this.chunks.push(event.data);
-                                console.log('data1', this.chunks);
+                                console.log('Chunks: ', this.chunks);
                             }
                             if (this.chunks.length) {
-                                console.log('sending data');
-                                console.log(this.chunks);
-                                console.log(v);
+                                console.log('Chunks: ' + this.chunks);
+                                console.log('SendNewStream data: ' + v);
 
                                 //Sends chunks to signalR hub.
                                 await this._VideoStreamingService.startVideoStreaming(
@@ -114,7 +111,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
                                 );
                                 // this.chunks = []; // Clear the recorded chunks
                             } else {
-                                console.log('no chunks available.');
+                                console.log('No chunks available.');
                             }
                         }
                     );

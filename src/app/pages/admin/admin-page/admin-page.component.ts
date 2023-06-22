@@ -24,9 +24,9 @@ export class AdminPageComponent implements OnInit {
     ngOnInit(): void {}
 
     onSubmit() {
-        console.log(this.registerForm.value);
+        console.log('Register values: ' + this.registerForm.value);
         const admin = JSON.parse(localStorage.getItem('Pop')!) as User;
-        console.log(admin.userName);
+        console.log('Admin from localstorage: ' + admin.userName);
         if (
             this.registerForm.value.email != '' &&
             this.registerForm.value.userName != ''
@@ -40,7 +40,7 @@ export class AdminPageComponent implements OnInit {
                 };
 
                 this.userService.Create(userToRegister).subscribe((res) => {
-                    console.log(res);
+                    console.log('res: ' + res);
                     this.router.navigate(['/']);
                 });
             } else {
@@ -53,7 +53,7 @@ export class AdminPageComponent implements OnInit {
                 this.userService
                     .CreateAdmin(adminToRegister)
                     .subscribe((res) => {
-                        console.log(res);
+                        console.log('res: ' + res);
                         this.router.navigate(['/']);
                     });
             }

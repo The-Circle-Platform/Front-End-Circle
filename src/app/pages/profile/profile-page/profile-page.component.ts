@@ -39,16 +39,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     }
 
     onSelectFile(event: any) {
-        console.log('onSelectFile');
         if (event.target.files && event.target.files[0]) {
             const imageFile: File = event.target.files[0];
             const reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]);
             reader.onload = () => {
                 const image = reader.result as string;
-                console.log(image);
 
-                console.log(this.user);
                 if (!this.pfpUser && this.user) {
                     this.pfpUser = {
                         id: this.user?.id,
@@ -73,7 +70,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                     location.reload();
                 },
                 (err) => {
-                    console.log(err);
+                    console.log('Upload pfp error: ' + err);
                     location.reload();
                 }
             );

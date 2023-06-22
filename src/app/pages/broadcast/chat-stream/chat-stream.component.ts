@@ -73,9 +73,7 @@ export class ChatStreamComponent implements OnInit {
 
     public SendMessage(): void {
         this.warning = '';
-        console.log('Sending started');
         if (this.currentChatBox != undefined) {
-            console.log('Versturen gestart.');
             this.SendToServer(this.currentChatBox);
             //Resets
             this.currentChatBox.Message = '';
@@ -88,7 +86,7 @@ export class ChatStreamComponent implements OnInit {
     }
 
     private SetUpConnections(HostId: number) {
-        console.log('Begin connectie chat');
+        console.log('Start connection chat');
 
         //Setup url
         this.hubConnection = new HubConnectionBuilder()
@@ -127,7 +125,7 @@ export class ChatStreamComponent implements OnInit {
                 this.hubConnection?.send('RetrieveCurrentChat', HostId).then();
             })
             .catch((err) =>
-                console.log(`Error with signalR connection ${err}`)
+                console.log(`Error with signalR connection: ${err}`)
             );
     }
 
@@ -143,10 +141,17 @@ export class ChatStreamComponent implements OnInit {
         this.hubConnection
             ?.send('SendMessage', payload)
             .then(() => {
-                console.log('Gelukt');
+                console.log('Data naar server versturen is gelukt');
+                // this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
+                //     console.log(res);
+                //     this.subscription?.unsubscribe();
+                // }));
             })
             .catch((err) => {
-                console.log('Niet gelukt');
+                console.log(
+                    'Data naar server versturen is niet gelukt',
+                    err.message
+                );
             });
     }
 }

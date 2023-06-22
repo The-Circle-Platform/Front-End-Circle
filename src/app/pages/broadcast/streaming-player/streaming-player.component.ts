@@ -56,7 +56,7 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
                             data.signature
                         )
                     ) {
-                        console.log(data.originalData.chunk);
+                        console.log('Data chunk: ' + data.originalData.chunk);
                         try {
                             await base64ToBlob(data.originalData.chunk)
                                 .then((blob) => {

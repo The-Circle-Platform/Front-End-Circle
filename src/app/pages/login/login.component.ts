@@ -55,7 +55,7 @@ export class LoginComponent {
                 .subscribe(
                     (reply: any) => {
                         //location.reload();
-                        console.log(reply);
+                        console.log('reply: ' + reply);
                         this.authService.StoreToken(reply.originalLoad.token);
                         this.authService.StoreUser(
                             reply.originalLoad.websiteUser
@@ -67,10 +67,8 @@ export class LoginComponent {
                             reply.signature
                         );
 
-                        console.log(this.hasIntegrity);
                         if (this.hasIntegrity) {
                             if (reply.isVerified) {
-                                console.log('henk');
                                 //location.reload();
                                 // localStorage.setItem('token', reply.originalLoad.token);
                                 // localStorage.setItem('privateKey', reply.originalLoad.privateKey);
@@ -83,7 +81,7 @@ export class LoginComponent {
                         }
                     },
                     (err) => {
-                        console.log(err);
+                        console.log('Login error: ' + err);
                         localStorage.removeItem('privKey');
                         this.wrongPwOrUserName = true;
                     }
