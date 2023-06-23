@@ -56,7 +56,6 @@ export class LoginComponent {
                     (reply: any) => {
                         //location.reload();
                         console.log('reply: ', reply);
-                        this.authService.StoreToken(reply.originalLoad.token);
                         this.authService.StoreUser(
                             reply.originalLoad.websiteUser
                         );
@@ -70,7 +69,6 @@ export class LoginComponent {
                         if (this.hasIntegrity) {
                             if (reply.isVerified) {
                                 //location.reload();
-                                // localStorage.setItem('token', reply.originalLoad.token);
                                 // localStorage.setItem('privateKey', reply.originalLoad.privateKey);
                                 // localStorage.setItem('publicKey', reply.originalLoad.publicKey);
                                 //this.router.navigate(['/']);

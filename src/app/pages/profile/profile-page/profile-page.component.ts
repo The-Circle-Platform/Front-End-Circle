@@ -20,8 +20,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        const test = localStorage.getItem('Pop');
-        this.user = JSON.parse(test!) as User;
+        this.user = JSON.parse(localStorage.getItem('Pop')!) as User;
 
         this.subscription = this.userService
             .Get(this.user.id)
