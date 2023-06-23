@@ -87,7 +87,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
                     v.originalData,
                     v.signature
                 );
-                console.log('Signature check: ' + isValid);
+                console.log('Signature check: ', isValid);
                 if (isValid) {
                     //When valid, it will start the stream.
                     const StreamId = v.originalData.streamId;
@@ -101,8 +101,8 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
                                 console.log('Chunks: ', this.chunks);
                             }
                             if (this.chunks.length) {
-                                console.log('Chunks: ' + this.chunks);
-                                console.log('SendNewStream data: ' + v);
+                                console.log('Chunks: ', this.chunks);
+                                console.log('SendNewStream data: ', v);
 
                                 //Sends chunks to signalR hub.
                                 await this._VideoStreamingService.startVideoStreaming(

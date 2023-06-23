@@ -46,7 +46,7 @@ export class ChatService {
 
         this.hubConnection.on(ReceiverEndpoint, (response: any) => {
             console.log('Received new chatmessages');
-            console.log('Response: ' + response);
+            console.log('Response: ', response);
             // Turn into string
             const stringJson = JSON.stringify(response.originalList);
 
@@ -69,7 +69,7 @@ export class ChatService {
                         this.subscription = this.logger
                             .logToDB('/hubs/ChatHub/', 'RetrieveCurrentChat')
                             .subscribe((res) => {
-                                console.log('Res: ' + res);
+                                console.log('Res: ', res);
                                 this.subscription?.unsubscribe();
                             });
                     });
