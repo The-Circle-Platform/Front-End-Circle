@@ -18,7 +18,7 @@ export class StreamPageComponent implements OnInit {
         private securityService: SecurityService
     ) {
         this.HostId = 0;
-        this.NewStream = { id: 1 };
+        this.NewStream = undefined;
         this.StreamId = 0;
     }
     ngOnInit(): void {
@@ -31,6 +31,7 @@ export class StreamPageComponent implements OnInit {
         this.router.paramMap.subscribe((v) => {
             const id: string = v.get('id')!;
             if (id) {
+                console.log(`=========> URL PARAMS IS ${id}`);
                 this.HostId = parseInt(id);
                 this.GetLatestStream(this.HostId);
             } else {
@@ -42,15 +43,19 @@ export class StreamPageComponent implements OnInit {
     GetLatestStream(HostId: number) {
         console.log('Getting latest stream');
         this.VidService.GetStreamOfHost(HostId).subscribe((ol) => {
+            //console.log(ol);
             const sign = ol.signature;
 
             const IsValid = this.securityService.verify(
-                sign.originalData,
+                ol.originalData,
                 sign
             );
 
             if (IsValid) {
-                this.NewStream = sign.originalData;
+                console.log("### Stream is valid");
+                console.log(ol.originalData);
+                //this.HostId = ol.transparantuserid;
+                this.NewStream = ol.originalData;
             } else {
                 console.warn('No stream is running');
             }

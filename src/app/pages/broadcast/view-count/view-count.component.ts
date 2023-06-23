@@ -49,7 +49,13 @@ export class ViewCountComponent implements OnInit {
                     signature
                 );
 
-                this.numberList = message.originalCount;
+                if(isValid){
+                    this.numberList = message.originalCount;
+                } else{
+                    console.warn("Data is tampered");
+                }
+
+                
             }
         );
 
@@ -60,7 +66,7 @@ export class ViewCountComponent implements OnInit {
                 if (!this.isStreamer) {
                     const ownUserId = this.authService.GetWebUser()?.id;
                     this._hubConnection
-                        ?.send('ConnectToStream', this.StreamId, ownUserId)
+                        ?.send('ConnectToStream', ownUserId, this.StreamId)
                         .then();
                 }
             })

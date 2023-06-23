@@ -22,8 +22,8 @@ export class AuthService {
     private readonly CURRENT_USER = 'Pop';
     private readonly PRIVATE_PART = 'Publiek';
     private readonly PUBLIC_PART = 'Secrete';
-    private readonly CURRENT_PRIVATE_KEY = 'privateKey';
-    private readonly CURRENT_PUBLIC_KEY = 'publicKey';
+    private readonly CURRENT_PRIVATE_KEY = 'privKey';
+    private readonly CURRENT_PUBLIC_KEY = 'pubKey';
     private readonly headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });

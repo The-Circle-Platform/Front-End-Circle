@@ -2,13 +2,11 @@
     <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-3">
             <!-- Where Chat comes -->
-            <app-chat-stream [HostUserId]="HostId"></app-chat-stream>
+            <div *ngIf="NewStream != undefined" class="viewCountWrapper">
+                <app-chat-stream [HostUserId]="HostId"></app-chat-stream>
+            </div>
         </div>
         <div class="col-sm-5 col-md-8 col-lg-6">
-            <div *ngIf="NewStream != undefined" class="viewCountWrapper">
-                <app-viewer-count [isStreamer]=false [StreamId]="NewStream.id"></app-viewer-count>
-            </div>
-
             <div *ngIf="NewStream != undefined" class="viewCountWrapper">
                 <app-streaming-player [HostId]="HostId" [StreamId]="NewStream.id"></app-streaming-player>
             </div>
@@ -16,7 +14,9 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <app-view-count [HostId]="HostId" [isStreamer]="false" [StreamId]="NewStream.id"></app-view-count>
+            <div *ngIf="NewStream != undefined" class="viewCountWrapper">
+                <app-view-count [HostId]="HostId" [isStreamer]="false" [StreamId]="NewStream.id"></app-view-count>
+            </div>
         </div>
         <div class="col-sm-5 col-md-8 col-lg-9 moveLeft10">
             <div class="container py-5">
