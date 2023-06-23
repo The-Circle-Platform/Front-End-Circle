@@ -17,7 +17,7 @@ import { ChatService } from '../../../services/chatServices/chat.service';
     styleUrls: ['./chat-stream.component.css'],
 })
 export class ChatStreamComponent implements OnInit {
-    ListOfChats: ChatMessage[];
+    ListOfChats: any[];
     public IsBusy: boolean;
     public warning: string;
     public currentChatBox: any | undefined;
@@ -100,6 +100,7 @@ export class ChatStreamComponent implements OnInit {
             console.log('Received new chatmessages');
             //Verify received packages.
             //Verify signature
+            console.log(updatedMessageList);
             const isValid = this.securityService.verify(
                 updatedMessageList.originalList,
                 updatedMessageList.signature
