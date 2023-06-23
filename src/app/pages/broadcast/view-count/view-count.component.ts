@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { User } from 'src/app/Domain/Models/User';
 import { AuthService } from '../../../services/authServices/auth.service';
 import { SecurityService } from '../../../services/authServices/security';
 import { ViewService } from './viewCounter.service';
@@ -20,6 +21,7 @@ export class ViewCountComponent implements OnInit {
 
     @Input()
     StreamId: number | undefined;
+    user!: User;
 
     constructor(
         public viewHub: ViewService,
@@ -29,6 +31,7 @@ export class ViewCountComponent implements OnInit {
 
     ngOnInit(): void {
         this.connect();
+        this.user = JSON.parse(localStorage.getItem('Pop')!) as User;
     }
 
     private connect(): void {
