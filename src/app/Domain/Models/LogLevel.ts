@@ -7,5 +7,5 @@ export class LogLevel {
     Critical = 5;
     None = 6;
 
-    constructor() { }
+    constructor() {}
 }

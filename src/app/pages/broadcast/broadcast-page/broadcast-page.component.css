@@ -21,12 +21,10 @@
     background-color: #f5f5f5;
     border-radius: 10px;
     padding: 10px;
-    
 }
 
 .media-body h5 {
     margin-bottom: 5px;
-    
 }
 
 .user-message {
@@ -40,7 +38,7 @@
 .bot-message {
     text-align: left;
 }
-.button{
+.button {
     color: ghostwhite;
     background-color: darkred;
     align-items: center;
@@ -50,13 +48,13 @@
     padding-right: 2%;
     scale: 120%;
     border-radius: 12px;
-    font-weight: 500
+    font-weight: 500;
 }
-.buttonrow{
+.buttonrow {
     margin-top: 1%;
     margin-left: 20%;
 }
-.vidBox{
+.vidBox {
     padding-top: 5%;
     align-content: center;
 }
