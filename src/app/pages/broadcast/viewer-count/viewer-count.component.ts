@@ -23,7 +23,7 @@ export class ViewerCountComponent implements OnInit, OnDestroy{
         .withUrl('https://localhost:7058/hubs/ViewHub')
         .build();
 
-    this._hubConnection.on("UpdateViewerCount" + 1, (message) => {
+    this._hubConnection.on("UpdateViewerCount" + 7, (message) => {
       console.log(message);
       console.log("henk")
       this.numberList = message;

@@ -106,7 +106,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy{
               console.log(v)
               
               //Sends chunks to signalR hub.
-              await this._VideoStreamingService.startVideoStreaming(this.chunks, StreamId);
+              //await this._VideoStreamingService.startVideoStreaming(this.chunks, StreamId);
             // this.chunks = []; // Clear the recorded chunks
           } else {
             console.log("no chunks available.");

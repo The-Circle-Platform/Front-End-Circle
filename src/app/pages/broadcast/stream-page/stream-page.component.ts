@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { securityService } from 'src/app/services/authServices/security';
 import { VidStream } from 'src/app/services/vidStream/VidStream.service';
+import {flush} from "@angular/core/testing";
 
 @Component({
   selector: 'app-stream-page',
@@ -12,9 +13,11 @@ export class StreamPageComponent implements OnInit {
   NewStream: any | undefined;
   HostId: number;
   StreamId: number;
+  HasLoaded: boolean = false;
+
   constructor(private router: ActivatedRoute, private VidService: VidStream, private secureService : securityService){
     this.HostId = 0;
-    this.NewStream = {id: 1};
+    this.NewStream = undefined;
     this.StreamId = 0;
   }
   ngOnInit(): void {
@@ -39,13 +42,17 @@ export class StreamPageComponent implements OnInit {
 
   GetLatestStream(HostId: number){
     console.log("Get latest stream");
+    console.log(`Host with id ${HostId}`);
     this.VidService.GetStreamOfHost(HostId).subscribe(ol =>{
+      console.log(ol);
         const sign = ol.signature;
 
-        const IsValid = this.secureService.verify(sign.originalData, sign);
+        console.log("SIGN STREAM IN VIEWERCOUNT");
+        const IsValid = this.secureService.verify(ol.originalData, sign);
 
         if(IsValid){
-          this.NewStream = sign.originalData;
+          this.NewStream = ol.originalData;
+          this.HasLoaded = true;
         } else{
           console.warn("No stream is running");
         }

@@ -17,7 +17,7 @@ export class VidStream{
     constructor(public config: ConfigService, private http: HttpClient,private authService: AuthService, private signatureSerivce: securityService){
         this.authService = authService;
         this.signatureSerivce = signatureSerivce;
-        this.endpoint = `${config.getApiEndpoint()}api/VideoStream`;
+        this.endpoint = `${config.getApiEndpoint()}api/VideoStream/`;
     }
 
     GetStreamOfHost(HostId: number): Observable<any>{

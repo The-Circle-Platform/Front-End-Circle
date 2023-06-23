@@ -24,15 +24,19 @@ export class ViewCountComponent implements OnInit{
   constructor(public viewHub: ViewService, public securityService: securityService, private authService: AuthService){}
 
   ngOnInit(): void {
+    console.log(`ngoninit: Count is UpdateViewerCount ${this.StreamId} and hostId ${this.HostId}`);
     this.connect();
+
   }
 
   private connect(): void {
+    console.log(`URL SIGNALR ${this.viewHub.endpoints}`)
     this._hubConnection = new HubConnectionBuilder()
         .withUrl(this.viewHub.endpoints)
         .build();
 
     this._hubConnection.on("UpdateViewerCount" + this.StreamId, (message) => {
+      console.log(`Count is UpdateViewerCount${this.StreamId}`);
       console.log("Nummer count")
       console.log(message);
       // Verificatie 
@@ -51,7 +55,7 @@ export class ViewCountComponent implements OnInit{
           console.log("Connection started");
           if(!this.isStreamer) {
             const ownUserId = this.authService.GetWebUser()?.id;
-            this._hubConnection?.send("ConnectToStream", this.StreamId, ownUserId).then();
+            this._hubConnection?.send("ConnectToStream", ownUserId, this.StreamId).then();
           }
         })
         .catch((err) => console.log('error while establishing signalr connection: ' + err));
