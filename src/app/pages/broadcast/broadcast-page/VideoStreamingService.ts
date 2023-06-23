@@ -25,22 +25,15 @@ export class VideoStreamingService {
     public async startVideoStreaming(chunks: Blob[], streamId: number) {
         await this.getOrCreateConnection();
 
-        const Astring: string = await blobToBase64(chunks[0]);
-        const base64String = Astring.substring(Astring.indexOf(',') + 1);
-
-        function blobToBase64(blob: Blob): Promise<string> {
-            return new Promise((resolve, data) => {
+        const blobToBase64 = async (blob: Blob): Promise<string> =>
+            new Promise<string>((resolve) => {
                 const reader = new FileReader();
                 reader.onloadend = () => resolve(reader.result as string);
                 reader.readAsDataURL(blob);
             });
-        }
 
-        // const data = new StreamChunkInOutDTO()
-        // data.chunk = base64String;
-        // data.chunksize = base64String.length;
-        // data.streamId = streamId;
-        // data.timestamp = new Date();
+        const Astring = await blobToBase64(chunks[0]);
+        const base64String = Astring.substring(Astring.indexOf(',') + 1);
 
         const chunkData = {
             id: 0,
