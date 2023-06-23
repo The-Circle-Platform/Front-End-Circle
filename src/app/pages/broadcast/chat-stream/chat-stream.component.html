@@ -1,8 +1,6 @@
 <div class="container">
     <h1>Chat</h1>
-    <h1>Chat Interface</h1>
     <div class="chat-container">
-
         <div [ngClass]="WriterId == mess.writer.id ? 'own-message' : (HostUserId == mess.writer.id ? 'bot-message' : 'user-message')"
             class="media" *ngFor="let mess of ListOfChats;">
             <div class="media-body">
@@ -11,7 +9,6 @@
                 <p>{{ mess.date }}</p>
             </div>
         </div>
-
     </div>
     <div class="chat-box">
 
@@ -33,8 +30,6 @@
                 <button class="btn btn-info mt-2" [disabled]="IsBusy" [disabled]="addComment.invalid">Verstuur
                     bericht</button>
             </form>
-
         </div>
     </div>
-
 </div>

@@ -39,7 +39,6 @@ export class ViewCountComponent implements OnInit {
         this._hubConnection.on(
             'UpdateViewerCount' + this.StreamId,
             (message) => {
-                console.log('Number count: ', message);
                 // Verificatie
                 const signature = message.signature;
                 const updatedCount = message.originalCount;
@@ -49,13 +48,11 @@ export class ViewCountComponent implements OnInit {
                     signature
                 );
 
-                if(isValid){
+                if (isValid) {
                     this.numberList = message.originalCount;
-                } else{
-                    console.warn("Data is tampered");
+                } else {
+                    console.warn('Data is tampered');
                 }
-
-                
             }
         );
 
