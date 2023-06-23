@@ -4,12 +4,7 @@ import { Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import {
-    DecodedToken,
-    IRegister,
-    Register,
-    User
-} from '../../Domain/Models/User';
+import { IRegister, Register, User } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 import { SecurityService } from './security';
 
@@ -17,13 +12,12 @@ import { SecurityService } from './security';
     providedIn: 'root',
 })
 export class AuthService {
-    public currentToken$ = new BehaviorSubject<string | undefined>(undefined);
-    private readonly CURRENT_TOKEN = 'token';
+    public currentPrivKey$ = new BehaviorSubject<string | undefined>(undefined);
     private readonly CURRENT_USER = 'Pop';
     private readonly PRIVATE_PART = 'Publiek';
     private readonly PUBLIC_PART = 'Secrete';
-    private readonly CURRENT_PRIVATE_KEY = 'privateKey';
-    private readonly CURRENT_PUBLIC_KEY = 'publicKey';
+    private readonly CURRENT_PRIVATE_KEY = 'privKey';
+    private readonly CURRENT_PUBLIC_KEY = 'pubKey';
     private readonly headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });
@@ -43,13 +37,7 @@ export class AuthService {
             .pipe(
                 switchMap((user: string | undefined) => {
                     if (user) {
-                        this.currentToken$.next(user);
-                        console.log(
-                            'User from local storage:',
-                            this.decodeJwtToken(
-                                this.getAuthorizationToken() || ''
-                            )
-                        );
+                        this.currentPrivKey$.next(user);
                         return of(user);
                     } else {
                         return of(undefined);
@@ -57,10 +45,6 @@ export class AuthService {
                 })
             )
             .subscribe();
-    }
-
-    decodeJwtToken(token: string) {
-        return token ? jwt_decode(token) : null;
     }
 
     login(
@@ -146,12 +130,11 @@ export class AuthService {
             .then((success) => {
                 if (success) {
                     console.log('logout - removing local user info');
-                    localStorage.removeItem(this.CURRENT_TOKEN);
                     localStorage.removeItem(this.CURRENT_PRIVATE_KEY);
                     localStorage.removeItem(this.CURRENT_PUBLIC_KEY);
                     localStorage.removeItem(this.CURRENT_USER);
 
-                    this.currentToken$.next(undefined);
+                    this.currentPrivKey$.next(undefined);
                 } else {
                     console.log('navigate result:', success);
                 }
@@ -162,29 +145,13 @@ export class AuthService {
     }
 
     getUserFromLocalStorage(): Observable<string | undefined> {
-        const token = localStorage.getItem(this.CURRENT_TOKEN);
+        const user = localStorage.getItem(this.CURRENT_USER);
 
-        if (token) {
-            return of(token);
+        if (user) {
+            return of(user);
         } else {
             return of(undefined);
         }
-    }
-
-    getAuthorizationToken(): string | undefined {
-        const token = localStorage.getItem(this.CURRENT_TOKEN) || '';
-
-        return token;
-    }
-
-    getDecodedToken(): DecodedToken {
-        return this.decodeJwtToken(
-            this.getAuthorizationToken() || ''
-        ) as DecodedToken;
-    }
-
-    StoreToken(token: string) {
-        localStorage.setItem(this.CURRENT_TOKEN, token);
     }
 
     StoreKeyPair(pubKey: string, priv: string) {

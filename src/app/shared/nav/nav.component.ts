@@ -13,21 +13,14 @@ export class NavComponent implements OnInit {
     isNavbarCollapsed = true;
     loggedInUser$!: Observable<string | undefined>;
     username: string | undefined;
-    public user: User | undefined;
 
     constructor(private authService: AuthService) {}
 
     ngOnInit(): void {
-        this.loggedInUser$ = this.authService.currentToken$;
+        this.loggedInUser$ = this.authService.currentPrivKey$;
 
-        const user = this.authService.getDecodedToken();
-
-        if (user) {
-            this.username =
-                user[
-                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-                ];
-        }
+        const user = JSON.parse(localStorage.getItem('Pop')!) as User;
+        this.username = user.userName;
     }
 
     logout(): void {

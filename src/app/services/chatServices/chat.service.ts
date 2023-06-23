@@ -2,11 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Subscription } from 'rxjs';
-import {
-    ChatMessage,
-    ChatMessageDTO,
-    ChatRequestDTO,
-} from '../../Domain/Models/ChatMessage';
+import { ChatMessage } from '../../Domain/Models/ChatMessage';
 import { User } from '../../Domain/Models/User';
 import { ConfigService } from '../../shared/moduleconfig/config.service';
 import { SecurityService } from '../authServices/security';
@@ -15,7 +11,6 @@ import { LoggerService } from '../loggerServices/logger.service';
 @Injectable({ providedIn: 'root' })
 export class ChatService {
     ListOfChats: ChatMessage[];
-    private readonly CURRENT_TOKEN = 'token';
     private readonly headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });

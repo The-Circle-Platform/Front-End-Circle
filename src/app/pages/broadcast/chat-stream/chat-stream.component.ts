@@ -20,7 +20,7 @@ export class ChatStreamComponent implements OnInit {
     ListOfChats: ChatMessage[];
     public IsBusy: boolean;
     public warning: string;
-    public currentChatBox: ChatMessageDTO | undefined;
+    public currentChatBox: any | undefined;
     private hubConnection: HubConnection | undefined;
 
     @Input()
@@ -63,10 +63,10 @@ export class ChatStreamComponent implements OnInit {
 
     private SetupChat(userId: number, hostId: number) {
         this.currentChatBox = {
+            Id: 0,
             Message: '',
-            id: 0,
             WebUserId: userId,
-            ReceiverId: hostId,
+            ReceiverId: hostId,   
             Date: new Date(),
         };
     }
@@ -129,15 +129,18 @@ export class ChatStreamComponent implements OnInit {
             );
     }
 
-    private SendToServer(chatMessage: ChatMessageDTO) {
+    private SendToServer(chatMessage: any) {
         //Create signature
-        const txt = JSON.stringify(chatMessage);
+        const txt = JSON.stringify(chatMessage, null, 0).toLowerCase();
+
         const signature = this.securityService.sign(txt);
+
         const payload: ChatRequestDTO = {
             Signature: signature,
             SenderUserId: chatMessage.WebUserId,
             OriginalData: chatMessage,
         };
+        console.log(payload);
         this.hubConnection
             ?.send('SendMessage', payload)
             .then(() => {

@@ -1,0 +1,12 @@
+.button {
+    color: ghostwhite;
+    background-color: darkred;
+    align-items: center;
+    border: ghostwhite;
+    margin-left: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    scale: 120%;
+    border-radius: 12px;
+    font-weight: 500;
+}

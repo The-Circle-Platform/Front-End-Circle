@@ -26,31 +26,24 @@
 
 .user-message {
     text-align: right;
-    .media-body {
-        background-color: #c7c7c7;
-    }
-} 
+}
+
+.user-message .media-body {
+    background-color: #c7c7c7;
+}
 
 .own-message {
     text-align: right;
-    .media-body {
-        background-color: #d12179;
-    }
-} 
+}
+
+.own-message .media-body {
+    background-color: #d12179;
+}
 
 .bot-message {
     text-align: left;
-    .media-body {
-        background-color: #63f863;
-    }
 }
 
-.moveLeft10 {
-    margin-left: 319px;
-}
-
-.borderRadiusProfile {
-    border-radius: 15px;
-    width: 1020px;
-    margin-top: -30px;
+.bot-message .media-body {
+    background-color: #63f863;
 }
