@@ -20,27 +20,18 @@
     </div>
     <div class="form-group">
         <label for="inputPrivateKey">Privé sleutel</label>
-        <textarea type="text" class="form-control" formControlName="inputPrivateKey" id="inputPrivateKey" [ngClass]="{
-                'is-invalid':
-                    loginForm.get('inputPrivateKey')?.invalid &&
-                    loginForm.get('inputPrivateKey')?.touched
-            }"></textarea>
-        <span *ngIf="
-                !loginForm.get('inputPrivateKey')?.valid &&
-                loginForm.get('inputPrivateKey')?.touched
-            " class="invalid-feedback">
-            <p id="password-invalid">Voer private key in</p>
-        </span>
-    </div>
+        <input type="file" (change)="onPrivateKeySelected($event)" class="form-control" id="inputPrivateKey">
+    </div> <br>
 
     <div class="form-group">
-        <button id="submitbutton" class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!loginForm.valid">
+        <button id="submitbutton" class="btn btn-lg btn-primary btn-block" type="submit"
+            [disabled]="!loginForm.valid || !privKey">
             Aanmelden
         </button>
     </div>
     <div *ngIf="wrongPwOrUserName">
         <p>
-            <FONT COLOR="red">Gebruikersnaam of wachtwoord is onjuist</FONT>
+            <FONT COLOR="red">Gebruikersnaam of private key is onjuist</FONT>
         </p>
     </div>
     <p>
