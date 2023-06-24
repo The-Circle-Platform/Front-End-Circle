@@ -12,6 +12,7 @@ export class StreamPageComponent implements OnInit {
     NewStream: any | undefined;
     HostId: number;
     StreamId: number;
+
     constructor(
         private router: ActivatedRoute,
         private VidService: VidStream,
@@ -46,13 +47,10 @@ export class StreamPageComponent implements OnInit {
             //console.log(ol);
             const sign = ol.signature;
 
-            const IsValid = this.securityService.verify(
-                ol.originalData,
-                sign
-            );
+            const IsValid = this.securityService.verify(ol.originalData, sign);
 
             if (IsValid) {
-                console.log("### Stream is valid");
+                console.log('### Stream is valid');
                 console.log(ol.originalData);
                 //this.HostId = ol.transparantuserid;
                 this.NewStream = ol.originalData;

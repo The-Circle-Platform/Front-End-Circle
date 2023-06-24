@@ -16,13 +16,6 @@ import { VideoStreamingService } from './VideoStreamingService';
     styleUrls: ['./broadcast-page.component.css'],
 })
 export class BroadcastPageComponent implements OnInit, OnDestroy {
-    constructor(
-        private _VideoStreamingService: VideoStreamingService,
-        private _Vidstream: VidStream,
-        private authService: AuthService,
-        private securityService: SecurityService
-    ) {}
-
     NewStream: any | undefined;
     HostId: number | undefined;
     recordingCamInit: boolean = false;
@@ -34,6 +27,13 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
     chunks: Blob[] = [];
     chunksTest: Blob[] = [];
     stream: any;
+
+    constructor(
+        private _VideoStreamingService: VideoStreamingService,
+        private _Vidstream: VidStream,
+        private authService: AuthService,
+        private securityService: SecurityService
+    ) {}
 
     async ngOnInit(): Promise<void> {
         const videoElement = this.videoPlayer.nativeElement;
