@@ -20,7 +20,9 @@ export class NavComponent implements OnInit {
         this.loggedInUser$ = this.authService.currentPrivKey$;
 
         const user = JSON.parse(localStorage.getItem('Pop')!) as User;
-        this.username = user.userName;
+        if (user) {
+            this.username = user.userName;
+        }
     }
 
     logout(): void {

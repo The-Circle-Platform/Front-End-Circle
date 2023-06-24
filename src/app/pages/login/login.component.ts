@@ -17,6 +17,7 @@ export class LoginComponent {
     hide = true;
     wrongPwOrUserName = false;
     public hasIntegrity: boolean = true;
+    privKey: string = '';
 
     constructor(
         private fb: FormBuilder,
@@ -37,24 +38,28 @@ export class LoginComponent {
 
         this.loginForm = this.fb.group({
             userName: ['', Validators.required],
-            inputPrivateKey: ['', Validators.required],
         }) as FormGroup;
     }
 
+    onPrivateKeySelected(event: any): void {
+        const privateKeyFile = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            const fileContent: string = e.target.result;
+            this.privKey = fileContent;
+            console.log(fileContent);
+        };
+
+        reader.readAsText(privateKeyFile);
+    }
+
     onSubmit(): void {
-        console.log(this.loginForm.value);
-        if (
-            this.loginForm.value.userName != '' &&
-            this.loginForm.value.inputPrivateKey != ''
-        ) {
+        if (this.loginForm.value.userName !== '' && this.privKey !== null) {
             this.authService
-                .login(
-                    this.loginForm.value.userName,
-                    this.loginForm.value.inputPrivateKey
-                )
+                .login(this.loginForm.value.userName, this.privKey)
                 .subscribe(
                     (reply: any) => {
-                        //location.reload();
+                        location.reload();
                         console.log('reply: ', reply);
                         this.authService.StoreUser(
                             reply.originalLoad.websiteUser
