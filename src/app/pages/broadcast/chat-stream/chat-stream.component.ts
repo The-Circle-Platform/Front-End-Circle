@@ -8,6 +8,7 @@ import { User } from '../../../Domain/Models/User';
 import { AuthService } from '../../../services/authServices/auth.service';
 import { SecurityService } from '../../../services/authServices/security';
 import { ChatService } from '../../../services/chatServices/chat.service';
+import { LoggerService } from 'src/app/services/loggerServices/logger.service';
 
 @Component({
     selector: 'app-chat-stream',
@@ -26,11 +27,13 @@ export class ChatStreamComponent implements OnInit {
 
     public WriterId: number | undefined;
     public currentUser: User | undefined = undefined;
+    public  subscription: any;
 
     constructor(
         private Router: Router,
         private viewHub: ChatService,
         private authService: AuthService,
+        private logger: LoggerService,
         private securityService: SecurityService
     ) {
         this.ListOfChats = [];
@@ -144,10 +147,10 @@ export class ChatStreamComponent implements OnInit {
             ?.send('SendMessage', payload)
             .then(() => {
                 console.log('Data naar server versturen is gelukt');
-                // this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
-                //     console.log(res);
-                //     this.subscription?.unsubscribe();
-                // }));
+                this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
+                    console.log(res);
+                    this.subscription?.unsubscribe();
+                }));
             })
             .catch((err) => {
                 console.log(

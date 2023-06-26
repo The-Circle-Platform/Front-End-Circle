@@ -3,6 +3,8 @@ import { LogLevel } from '../../Domain/Models/LogLevel';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { SecurityService } from '../authServices/security';
+import { AuthService } from '../authServices/auth.service';
 
 @Injectable({
     providedIn: 'root',
@@ -11,7 +13,9 @@ export class LoggerService {
     logLevel: LogLevel = new LogLevel();
     ipAddress = '';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private security: SecurityService, private authService: AuthService) {
+        this.getIPAddress();
+    }
 
     trace(msg: string): void {
         this.logWith(this.logLevel.Trace, msg);
@@ -40,10 +44,32 @@ export class LoggerService {
     logToDB(endpoint: string, action: string): Observable<any> {
         this.logWith(this.logLevel.Trace, endpoint + ' ' + action);
         this.getIPAddress();
+
+        const User = this.authService.GetWebUser();
+
+        const original = {
+            Id: 0,
+            DateTime: new Date(),
+            Ip: "this.ipAddress",
+            Endpoint: endpoint,
+            SubjectUser: User?.userName,
+            Action: action
+          };
+        
+        
+
+        const signature = this.security.sign(JSON.stringify(original,null, 0).toLowerCase());
+
         const log = {
-            location: endpoint,
-            action: action,
-        };
+            RandomId: "string",
+            Signature: signature,
+            SenderUserId: User?.id,
+            OriginalData: original
+        }
+
+        console.log(log);
+
+        console.log(`Endpoint is: ${environment.SERVER_API_URL + 'api/Logging'}`);
         return this.http.post(environment.SERVER_API_URL + 'api/Logging', log);
     }
 
