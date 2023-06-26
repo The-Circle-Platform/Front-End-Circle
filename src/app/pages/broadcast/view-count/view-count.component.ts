@@ -12,7 +12,7 @@ import { ViewService } from './viewCounter.service';
 })
 export class ViewCountComponent implements OnInit {
     _hubConnection: HubConnection | undefined;
-    numberList: any;
+    numberList: number;
     @Input()
     isStreamer: boolean = false;
 
@@ -27,7 +27,9 @@ export class ViewCountComponent implements OnInit {
         public viewHub: ViewService,
         public securityService: SecurityService,
         private authService: AuthService
-    ) {}
+    ) {
+        this.numberList = 0;
+    }
 
     ngOnInit(): void {
         this.connect();
@@ -62,7 +64,7 @@ export class ViewCountComponent implements OnInit {
         this._hubConnection
             .start()
             .then(async () => {
-                console.log('Connection started');
+                console.log("connect to stream.");
                 if (!this.isStreamer) {
                     const ownUserId = this.authService.GetWebUser()?.id;
                     this._hubConnection
