@@ -2,9 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import {
-    ChatMessage,
-    ChatMessageDTO,
-    ChatRequestDTO,
+    ChatRequestDTO
 } from '../../../Domain/Models/ChatMessage';
 import { User } from '../../../Domain/Models/User';
 import { AuthService } from '../../../services/authServices/auth.service';

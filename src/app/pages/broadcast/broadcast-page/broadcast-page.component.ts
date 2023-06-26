@@ -130,7 +130,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
         }
 
         this._Vidstream
-            .TurnOffStream(this.HostId!, this.NewStream.id)
+            .TurnOffStream(this.HostId!, this.NewStream.streamId)
             .subscribe((v: any) => {
                 if (this.securityService.verify(v.originalData, v.signature)) {
                     this.NewStream = undefined;

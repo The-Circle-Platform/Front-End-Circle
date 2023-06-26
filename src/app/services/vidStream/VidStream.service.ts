@@ -50,7 +50,7 @@ export class VidStream {
 
     TurnOffStream(HostId: number, streamId: number) {
         return this.http.put(
-            `${this.endpoint}/${HostId}/CurrentStream/${streamId}`,
+            `${this.endpoint}${HostId}/CurrentStream/${streamId}`,
             {}
         );
     }
