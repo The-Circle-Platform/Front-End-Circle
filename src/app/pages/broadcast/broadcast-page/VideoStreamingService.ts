@@ -58,8 +58,9 @@ export class VideoStreamingService {
             Signature: sig,
             OriginalData: chunkData,
         };
-
-        await this.hubConnection.invoke('Upload', newData);
+        console.log(`This text is a string:`);
+        console.log(base64String);
+        this.hubConnection.send('Upload', base64String, streamId, newData.SenderUserId);
     }
 
     private async getOrCreateConnection() {

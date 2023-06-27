@@ -92,7 +92,7 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
                     //When valid, it will start the stream.
                     const StreamId = v.originalData.streamId;
                     this.NewStream = v.originalData;
-                    this.mediaRecorder.start(1000);
+                    this.mediaRecorder.start(100);
                     this.mediaRecorder.addEventListener(
                         'dataavailable',
                         async (event) => {
@@ -102,14 +102,14 @@ export class BroadcastPageComponent implements OnInit, OnDestroy {
                             }
                             if (this.chunks.length) {
                                 console.log('Chunks: ', this.chunks);
-                                console.log('SendNewStream data: ', v);
+                                console.log('SendNewStream data: ', StreamId);
 
                                 //Sends chunks to signalR hub.
                                 await this._VideoStreamingService.startVideoStreaming(
                                     this.chunks,
                                     StreamId
                                 );
-                                // this.chunks = []; // Clear the recorded chunks
+                                //this.chunks.shift(); // Clear the recorded chunks
                             } else {
                                 console.log('No chunks available.');
                             }

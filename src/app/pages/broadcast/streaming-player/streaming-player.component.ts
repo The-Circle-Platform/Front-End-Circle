@@ -26,7 +26,7 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl(this.configService.getApiEndpoint() + 'hubs/Livestream')
+            .withUrl("https://localhost:7058/" + 'hubs/Livestream')
             .build();
 
         this._hubConnection
@@ -46,34 +46,41 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
     @ViewChild('videoPlayer') videoPlayer: any;
 
     playVideo() {
+        console.log("Klik op player")
+        console.log(this._hubConnection instanceof HubConnection);
         if (this._hubConnection instanceof HubConnection) {
+            console.log("Connectie ontvangen!");
+            console.log(this.StreamId);
             this._hubConnection.on(
-                `Stream-${this.StreamId}}`,
+                `Stream-${this.StreamId}`,
                 async (data: any) => {
-                    if (
-                        this.securityService.verify(
-                            data.originalData,
-                            data.signature
-                        )
-                    ) {
-                        console.log('Data chunk: ', data.originalData.chunk);
-                        try {
-                            await base64ToBlob(data.originalData.chunk)
-                                .then((blob) => {
-                                    const videoURL = URL.createObjectURL(blob);
-                                    this.videoPlayer.nativeElement.src =
-                                        videoURL;
-                                    this.videoPlayer.nativeElement.play();
-                                })
-                                .catch((error) => {
-                                    // Handle any errors
-                                    console.error(error);
-                                });
-                        } catch (error) {
-                            // Handle any errors
-                            console.error(error);
-                        }
+                    console.log("Hier is een stream ontvangen");
+                    console.log(data);
+                    try {
+                        await base64ToBlob(data)
+                            .then((blob) => {
+                                const videoURL = URL.createObjectURL(blob);
+                                this.videoPlayer.nativeElement.src =
+                                    videoURL;
+                                this.videoPlayer.nativeElement.play();
+                            })
+                            .catch((error) => {
+                                // Handle any errors
+                                console.error(error);
+                            });
+                    } catch (error) {
+                        // Handle any errors
+                        console.error(error);
                     }
+
+                    // if (
+                    //     this.securityService.verify(
+                    //         data.originalData,
+                    //         data.signature
+                    //     )
+                    // ) {
+                    //     console.log('Data chunk: ', data.originalData.chunk);
+                    // }
                 }
             );
         }
