@@ -33,6 +33,7 @@ import { LoggedInAuthGuard } from './services/authServices/auth.guards';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ConfigModule } from './shared/moduleconfig/config.module';
 import { NavComponent } from './shared/nav/nav.component';
+import { VideoPlayerComponent } from './pages/broadcast/video-player/video-player.component';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { NavComponent } from './shared/nav/nav.component';
         LoginComponent,
         RegistrationPageComponent,
         ViewCountComponent,
+        VideoPlayerComponent,
     ],
     imports: [
         BrowserModule,
