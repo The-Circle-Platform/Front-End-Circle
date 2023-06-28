@@ -32,7 +32,7 @@ export class LoginComponent {
             .subscribe((user: string | undefined) => {
                 if (user) {
                     console.log('Gebruiker is al ingelogd');
-                    this.router.navigate(['/']);
+                    //this.router.navigate(['/']);
                 }
             });
 
@@ -59,13 +59,13 @@ export class LoginComponent {
                 .login(this.loginForm.value.userName, this.privKey)
                 .subscribe(
                     (reply: any) => {
-                        location.reload();
+                        //location.reload();
                         console.log('reply: ', reply);
                         this.authService.StoreUser(
                             reply.originalLoad.websiteUser
                         );
 
-                        this.router.navigate(['/']);
+                        //this.router.navigate(['/']);
                         this.hasIntegrity = this.securityService.verify(
                             reply.originalLoad.websiteUser,
                             reply.signature

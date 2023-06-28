@@ -23,7 +23,7 @@ export class VideoPlayerComponent implements AfterViewInit{
       console.log("Video streaming supported by HLSjs")
 
 
-      var hls = new Hls();
+      const hls = new Hls();
       hls.loadSource('http://localhost:8000/live/test/index.m3u8');
       hls.attachMedia(this.videoElement);
       //hls.on(Hls.Events.MANIFEST_PARSED, () => {
