@@ -46,6 +46,7 @@ export class SecurityService {
     }
 
     sign(plaintext: string): string | false {
+
         console.log('plaintext: ', plaintext);
         this.userCrypto.setPrivateKey(localStorage.getItem('privKey')!);
         this.userCrypto.setKey(localStorage.getItem('privKey')!);

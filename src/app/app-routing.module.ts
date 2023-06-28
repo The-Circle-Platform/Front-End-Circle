@@ -8,6 +8,7 @@ import { OnlineListComponent } from './pages/homepage/online-list/online-list.co
 import { LoginComponent } from './pages/login/login.component';
 import { ProfilePageComponent } from './pages/profile/profile-page/profile-page.component';
 import { RegistrationPageComponent } from './pages/registration/registration-page/registration-page.component';
+import {VideoPlayerComponent} from "./pages/broadcast/video-player/video-player.component";
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'homepage' },
@@ -31,6 +32,7 @@ const routes: Routes = [
         component: RegistrationPageComponent,
     },
     { path: 'admin', pathMatch: 'full', component: AdminPageComponent },
+    {path: 'test', pathMatch: "full", component: VideoPlayerComponent},
 ];
 
 @NgModule({
