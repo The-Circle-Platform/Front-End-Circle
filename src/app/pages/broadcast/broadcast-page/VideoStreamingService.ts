@@ -50,8 +50,9 @@ export class VideoStreamingService {
             chunk: base64String,
         };
 
-        const json = JSON.stringify(chunkData, null, 0);
-        const sig = this.secService.sign(json.toLowerCase());
+        const sig = this.secService.sign(
+            JSON.stringify(chunkData).toLowerCase()
+        );
 
         const newData: StreamChunkDTO = {
             SenderUserId: this.authService.GetWebUser()!.id,
