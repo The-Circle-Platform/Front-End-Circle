@@ -1,4 +1,3 @@
-
 .user-img {
     max-width: 200px;
     max-height: 200px;
@@ -20,4 +19,8 @@
 
 .image-uploader {
     margin-bottom: 5px;
+}
+
+.moveUp30 {
+    margin-top: -30px;
 }

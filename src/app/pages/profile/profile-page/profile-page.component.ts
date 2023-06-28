@@ -61,6 +61,22 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         }
     }
 
+    generateStreamingKey(): string {
+        const username = this.user?.userName;
+        const timestamp = Date.now();
+        const plainText = {
+            username: username, // Might be uppercase: under construction
+            timeStamp: timestamp,
+        };
+        const signature = this.securityService.sign(
+            JSON.stringify(plainText).toLowerCase()
+        );
+
+        const streamingKey = `${username}?sign=${signature}-${timestamp}`;
+        console.log(streamingKey);
+        return streamingKey;
+    }
+
     onSubmit(): void {
         if (this.pfpUser) {
             this.userService.uploadPfp(this.pfpUser).subscribe(
