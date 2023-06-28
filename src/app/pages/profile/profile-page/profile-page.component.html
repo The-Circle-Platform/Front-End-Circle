@@ -15,11 +15,11 @@
                                         <div class="img-container">
                                             <span class="helper"></span><img
                                                 [src]="user?.base64Image || './assets/img/default-profile-image.png'"
-                                                alt="profile picture" class="img-fluid user-img">
+                                                alt="profile picture" class="img-fluid user-img moveUp30">
                                         </div>
                                     </div>
                                     <button class="btn btn-primary btn-block moveUp30"
-                                        (click)="generateStreamingKey()">Streaming-sleutel genereren</button>
+                                        (click)="downloadStreamingKey()">Streaming key downloaden</button>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h5 class="mb-1">{{user?.userName}}</h5>
@@ -29,7 +29,6 @@
                                             <p class="small text-muted mb-1">Bitconnect Balance</p>
                                             <p class="mb-0">{{user?.balance}}</p>
                                         </div>
-
                                     </div>
                                     <div class="d-flex pt-1">
                                         <form (ngSubmit)="onSubmit()">
@@ -48,6 +47,10 @@
                                         </form>
                                     </div>
                                 </div>
+                            </div>
+                            <div *ngIf="streamingKey">
+                                <p>Streaming Key:</p>
+                                <pre>{{ streamingKey }}</pre>
                             </div>
                         </div>
                     </div>

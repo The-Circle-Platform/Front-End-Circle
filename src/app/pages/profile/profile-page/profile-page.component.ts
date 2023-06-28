@@ -14,10 +14,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     public user: User | undefined;
     private subscription: Subscription | undefined;
     public hasIntegrity: boolean = true;
+    public streamingKey: string;
+
     constructor(
         private userService: UserService,
         private securityService: SecurityService
-    ) {}
+    ) {
+        this.streamingKey = '';
+    }
 
     ngOnInit(): void {
         this.user = JSON.parse(localStorage.getItem('Pop')!) as User;
@@ -61,11 +65,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         }
     }
 
-    generateStreamingKey(): string {
+    downloadStreamingKey(): void {
         const username = this.user?.userName;
         const timestamp = Date.now();
         const plainText = {
-            username: username, // Might be uppercase: under construction
+            username: username,
             timeStamp: timestamp,
         };
         const signature = this.securityService.sign(
@@ -73,8 +77,16 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         );
 
         const streamingKey = `${username}?sign=${signature}-${timestamp}`;
-        console.log(streamingKey);
-        return streamingKey;
+        this.streamingKey = streamingKey;
+        
+        const blob = new Blob([streamingKey], { type: 'text/plain' });
+
+        const anchor = document.createElement('a');
+        anchor.download = 'streaming_key.txt';
+        anchor.href = URL.createObjectURL(blob);
+        anchor.click();
+
+        URL.revokeObjectURL(anchor.href);
     }
 
     onSubmit(): void {
