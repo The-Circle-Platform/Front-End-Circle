@@ -65,7 +65,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         }
     }
 
-    downloadStreamingKey(): void {
+    generateStreamingKey(): void {
         const username = this.user?.userName;
         const timestamp = Date.now();
         const plainText = {
@@ -78,15 +78,15 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
         const streamingKey = `${username}?sign=${signature}-${timestamp}`;
         this.streamingKey = streamingKey;
-        
-        const blob = new Blob([streamingKey], { type: 'text/plain' });
+    }
 
-        const anchor = document.createElement('a');
-        anchor.download = 'streaming_key.txt';
-        anchor.href = URL.createObjectURL(blob);
-        anchor.click();
-
-        URL.revokeObjectURL(anchor.href);
+    copyToClipboard(): void {
+        const element = document.createElement('textarea');
+        element.value = this.streamingKey;
+        document.body.appendChild(element);
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
     }
 
     onSubmit(): void {

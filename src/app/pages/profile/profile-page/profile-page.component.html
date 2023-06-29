@@ -19,7 +19,7 @@
                                         </div>
                                     </div>
                                     <button class="btn btn-primary btn-block moveUp30"
-                                        (click)="downloadStreamingKey()">Streaming key downloaden</button>
+                                        (click)="generateStreamingKey()">Streaming key genereren</button>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h5 class="mb-1">{{user?.userName}}</h5>
@@ -51,6 +51,7 @@
                             <div *ngIf="streamingKey">
                                 <p>Streaming Key:</p>
                                 <pre>{{ streamingKey }}</pre>
+                                <button class="btn btn-secondary" (click)="copyToClipboard()">Copy to Clipboard</button>
                             </div>
                         </div>
                     </div>
