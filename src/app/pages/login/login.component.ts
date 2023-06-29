@@ -67,16 +67,17 @@ export class LoginComponent {
 
                         //this.router.navigate(['/']);
                         this.hasIntegrity = this.securityService.verify(
-                            reply.originalLoad.websiteUser,
+                            reply.originalLoad,
                             reply.signature
                         );
 
                         if (this.hasIntegrity) {
-                            if (reply.isVerified) {
+                            if (reply.originalLoad.isVerified) {
+                                console.log("test")
                                 //location.reload();
                                 // localStorage.setItem('privateKey', reply.originalLoad.privateKey);
                                 // localStorage.setItem('publicKey', reply.originalLoad.publicKey);
-                                //this.router.navigate(['/']);
+                                this.router.navigate(['/']);
                             } else {
                                 localStorage.removeItem('privKey');
                                 this.wrongPwOrUserName = true;
