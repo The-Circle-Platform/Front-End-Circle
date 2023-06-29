@@ -11,6 +11,7 @@ import { SecurityService } from '../../../services/authServices/security';
 import { VidStream } from '../../../services/vidStream/VidStream.service';
 import { VideoStreamingService } from './VideoStreamingService';
 import Hls from "hls.js";
+import {User} from "../../../Domain/Models/User";
 
 @Component({
     selector: 'app-broadcast-page',
@@ -32,6 +33,8 @@ export class BroadcastPageComponent implements AfterViewInit, OnDestroy {
     chunks: Blob[] = [];
     chunksTest: Blob[] = [];
     stream: any;
+    user?: User;
+    // streamId: number = 0;
 
     constructor(
         private _VideoStreamingService: VideoStreamingService,
@@ -59,18 +62,27 @@ export class BroadcastPageComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
+        this.user = JSON.parse(localStorage.getItem('Pop')!) as User;
         // the element could be either a wrapped DOM element or a nativeElement
         this.videoElement = this.videoElementRef?.nativeElement;
 
         if (Hls.isSupported()) {
             console.log("Video streaming supported by HLSjs")
 
-
             var hls = new Hls();
-            hls.loadSource('http://localhost:8000/live/test/index.m3u8');
+            hls.loadSource(`http://localhost:8000/live/${this.user.userName}/index.m3u8`);
             hls.attachMedia(this.videoElement);
             //hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            console.log("sending stream")
+            // this._Vidstream.SendNewStream().subscribe((reply: any) => {
+            //     console.log("epic broadcast")
+            //     console.log(reply);
+            //     this.streamId = reply.originalData.streamId;
+            //     console.log("epic streamid")
+            //     console.log(this.streamId);
+            // });
             this.videoElement.play();
+            // this._Vidstream.GetStreamOfHost(0).subscribe();
             //});
         }
 
@@ -82,13 +94,14 @@ export class BroadcastPageComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         // Stop receiving the video stream when the component is destroyed
-        this._VideoStreamingService.stopVideoStreaming();
+        console.log("Epic destroy")
+        // this._Vidstream.TurnOffStream(this.streamId).subscribe();
     }
 
     testFunction() {
-        this._Vidstream.SendNewStream().subscribe((v) => {
-            console.log('SendNewStream data: ', v);
-        });
+        // this._Vidstream.SendNewStream().subscribe((v) => {
+        //     console.log('SendNewStream data: ', v);
+        // });
     }
 
     // cameraOn() {
