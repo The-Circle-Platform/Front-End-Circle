@@ -13,26 +13,14 @@ import {VideoPlayerComponent} from "./pages/broadcast/video-player/video-player.
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'homepage' },
     { path: 'homepage', pathMatch: 'full', component: HomePageComponent },
-    {
-        path: 'listStreamers',
-        pathMatch: 'full',
-        component: OnlineListComponent,
-    },
+    { path: 'listStreamers', pathMatch: 'full', component: OnlineListComponent },
     { path: 'broadcast', pathMatch: 'full', component: BroadcastPageComponent },
     { path: 'profile', pathMatch: 'full', component: ProfilePageComponent },
-    {
-        path: 'user/:id/stream/current',
-        pathMatch: 'full',
-        component: StreamPageComponent,
-    },
+    { path: 'user/:id/stream/current', pathMatch: 'full', component: StreamPageComponent },
     { path: 'login', pathMatch: 'full', component: LoginComponent },
-    {
-        path: 'registration',
-        pathMatch: 'full',
-        component: RegistrationPageComponent,
-    },
+    { path: 'registration', pathMatch: 'full', component: RegistrationPageComponent },
     { path: 'admin', pathMatch: 'full', component: AdminPageComponent },
-    {path: 'test', pathMatch: "full", component: VideoPlayerComponent},
+    { path: 'test', pathMatch: "full", component: VideoPlayerComponent },
 ];
 
 @NgModule({
