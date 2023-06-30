@@ -62,22 +62,27 @@ export class ChatStreamComponent implements OnInit {
         }
     }
 
-    private SetupChat(userId: number, hostId: number) {
+    private SetupChat(userId: number, hostId: number) {    
         this.currentChatBox = {
             Id: 0,
             Message: '',
             WebUserId: userId,
             ReceiverId: hostId,   
             Date: new Date(),
+            TimeSpan: null
         };
     }
 
     public SendMessage(): void {
         this.warning = '';
         if (this.currentChatBox != undefined) {
+            const timeSpan = Date.now();
+            this.currentChatBox.TimeSpan = timeSpan;
             this.SendToServer(this.currentChatBox);
+
             //Resets
             this.currentChatBox.Message = '';
+            this.currentChatBox.TimeSpan = null;
             this.IsBusy = true;
         } else {
             console.warn('Chat box has failed to initalize');
