@@ -16,7 +16,7 @@ export class OnlineListComponent implements OnInit {
     hasIntigrety: boolean = true;
 
     users: User[] = [];
-    currentSortOrder: 'asc' | 'desc' | 'status' = 'asc';
+    currentSortOrder: 'asc' | 'desc' | 'status' = 'status';
 
     constructor(
         public userService: UserService,
