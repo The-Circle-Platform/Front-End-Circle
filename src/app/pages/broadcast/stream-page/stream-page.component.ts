@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     Component,
-    ElementRef,
+    ElementRef, Input,
     OnInit,
     ViewChild,
 } from '@angular/core';
@@ -22,6 +22,7 @@ export class StreamPageComponent implements OnInit, AfterViewInit {
 
     videoElement!: HTMLVideoElement;
     NewStream: any | undefined;
+    @Input()
     HostId: number;
     StreamId: number;
     user?: User;
