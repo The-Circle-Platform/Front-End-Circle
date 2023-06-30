@@ -16,7 +16,6 @@ export interface ChatMessageDTO extends IDomain {
     Date: Date;
 }
 
-// Used with payload.
 export interface ChatRequestDTO extends IContent {
     OriginalData: ChatMessageDTO;
 }

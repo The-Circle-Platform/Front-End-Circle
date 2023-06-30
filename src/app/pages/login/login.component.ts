@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/authServices/auth.service';
 import { SecurityService } from '../../services/authServices/security';
-import { userDTO } from '../../Domain/Models/User';
 
 @Component({
     selector: 'app-login',
@@ -31,8 +30,8 @@ export class LoginComponent {
             .getUserFromLocalStorage()
             .subscribe((user: string | undefined) => {
                 if (user) {
-                    console.log('Gebruiker is al ingelogd');
-                    //this.router.navigate(['/']);
+                    console.log('User is already logged in');
+                    this.router.navigate(['/']);
                 }
             });
 
@@ -59,13 +58,13 @@ export class LoginComponent {
                 .login(this.loginForm.value.userName, this.privKey)
                 .subscribe(
                     (reply: any) => {
-                        //location.reload();
+                        location.reload();
                         console.log('reply: ', reply);
                         this.authService.StoreUser(
                             reply.originalLoad.websiteUser
                         );
 
-                        //this.router.navigate(['/']);
+                        this.router.navigate(['/']);
                         this.hasIntegrity = this.securityService.verify(
                             reply.originalLoad,
                             reply.signature
@@ -73,10 +72,6 @@ export class LoginComponent {
 
                         if (this.hasIntegrity) {
                             if (reply.originalLoad.isVerified) {
-                                console.log("test")
-                                //location.reload();
-                                // localStorage.setItem('privateKey', reply.originalLoad.privateKey);
-                                // localStorage.setItem('publicKey', reply.originalLoad.publicKey);
                                 this.router.navigate(['/']);
                             } else {
                                 localStorage.removeItem('privKey');

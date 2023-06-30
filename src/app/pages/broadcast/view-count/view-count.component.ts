@@ -43,21 +43,16 @@ export class ViewCountComponent implements OnInit {
             .withUrl(this.viewHub.endpoints)
             .build();
 
-        this._hubConnection.on(
-            `IsNotAllowed-${this.StreamId}`, (message) =>{
-                const original = message.originalAllowWatch;
-                const signature = message.signature;
+        this._hubConnection.on(`IsNotAllowed-${this.StreamId}`, (message) => {
+            const original = message.originalAllowWatch;
+            const signature = message.signature;
+            const IsValid = this.securityService.verify(original, signature);
 
-                const IsValid = this.securityService.verify(original, signature);
-
-                console.log(`Viewer count is ${IsValid}`);
-
-                if(IsValid){
-                    console.log("Warning! Maximum is overschreden");
-                    this.router.navigate(["../"]);
-                }
+            if (IsValid) {
+                console.log('Warning! Maximum has been exceeded');
+                this.router.navigate(['../']);
             }
-        )
+        });
 
         this._hubConnection.on(
             'UpdateViewerCount' + this.StreamId,
@@ -82,7 +77,6 @@ export class ViewCountComponent implements OnInit {
         this._hubConnection
             .start()
             .then(async () => {
-                console.log("connect to stream.");
                 if (!this.isStreamer) {
                     const ownUserId = this.authService.GetWebUser()?.id;
                     this._hubConnection

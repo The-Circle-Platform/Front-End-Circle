@@ -31,32 +31,23 @@ export class ChatService {
     public SetUpConnections(HostId: number) {
         console.log('Start connection chat');
 
-        //Setup url
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(this.hubEndpoint)
             .build();
 
-        //Setup receiver methode
         const ReceiverEndpoint = `ReceiveChat-${HostId}`;
 
         this.hubConnection.on(ReceiverEndpoint, (response: any) => {
             console.log('Received new chatmessages');
-            console.log('Response: ', response);
-            // Turn into string
             const stringJson = JSON.stringify(response.originalList);
 
-            //Verify signature
             this.securityService.verify(stringJson, response.Signature);
-
-            // Assigns new user to response.
             this.ListOfChats = response.originalList;
         });
 
-        //Start connection
         this.hubConnection
             .start()
             .then(async () => {
-                // -> Send connection
                 console.log('Get current chatmessages');
                 this.hubConnection
                     ?.send('RetrieveCurrentChat', HostId)
