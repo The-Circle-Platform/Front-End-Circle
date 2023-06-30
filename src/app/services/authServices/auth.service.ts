@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import jwt_decode from 'jwt-decode';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { IRegister, Register, User } from '../../Domain/Models/User';
@@ -14,8 +13,6 @@ import { SecurityService } from './security';
 export class AuthService {
     public currentPrivKey$ = new BehaviorSubject<string | undefined>(undefined);
     private readonly CURRENT_USER = 'Pop';
-    private readonly PRIVATE_PART = 'Publiek';
-    private readonly PUBLIC_PART = 'Secrete';
     private readonly CURRENT_PRIVATE_KEY = 'privKey';
     private readonly CURRENT_PUBLIC_KEY = 'pubKey';
     private readonly headers = new HttpHeaders({
@@ -51,18 +48,6 @@ export class AuthService {
         userName: string,
         privateKey: string
     ): Observable<string | undefined> {
-        // const credentials = {
-        //     // userName: this.securityService.encryptWithServerPublicKey(userName),
-        //     // password: this.securityService.encryptWithServerPublicKey(password),
-        //     userName: userName,
-        //     password: password,
-        // };
-        // console.log(
-        //     `Username: ${credentials.userName} | Password: ${credentials.password}`
-        // );
-        // // console.log(`Username: ${this.securityService.decryptWithServerPublicKey(credentials.userName)} | Password: ${this.securityService.decryptWithServerPublicKey(credentials.password)}`)
-        //
-
         localStorage.setItem('privKey', privateKey);
         const timesTamp = Date.now();
         const request = {

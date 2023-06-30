@@ -11,22 +11,11 @@
         </div>
     </div>
     <div class="chat-box">
-
-        <!-- Chat reageer pagina -->
         <div class="mt-3">
             <form #addComment="ngForm" (submit)="SendMessage()">
                 <textarea class="form-control" id="CommentInput" rows="3" name="Message"
                     [(ngModel)]="currentChatBox!.Message" #Message="ngModel" minlength="1" maxlength="300" required>
             </textarea>
-
-                <!-- <div *ngIf="Message.invalid && Message.touched" class="invalid-input">
-                    <div *ngIf="Message.invalid">
-                        <div class="errorMessage">
-                            <h3>Foute invoer</h3>
-                            <p>Voer iets in</p>
-                        </div>
-                    </div>
-                </div> -->
                 <button class="btn btn-info mt-2" [disabled]="IsBusy" [disabled]="addComment.invalid">Verstuur
                     bericht</button>
             </form>

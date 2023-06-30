@@ -68,13 +68,13 @@ export class UserService implements IService<User> {
 
         const json = JSON.stringify(pfpUser, null, 0).toLowerCase();
         const signature = this.securityService.sign(json);
-        const test = {
+        const pfpData = {
             request: pfpUser,
             signature: signature,
         };
         return this.httpClient.put<userDTO>(
             `${this.siteEndpoint}/${pfpUser.id}/pfp`,
-            test
+            pfpData
         );
     }
 }

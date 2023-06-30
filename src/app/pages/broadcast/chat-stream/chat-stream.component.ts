@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import {
-    ChatRequestDTO
-} from '../../../Domain/Models/ChatMessage';
+import { ChatRequestDTO } from '../../../Domain/Models/ChatMessage';
 import { User } from '../../../Domain/Models/User';
 import { AuthService } from '../../../services/authServices/auth.service';
 import { SecurityService } from '../../../services/authServices/security';
@@ -27,7 +25,7 @@ export class ChatStreamComponent implements OnInit {
 
     public WriterId: number | undefined;
     public currentUser: User | undefined = undefined;
-    public  subscription: any;
+    public subscription: any;
 
     constructor(
         private Router: Router,
@@ -48,7 +46,6 @@ export class ChatStreamComponent implements OnInit {
         if (HostId) {
             //Checks if user is allowed. Takes user out of storage.
             const writer = this.authService.GetWebUser();
-            //const writerId = this.currentUser?.id;
             if (writer) {
                 this.SetupChat(writer.id, HostId);
                 this.SetUpConnections(HostId);
@@ -67,7 +64,7 @@ export class ChatStreamComponent implements OnInit {
             Id: 0,
             Message: '',
             WebUserId: userId,
-            ReceiverId: hostId,   
+            ReceiverId: hostId,
             Date: new Date(),
             TimeSpan: null
         };
@@ -94,19 +91,13 @@ export class ChatStreamComponent implements OnInit {
     private SetUpConnections(HostId: number) {
         console.log('Start connection chat');
 
-        //Setup url
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(this.viewHub.hubEndpoint)
             .build();
 
-        //Setup receiver methode
         const ReceiverEndpoint = `ReceiveChat-${HostId}`;
 
         this.hubConnection.on(ReceiverEndpoint, (updatedMessageList: any) => {
-            console.log('Received new chatmessages');
-            //Verify received packages.
-            //Verify signature
-            console.log(updatedMessageList);
             const isValid = this.securityService.verify(
                 updatedMessageList.originalList,
                 updatedMessageList.signature
@@ -116,17 +107,15 @@ export class ChatStreamComponent implements OnInit {
                 this.ListOfChats = updatedMessageList.originalList;
             } else {
                 this.warning =
-                    'Data integriteit is aangetast, probeer later nog eens.';
+                    'Data integrity has been compromised, please try again later.';
             }
 
             this.IsBusy = false;
         });
 
-        //Start connection
         this.hubConnection
             .start()
             .then(async () => {
-                // -> Send connection
                 console.log('Get current chatmessages');
 
                 this.hubConnection?.send('RetrieveCurrentChat', HostId).then();
@@ -137,7 +126,6 @@ export class ChatStreamComponent implements OnInit {
     }
 
     private SendToServer(chatMessage: any) {
-        //Create signature
         const txt = JSON.stringify(chatMessage, null, 0).toLowerCase();
 
         const signature = this.securityService.sign(txt);
@@ -151,17 +139,16 @@ export class ChatStreamComponent implements OnInit {
         this.hubConnection
             ?.send('SendMessage', payload)
             .then(() => {
-                console.log('Data naar server versturen is gelukt');
-                this.subscription = this.logger.logToDB("/hubs/ChatHub/", "SendMessage").subscribe((res => {
-                    console.log(res);
-                    this.subscription?.unsubscribe();
-                }));
+                console.log('Sending data to server successful');
+                this.subscription = this.logger
+                    .logToDB('/hubs/ChatHub/', 'SendMessage')
+                    .subscribe((res) => {
+                        console.log(res);
+                        this.subscription?.unsubscribe();
+                    });
             })
             .catch((err) => {
-                console.log(
-                    'Data naar server versturen is niet gelukt',
-                    err.message
-                );
+                console.log('Sending data to server failed', err.message);
             });
     }
 }

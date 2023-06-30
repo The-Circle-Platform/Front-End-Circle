@@ -29,12 +29,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         this.subscription = this.userService
             .Get(this.user.id)
             .subscribe((res) => {
-                console.log('res: ', res);
                 this.hasIntegrity = this.securityService.verify(
                     res.originalData,
                     res.signature
                 );
-                console.log('this.hasIntegrity ', this.hasIntegrity);
                 if (this.hasIntegrity) {
                     this.user = res.originalData;
                 }
@@ -92,8 +90,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     onSubmit(): void {
         if (this.pfpUser) {
             this.userService.uploadPfp(this.pfpUser).subscribe(
-                (reply: any) => {
-                    console.log('reply: ', reply);
+                () => {
                     location.reload();
                 },
                 (err) => {

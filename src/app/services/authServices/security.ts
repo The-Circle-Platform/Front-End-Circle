@@ -5,23 +5,6 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SecurityService {
-    // encryptMessage(entity:any){
-    //     // TODO document why this method 'encryptMessage' is empty
-    //
-    //     throw new Error("Not yet implemented")
-    // }
-    //
-    // encryptPublicKey(entity: any) :string {
-    //
-    //     const rsa = Forge.pki.publicKeyFromPem(this.publicKey);
-    //     return window.btoa(rsa.encrypt(valueToEncrypt.toString()));
-    // }
-    //
-    // decryptMessage(entity:any){
-    //   // TODO document why this method 'decryptMessage' is empty
-    //     throw new Error("Not yet implemented")
-    // }
-
     private userPrivateKey: string;
     private userPublicKey: string;
     private serverPublicKey: string;
@@ -46,7 +29,6 @@ export class SecurityService {
     }
 
     sign(plaintext: string): string | false {
-
         console.log('plaintext: ', plaintext);
         this.userCrypto.setPrivateKey(localStorage.getItem('privKey')!);
         this.userCrypto.setKey(localStorage.getItem('privKey')!);
@@ -68,11 +50,7 @@ export class SecurityService {
 
     verify(message: any, signature: string): boolean {
         const messageJson = JSON.stringify(message, null, 0).toLowerCase();
-
         this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
-
-        console.log('Signature: ', signature);
-        console.log('MessageJson: ', messageJson);
 
         const verified = this.serverCrypto.verify(
             messageJson,

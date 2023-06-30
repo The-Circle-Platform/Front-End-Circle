@@ -1,20 +1,15 @@
-<!--Bedenk mechanisme voor verversen -->
 <div class="container">
     <div>
-        <button class="btn btn-primary mx-1 my-1" (click)="toggleSortOrder('asc')">Ascending</button>
-        <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('desc')">Descending</button>
+        <button class="btn btn-primary mx-1 my-1" (click)="toggleSortOrder('asc')">Oplopend</button>
+        <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('desc')">Aflopend</button>
         <button class="btn btn-primary mx-1 my-2" (click)="toggleSortOrder('status')">Status</button>
     </div>
     <div *ngIf="!hasIntigrety">
-        <h1 style="color: red">WAARSCHUWING, DE DATA VAN DEZE REQUEST IS NIET INTEGER. HET KAN ZIJN DAT IEMAND DE DATA
-            HEEFT VERANDERD</h1>
+        <h1 style="color: red">Waarschuwing: De gegevens van deze aanvraag is niet integer. Het is mogelijk
+            dat iemand de gegevens heeft aangepast.</h1>
     </div>
 
     <h1>Lijst transparante gebruikers</h1>
-    <!-- <select id="sortOrder ">
-        <option value="asc ">Naam</option>
-        <option value="status ">Status</option>
-    </select> -->
     <div class="row ">
         <div *ngFor="let user of list$ | async; " class="col-lg-3 user-card">
             <app-user-card [User]="user"></app-user-card>

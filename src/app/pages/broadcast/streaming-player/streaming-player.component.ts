@@ -66,11 +66,9 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
                                     this.videoPlayer.nativeElement.play();
                                 })
                                 .catch((error) => {
-                                    // Handle any errors
                                     console.error(error);
                                 });
                         } catch (error) {
-                            // Handle any errors
                             console.error(error);
                         }
                     }
@@ -81,7 +79,6 @@ export class StreamingPlayerComponent implements OnInit, OnDestroy {
 }
 
 async function base64ToBlob(base64String: string): Promise<Blob> {
-    //video/x-matroska;codecs=avc1 misschien data: dit ipv applicaton blah.
     const response = await fetch(
         `data:application/octet-stream;base64,${base64String}`
     );

@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { LogLevel } from '../../Domain/Models/LogLevel';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SecurityService } from '../authServices/security';
+import { environment } from '../../../environments/environment';
+import { LogLevel } from '../../Domain/Models/LogLevel';
 import { AuthService } from '../authServices/auth.service';
+import { SecurityService } from '../authServices/security';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +13,11 @@ export class LoggerService {
     logLevel: LogLevel = new LogLevel();
     ipAddress = '';
 
-    constructor(private http: HttpClient, private security: SecurityService, private authService: AuthService) {
+    constructor(
+        private http: HttpClient,
+        private security: SecurityService,
+        private authService: AuthService
+    ) {
         this.getIPAddress();
     }
 
@@ -50,26 +54,28 @@ export class LoggerService {
         const original = {
             Id: 0,
             DateTime: new Date(),
-            Ip: "this.ipAddress",
+            Ip: 'this.ipAddress',
             Endpoint: endpoint,
             SubjectUser: User?.userName,
-            Action: action
-          };
-        
-        
+            Action: action,
+        };
 
-        const signature = this.security.sign(JSON.stringify(original,null, 0).toLowerCase());
+        const signature = this.security.sign(
+            JSON.stringify(original, null, 0).toLowerCase()
+        );
 
         const log = {
-            RandomId: "string",
+            RandomId: 'string',
             Signature: signature,
             SenderUserId: User?.id,
-            OriginalData: original
-        }
+            OriginalData: original,
+        };
 
         console.log(log);
 
-        console.log(`Endpoint is: ${environment.SERVER_API_URL + 'api/Logging'}`);
+        console.log(
+            `Endpoint is: ${environment.SERVER_API_URL + 'api/Logging'}`
+        );
         return this.http.post(environment.SERVER_API_URL + 'api/Logging', log);
     }
 
@@ -106,7 +112,6 @@ export class LoggerService {
             .get('http://api.ipify.org/?format=json')
             .subscribe((res: any) => {
                 this.ipAddress = res;
-                console.log(res);
             });
     }
 }

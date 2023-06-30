@@ -15,8 +15,8 @@
   </div>
   <div class="form-group">
     <label for="inputUserName">Gebruikersnaam</label>
-    <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName"
-      [ngClass]="{
+    <input type="userName" class="form-control" placeholder="Gebruikersnaam" formControlName="userName"
+      id="inputUserName" [ngClass]="{
         'is-invalid':
           registerForm.get('userName')?.invalid &&
           registerForm.get('userName')?.touched
