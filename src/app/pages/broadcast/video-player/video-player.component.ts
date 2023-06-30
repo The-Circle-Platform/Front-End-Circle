@@ -24,7 +24,7 @@ export class VideoPlayerComponent implements AfterViewInit{
 
 
       const hls = new Hls();
-      hls.loadSource('http://localhost:8000/live/test/index.m3u8');
+      hls.loadSource('http://localhost:8000/live/Jascha/index.m3u8');
       hls.attachMedia(this.videoElement);
       //hls.on(Hls.Events.MANIFEST_PARSED, () => {
         this.videoElement.play();
