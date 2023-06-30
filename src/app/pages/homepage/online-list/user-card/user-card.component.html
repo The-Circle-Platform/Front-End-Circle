@@ -1,4 +1,7 @@
-<a class="card shadow-sm my-2" routerLink="/user/{{User.id}}/stream/current">
+<a class="card shadow-sm my-2"
+   [style.pointer-events]="User.isOnline ? 'auto' : 'none'"
+   [ngClass]="{'greyed-out': !User.isOnline}"
+   routerLink="/user/{{User.id}}/stream/current">
 
     <div class="card-header rounded-0">
         <div class="card-title">
@@ -16,6 +19,6 @@
         <span *ngIf=!User.isOnline>
             <p>Status: Offline<span class="offline">●</span> </p>
         </span>
-        <a class="btn btn-primary">Bekijk stream van {{User.id}}</a>
+        <a class="btn btn-primary">Bekijk stream van {{User.userName}}</a>
     </div>
 </a>

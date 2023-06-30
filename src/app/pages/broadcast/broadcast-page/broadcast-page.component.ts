@@ -9,21 +9,11 @@ import { AuthService } from '../../../services/authServices/auth.service';
     styleUrls: ['./broadcast-page.component.css'],
 })
 export class BroadcastPageComponent {
-    NewStream: any | undefined;
     HostId: number = 1;
-    recordingCamInit: boolean = false;
 
     // access the declared DOM element; expose all methods and properties
-    @ViewChild('videoPlayer') videoElementRef!: ElementRef;
 
     // declare and inherit the HTML video methods and its properties
-    videoElement!: HTMLVideoElement;
-    recording: boolean = false;
-    mediaRecorder!: MediaRecorder;
-    chunks: Blob[] = [];
-    chunksTest: Blob[] = [];
-    stream: any;
-    user?: User;
 
     constructor(private authService: AuthService) {}
 

@@ -37,3 +37,7 @@
     height: 100%;
     vertical-align: middle;
 }
+
+.greyed-out {
+    background-color: #f1f1f1;
+}
