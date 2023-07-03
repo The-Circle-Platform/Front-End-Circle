@@ -57,7 +57,7 @@ export class ViewCountComponent implements OnInit {
         this._hubConnection.on(
             'UpdateViewerCount' + this.StreamId,
             (message) => {
-                // Verificatie
+                // Verification
                 const signature = message.signature;
                 const updatedCount = message.originalCount;
 
