@@ -1,29 +1,10 @@
 import { Injectable } from '@angular/core';
-import * as crypto from 'jsencrypt';
 import * as CryptoJS from 'crypto-js';
-import {environment} from "../../../environments/environment";
+import * as crypto from 'jsencrypt';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class securityService {
-    // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // encryptMessage(entity:any){
-    //     // TODO document why this method 'encryptMessage' is empty
-    //
-    //     throw new Error("Not yet implemented")
-    // }
-    //
-    // encryptPublicKey(entity: any) :string {
-    //
-    //     const rsa = Forge.pki.publicKeyFromPem(this.publicKey);
-    //     return window.btoa(rsa.encrypt(valueToEncrypt.toString()));
-    // }
-    //
-    // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // decryptMessage(entity:any){
-    //   // TODO document why this method 'decryptMessage' is empty
-    //     throw new Error("Not yet implemented")
-    // }
-
+export class SecurityService {
     private userPrivateKey: string;
     private userPublicKey: string;
     private serverPublicKey: string;
@@ -41,33 +22,35 @@ export class securityService {
         this.serverCrypto.setPrivateKey(this.serverPublicKey); // You can only Decrypt with the private key with this library
     }
 
-
-    encryptWithServerPublicKey(plaintext: string): string{
+    encryptWithServerPublicKey(plaintext: string): string {
         this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
         const encrypted = this.serverCrypto.encrypt(plaintext);
         return encrypted.toString();
     }
 
     sign(plaintext: string): string | false {
+        console.log('plaintext: ', plaintext);
+        this.userCrypto.setPrivateKey(localStorage.getItem('privKey')!);
+        this.userCrypto.setKey(localStorage.getItem('privKey')!);
+        this.userCrypto.setPublicKey(localStorage.getItem('privKey')!);
+        console.log(
+            'Local storage private key: ',
+            localStorage.getItem('privKey')
+        );
 
-        console.log(plaintext)
-        this.userCrypto.setPrivateKey(localStorage.getItem("privKey")!);
-        this.userCrypto.setKey(localStorage.getItem("privKey")!);
-        this.userCrypto.setPublicKey(localStorage.getItem("privKey")!);
-        console.log(localStorage.getItem("privKey"));
-        // @ts-ignore
-        const signature = this.userCrypto.sign(plaintext, CryptoJS.SHA256, "sha256");
-        console.log(signature)
+        const signature = this.userCrypto.sign(
+            plaintext,
+            // @ts-ignore
+            CryptoJS.SHA256,
+            'sha256'
+        );
+        console.log('Signature: ', signature);
         return signature;
     }
 
     verify(message: any, signature: string): boolean {
         const messageJson = JSON.stringify(message, null, 0).toLowerCase();
-
         this.serverCrypto.setPublicKey(environment.SERVER_PUBLIC_KEY);
-
-        console.log(signature);
-        console.log(messageJson);
 
         const verified = this.serverCrypto.verify(
             messageJson,
@@ -75,7 +58,7 @@ export class securityService {
             // @ts-ignore
             CryptoJS.SHA256
         );
-        console.log(verified);
+        console.log('Verified: ', verified);
         return verified;
     }
 }

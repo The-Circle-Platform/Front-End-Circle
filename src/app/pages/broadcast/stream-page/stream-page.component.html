@@ -1,65 +1,44 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <!-- Where Chat comes -->
             <app-chat-stream [HostUserId]="HostId"></app-chat-stream>
         </div>
-        <div class="col-sm-5 col-md-8 col-lg-6">
-            <div *ngIf="NewStream != undefined" class="viewCountWrapper">
-                <app-viewer-count [isStreamer] = false [StreamId]="NewStream.id"></app-viewer-count>
-            </div>
-
-            <div *ngIf="NewStream != undefined" class="viewCountWrapper">
-                <app-streaming-player [HostId]="HostId" [StreamId]="NewStream.id"></app-streaming-player>
+        <div class="col-sm-5 col-md-8 col-lg-9">
+            <div class="vidBox">
+                <div #videoContainer class="vidBox" id="videoContainer">
+                    <video #videoPlayer id="videoPlayer" width="100%" controls autoplay playsinline></video>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <app-view-count [HostId]="HostId" [isStreamer]="false" [StreamId]="NewStream.id"></app-view-count>
-        </div>
-        <div class="col-sm-5 col-md-8 col-lg-9 moveLeft10">
-            <div class="container py-5">
-                <div class="row d-flex align-items-center">
-                    <div class="col col-md-9 col-lg-7 col-xl-5">
-                        <div class="card borderRadiusProfile">
-                            <div class="card-body">
-                                <div class="d-flex text-black">
-                                    <div class="flex-shrink-0">
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                             alt="Generic placeholder image" class="img-fluid"
-                                             style="width: 180px; border-radius: 10px;">
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h5 class="mb-1">Danny McLoan</h5>
-                                        <p class="mb-2 pb-1" style="color: #2b2a2a;">Senior Journalist</p>
-                                        <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
-                                             style="background-color: #efefef;">
-                                            <div>
-                                                <p class="small text-muted mb-1">Articles</p>
-                                                <p class="mb-0">41</p>
-                                            </div>
-                                            <div class="px-3">
-                                                <p class="small text-muted mb-1">Followers</p>
-                                                <p class="mb-0">976</p>
-                                            </div>
-                                            <div>
-                                                <p class="small text-muted mb-1">Rating</p>
-                                                <p class="mb-0">8.5</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex pt-1">
-                                            <button type="button"
-                                                    class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
-                                            <button type="button" class="btn btn-primary flex-grow-1">Follow</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div *ngIf="NewStream != undefined" class="viewCountWrapper">
+                    <app-view-count [HostId]="HostId" [isStreamer]="false" [StreamId]="NewStream.id"></app-view-count>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-6 col-md-4 col-lg-3">-->
+<!--            &lt;!&ndash; Where Chat comes &ndash;&gt;-->
+<!--            <div *ngIf="NewStream != undefined" class="viewCountWrapper">-->
+<!--                <app-chat-stream [HostUserId]="HostId"></app-chat-stream>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-sm-5 col-md-8 col-lg-6">-->
+<!--            <div *ngIf="NewStream != undefined" class="viewCountWrapper">-->
+<!--                <app-streaming-player [HostId]="HostId" [StreamId]="NewStream.id"></app-streaming-player>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-6 col-md-4 col-lg-3">-->
+<!--            <div *ngIf="NewStream != undefined" class="viewCountWrapper">-->
+<!--                <app-view-count [HostId]="HostId" [isStreamer]="false" [StreamId]="NewStream.id"></app-view-count>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

@@ -1,5 +1,4 @@
-export interface IView{
-    GetBack():void
-    Ok():void
-
+export interface IView {
+    GetBack(): void;
+    Ok(): void;
 }

@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../../services/authServices/auth.service';
-import { DecodedToken, User } from '../../../Domain/Models/User';
-import { UserService } from '../../../services/userServices/user.service';
 import { Subscription } from 'rxjs';
-import { securityService } from '../../../services/authServices/security';
+import { User } from '../../../Domain/Models/User';
+import { SecurityService } from '../../../services/authServices/security';
+import { UserService } from '../../../services/userServices/user.service';
 
 @Component({
     selector: 'app-profile-page',
@@ -12,52 +11,43 @@ import { securityService } from '../../../services/authServices/security';
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
     pfpUser: User | undefined;
-    private userName: String | undefined;
     public user: User | undefined;
     private subscription: Subscription | undefined;
     public hasIntegrity: boolean = true;
+    public streamingKey: string;
+
     constructor(
-        private authService: AuthService,
         private userService: UserService,
-        private securityService: securityService
-    ) {}
+        private securityService: SecurityService
+    ) {
+        this.streamingKey = '';
+    }
 
     ngOnInit(): void {
+        this.user = JSON.parse(localStorage.getItem('Pop')!) as User;
 
-
-            // @ts-ignore
-            var test = localStorage.getItem("Pop");
-            this.user = JSON.parse(test!) as User;
-            //var test = JSON.
-            this.subscription = this.userService
-                .Get(this.user.id)
-                .subscribe((res) => {
-                    console.log('res: ', res);
-                    this.hasIntegrity = this.securityService.verify(
-                        res.originalData,
-                        res.signature
-                    );
-                    console.log('this.hasIntegrity ', this.hasIntegrity);
-                    if (this.hasIntegrity) {
+        this.subscription = this.userService
+            .Get(this.user.id)
+            .subscribe((res) => {
+                this.hasIntegrity = this.securityService.verify(
+                    res.originalData,
+                    res.signature
+                );
+                if (this.hasIntegrity) {
                     this.user = res.originalData;
-                    }
-                });
-
+                }
+            });
     }
 
     onSelectFile(event: any) {
-        console.log('onSelectFile');
         if (event.target.files && event.target.files[0]) {
             const imageFile: File = event.target.files[0];
             const reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]);
             reader.onload = () => {
                 const image = reader.result as string;
-                console.log(image);
 
-                console.log(this.user)
                 if (!this.pfpUser && this.user) {
-                    console.log("kak2")
                     this.pfpUser = {
                         id: this.user?.id,
                         userName: this.user?.userName,
@@ -66,26 +56,48 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                         balance: this.user?.balance,
                         imageName: imageFile.name,
                         base64Image: image,
-                        timeStamp: null
+                        timeStamp: null,
                     };
                 }
             };
         }
     }
 
+    generateStreamingKey(): void {
+        const username = this.user?.userName;
+        const timestamp = Date.now();
+        const plainText = {
+            username: username,
+            timeStamp: timestamp,
+        };
+        const signature = this.securityService.sign(
+            JSON.stringify(plainText).toLowerCase()
+        );
+
+        const streamingKey = `${username}?sign=${signature}-${timestamp}`;
+        this.streamingKey = streamingKey;
+    }
+
+    copyToClipboard(): void {
+        const element = document.createElement('textarea');
+        element.value = this.streamingKey;
+        document.body.appendChild(element);
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+    }
+
     onSubmit(): void {
         if (this.pfpUser) {
             this.userService.uploadPfp(this.pfpUser).subscribe(
-                (reply: any) => {
-                    console.log('reply: ', reply);
+                () => {
                     location.reload();
                 },
                 (err) => {
-                    console.log(err);
+                    console.log('Upload pfp error: ', err);
                     location.reload();
                 }
             );
-
         }
     }
 

@@ -1,55 +1,98 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef, Input,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { securityService } from 'src/app/services/authServices/security';
-import { VidStream } from 'src/app/services/vidStream/VidStream.service';
+import Hls from 'hls.js';
+import { User } from '../../../Domain/Models/User';
+import { SecurityService } from '../../../services/authServices/security';
+import { UserService } from '../../../services/userServices/user.service';
+import { VidStream } from '../../../services/vidStream/VidStream.service';
 
 @Component({
-  selector: 'app-stream-page',
-  templateUrl: './stream-page.component.html',
-  styleUrls: ['./stream-page.component.css']
+    selector: 'app-stream-page',
+    templateUrl: './stream-page.component.html',
+    styleUrls: ['./stream-page.component.css'],
 })
-export class StreamPageComponent implements OnInit {
-  NewStream: any | undefined;
-  HostId: number;
-  StreamId: number;
-  constructor(private router: ActivatedRoute, private VidService: VidStream, private secureService : securityService){
-    this.HostId = 0;
-    this.NewStream = {id: 1};
-    this.StreamId = 0;
-  }
-  ngOnInit(): void {
-    console.log("Hello page algemeen")
-    this.CheckParams();
-    //Use router to get url parameters in order to get transparent user id
-    //Get latest stream.
-  }
+export class StreamPageComponent implements OnInit, AfterViewInit {
+    @ViewChild('videoPlayer') videoElementRef!: ElementRef;
 
-  CheckParams(){
-    this.router.paramMap.subscribe((v)=>{
-      const id: string = v.get("id")!;
-      console.log(`De ONE PIECE IS ID ${id}`);
-      if(id) {
-        this.HostId = parseInt(id);
-        this.GetLatestStream(this.HostId);
-      } else {
-        console.log("Geen params");
-      } 
-    })
-  }
+    videoElement!: HTMLVideoElement;
+    NewStream: any | undefined;
+    @Input()
+    HostId: number;
+    StreamId: number;
+    user?: User;
+    HostUserName: String | undefined;
 
-  GetLatestStream(HostId: number){
-    console.log("Get latest stream");
-    this.VidService.GetStreamOfHost(HostId).subscribe(ol =>{
-        const sign = ol.signature;
+    constructor(
+        private router: ActivatedRoute,
+        private VidService: VidStream,
+        private securityService: SecurityService,
+        private userService: UserService
+    ) {
+        this.HostId = 0;
+        this.NewStream = undefined;
+        this.StreamId = 0;
+    }
 
-        const IsValid = this.secureService.verify(sign.originalData, sign);
+    ngOnInit(): void {
+        this.CheckParams();
+    }
 
-        if(IsValid){
-          this.NewStream = sign.originalData;
-        } else{
-          console.warn("No stream is running");
-        }
-    });
-  }
-  
+    ngAfterViewInit(): void {
+        this.userService.Get(this.HostId).subscribe((res) => {
+            this.HostUserName = res.originalData?.userName;
+            this.user = JSON.parse(localStorage.getItem('Pop')!) as User;
+            this.videoElement = this.videoElementRef?.nativeElement;
+
+            if (Hls.isSupported()) {
+                console.log('Video streaming supported by HLSjs');
+                console.log(this.HostUserName);
+                const hls = new Hls();
+                hls.loadSource(
+                    `http://localhost:8000/live/${this
+                        .HostUserName!}/index.m3u8`
+                );
+                hls.attachMedia(this.videoElement);
+                this.videoElement.play();
+            } else if (
+                this.videoElement.canPlayType('application/vnd.apple.mpegurl')
+            ) {
+                this.videoElement.src =
+                    'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
+            }
+        });
+    }
+
+    CheckParams() {
+        this.router.paramMap.subscribe((v) => {
+            const id: string = v.get('id')!;
+            if (id) {
+                this.HostId = parseInt(id);
+                this.GetLatestStream(this.HostId);
+            } else {
+                console.log('No params');
+            }
+        });
+    }
+
+    GetLatestStream(HostId: number) {
+        console.log('Getting latest stream');
+        this.VidService.GetStreamOfHost(HostId).subscribe((ol) => {
+            const sign = ol.signature;
+
+            const IsValid = this.securityService.verify(ol.originalData, sign);
+
+            if (IsValid) {
+                console.log(ol.originalData);
+                this.NewStream = ol.originalData;
+            } else {
+                console.warn('No stream is running');
+            }
+        });
+    }
 }

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/authServices/auth.service';
-import {securityService} from "../../services/authServices/security";
-import {userDTO} from "../../Domain/Models/User";
+import { SecurityService } from '../../services/authServices/security';
 
 @Component({
     selector: 'app-login',
@@ -17,75 +16,72 @@ export class LoginComponent {
     hide = true;
     wrongPwOrUserName = false;
     public hasIntegrity: boolean = true;
+    privKey: string = '';
 
     constructor(
         private fb: FormBuilder,
         public authService: AuthService,
         private router: Router,
-        private securityService: securityService
+        private securityService: SecurityService
     ) {}
 
     ngOnInit(): void {
-
         this.subs = this.authService
             .getUserFromLocalStorage()
             .subscribe((user: string | undefined) => {
                 if (user) {
-                    console.log('Gebruiker is al ingelogd');
+                    console.log('User is already logged in');
                     this.router.navigate(['/']);
                 }
             });
 
         this.loginForm = this.fb.group({
             userName: ['', Validators.required],
-            inputPrivateKey: ['', Validators.required],
         }) as FormGroup;
     }
 
-    onSubmit(): void {
-        console.log(this.loginForm.value);
-        if (
-            this.loginForm.value.userName != '' &&
-            this.loginForm.value.inputPrivateKey != ''
-        ) {
+    onPrivateKeySelected(event: any): void {
+        const privateKeyFile = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            const fileContent: string = e.target.result;
+            this.privKey = fileContent;
+            console.log(fileContent);
+        };
 
+        reader.readAsText(privateKeyFile);
+    }
+
+    onSubmit(): void {
+        if (this.loginForm.value.userName !== '' && this.privKey !== null) {
             this.authService
-                .login(
-                    this.loginForm.value.userName,
-                    this.loginForm.value.inputPrivateKey
-                )
+                .login(this.loginForm.value.userName, this.privKey)
                 .subscribe(
                     (reply: any) => {
-                        //location.reload();
-                        console.log(reply);
-                        this.authService.StoreToken(reply.originalLoad.token);
-                        this.authService.StoreUser(reply.originalLoad.websiteUser);
+                        location.reload();
+                        console.log('reply: ', reply);
+                        this.authService.StoreUser(
+                            reply.originalLoad.websiteUser
+                        );
 
                         this.router.navigate(['/']);
-                         this.hasIntegrity = this.securityService.verify(reply.originalLoad.websiteUser, reply.signature);
+                        this.hasIntegrity = this.securityService.verify(
+                            reply.originalLoad,
+                            reply.signature
+                        );
 
-                        console.log(this.hasIntegrity)
-                        if(this.hasIntegrity) {
-                            if (reply.isVerified) {
-                                console.log("henk")
-                                //location.reload();
-                                // localStorage.setItem('token', reply.originalLoad.token);
-                                // localStorage.setItem('privateKey', reply.originalLoad.privateKey);
-                                // localStorage.setItem('publicKey', reply.originalLoad.publicKey);
-                                //this.router.navigate(['/']);
+                        if (this.hasIntegrity) {
+                            if (reply.originalLoad.isVerified) {
+                                this.router.navigate(['/']);
                             } else {
-                                localStorage.removeItem("privKey");
+                                localStorage.removeItem('privKey');
                                 this.wrongPwOrUserName = true;
                             }
-
-
                         }
-
-
                     },
                     (err) => {
-                        console.log(err);
-                        localStorage.removeItem("privKey");
+                        console.log('Login error: ', err);
+                        localStorage.removeItem('privKey');
                         this.wrongPwOrUserName = true;
                     }
                 );

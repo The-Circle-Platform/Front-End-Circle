@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from '../../Domain/Models/User';
 import { AuthService } from '../../services/authServices/auth.service';
-import { User } from 'src/app/Domain/Models/User';
 
 @Component({
     selector: 'app-nav',
@@ -13,22 +13,15 @@ export class NavComponent implements OnInit {
     isNavbarCollapsed = true;
     loggedInUser$!: Observable<string | undefined>;
     username: string | undefined;
-    // PfpUser: PfpUser | undefined;
-    pfpUser: User | undefined;
-    public user: User | undefined;
 
     constructor(private authService: AuthService) {}
 
     ngOnInit(): void {
-        this.loggedInUser$ = this.authService.currentToken$;
+        this.loggedInUser$ = this.authService.currentPrivKey$;
 
-        const user = this.authService.getDecodedToken();
-
+        const user = JSON.parse(localStorage.getItem('Pop')!) as User;
         if (user) {
-            this.username =
-                user[
-                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-                ];
+            this.username = user.userName;
         }
     }
 

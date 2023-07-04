@@ -5,11 +5,6 @@ export interface IUser extends IDomain {
     userName: string;
 }
 
-export interface DecodedToken {
-    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name': string;
-    Id: number;
-}
-
 export interface User extends IUser {
     isOnline: boolean;
     followCount: number;
@@ -17,7 +12,6 @@ export interface User extends IUser {
     imageName: string;
     base64Image: string;
     timeStamp: number | null;
-
 }
 
 export interface IRegister {

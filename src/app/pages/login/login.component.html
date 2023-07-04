@@ -1,11 +1,12 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <div *ngIf="!hasIntegrity">
-            <h1 style="color: red">WAARSCHUWING, DE DATA VAN DEZE REQUEST IS NIET INTEGER. HET KAN ZIJN DAT IEMAND DE DATA HEEFT VERANDERD</h1>
+            <h1 style="color: red">Waarschuwing: De gegevens van deze aanvraag is niet integer. Het is mogelijk
+                dat iemand de gegevens heeft aangepast.</h1>
         </div>
         <label for="inputUserName">Gebruikersnaam</label>
-        <input type="userName" class="form-control" placeholder="userName" formControlName="userName" id="inputUserName"
-            [ngClass]="{
+        <input type="userName" class="form-control" placeholder="Gebruikersnaam" formControlName="userName"
+            id="inputUserName" [ngClass]="{
                 'is-invalid':
                     loginForm.get('userName')?.invalid &&
                     loginForm.get('userName')?.touched
@@ -19,31 +20,21 @@
     </div>
     <div class="form-group">
         <label for="inputPrivateKey">Privé sleutel</label>
-        <textarea type="text" class="form-control" formControlName="inputPrivateKey" id="inputPrivateKey" [ngClass]="{
-                'is-invalid':
-                    loginForm.get('inputPrivateKey')?.invalid &&
-                    loginForm.get('inputPrivateKey')?.touched
-            }"></textarea>
-        <span *ngIf="
-                !loginForm.get('inputPrivateKey')?.valid &&
-                loginForm.get('inputPrivateKey')?.touched
-            " class="invalid-feedback">
-            <p id="password-invalid">Voer private key in</p>
-        </span>
-    </div>
+        <input type="file" (change)="onPrivateKeySelected($event)" class="form-control" id="inputPrivateKey">
+    </div> <br>
 
     <div class="form-group">
-        <button id="submitbutton" class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!loginForm.valid">
+        <button id="submitbutton" class="btn btn-lg btn-primary btn-block" type="submit"
+            [disabled]="!loginForm.valid || !privKey">
             Aanmelden
         </button>
     </div>
     <div *ngIf="wrongPwOrUserName">
         <p>
-            <FONT COLOR="red">Gebruikersnaam of wachtwoord is onjuist</FONT>
+            <FONT COLOR="red">Gebruikersnaam of private key is onjuist</FONT>
         </p>
     </div>
     <p>
-        <a routerLink="/">Home</a> |
         <a routerLink="/registration">Registreer</a>
     </p>
 </form>
